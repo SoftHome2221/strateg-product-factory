@@ -25,6 +25,6 @@ projects/*/sources/raw/*.m4a
 projects/*/sources/raw/*.mov
 
 # локальная подготовка конкурсного пакета
-submission/
+/submission/
 tmp/
 *.log

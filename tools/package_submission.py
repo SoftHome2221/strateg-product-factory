@@ -323,7 +323,7 @@ Fable 5.2, gpt-6.1-sol, Grok 4.7; в отдельных проверках - Qwe
 """)
     # Exclude future local export builds and credentials without touching source project registries.
     with (OUT / ".gitignore").open("a", encoding="utf-8") as f:
-        f.write("\n# локальная подготовка конкурсного пакета\nsubmission/\ntmp/\n*.log\n")
+        f.write("\n# локальная подготовка конкурсного пакета\n/submission/\ntmp/\n*.log\n")
     print(json.dumps({"destination": str(OUT), "files": sum(p.is_file() for p in OUT.rglob('*'))}, ensure_ascii=False))
 
 

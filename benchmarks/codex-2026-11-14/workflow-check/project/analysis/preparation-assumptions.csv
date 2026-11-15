@@ -1,0 +1,9 @@
+variant,work,hours
+B,channel_map,1
+B,access_scenario,2
+B,message_protocol,1
+B,estimate_review,2
+C,channel_map,1
+C,access_scenario,2
+C,message_protocol,1
+C,estimate_review,2

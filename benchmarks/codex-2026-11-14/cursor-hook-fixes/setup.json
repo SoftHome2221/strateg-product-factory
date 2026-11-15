@@ -1,0 +1,19 @@
+{
+  "fixture": "C:\\Users\\Дарья\\.codex\\visualizations\\2026\\11\\14\\01a1d9fb-d86d-75a1-842d-4a5c4ae16130\\cursor-hooks-fixed-check",
+  "project": "hook-fix-check",
+  "post_context_probe": "POST-3401aa83f93c4286ac86ed139ba3d922",
+  "instrumentation": "Forwarded hook responses; nonce added only to postToolUse additional_context. Raw payloads/account details never saved.",
+  "selftest": {
+    "exit_code": 0,
+    "passed": 87,
+    "total": 87,
+    "observed_output": "Итог: 87 из 87 проверок пройдено. Инструменты работают."
+  },
+  "official_contract": "https://cursor.com/docs/hooks",
+  "code_sha256": {
+    "tools/strateglib/hooks.py": "e36dede67db3034ac37874cc4bf7bcb737ce4b380852eb83cf710fcd0407c4d6",
+    "tools/strateglib/journal.py": "dda451449043d3c1c2cd4b66824d2f051a191afe72f1021aa7fcb1a215ed9ded",
+    "tools/mcp_server.py": "b4c195cc0aa9c5fd50d920a397fc257a17e96d37f72e49b06971b2f68277096d",
+    "tests/selftest.py": "c65ea318e52be831be779f4272d2d24e6ea0c1f507f3436086db80da569f5680"
+  }
+}

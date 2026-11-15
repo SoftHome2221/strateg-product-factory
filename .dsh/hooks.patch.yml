@@ -1,0 +1,8 @@
+# Наложение для DeepSeek Harness: включает хуки проекта через мост формата Claude Code.
+# Один раз: dsh plugin --profile <профиль> add @deepseek-ai/dsh-hooks-claude-code@<версия dsh> @deepseek-ai/dsh-hook-protocol@<версия dsh>
+# Запуск из корня репозитория: dsh <профиль> --patch .dsh/hooks.patch.yml
+- insert:
+    - id: strateg-hooks
+      name: "@deepseek-ai/dsh-hooks-claude-code"
+      config:
+        configPath: .dsh/hooks.json

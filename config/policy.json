@@ -1,0 +1,7 @@
+{
+  "_comment": "Политика источников и свежести. public — любые публичные сайты, кроме denied_domains и внутренних адресов; strict — только домены из project.json → allowed_domains.",
+  "default_source_mode": "public",
+  "denied_domains": [],
+  "always_allowed_domains": [],
+  "evidence_fresh_days": 365
+}

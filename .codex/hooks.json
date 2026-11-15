@@ -1,0 +1,48 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -c \"import os,sys,runpy;c=[os.environ.get(k,'') for k in ('STRATEG_ROOT','CLAUDE_PROJECT_DIR','CURSOR_PROJECT_DIR')]+[os.getcwd()];c+=[os.path.dirname(c[-1])];c+=[os.path.dirname(c[-1])];f=[p for p in (os.path.join(x,'tools','strateg.py') for x in c if x) if os.path.isfile(p)];sys.argv[1:1]=['hook'];f and runpy.run_path(f[0],run_name='__main__')\" codex SessionStart",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -c \"import os,sys,runpy;c=[os.environ.get(k,'') for k in ('STRATEG_ROOT','CLAUDE_PROJECT_DIR','CURSOR_PROJECT_DIR')]+[os.getcwd()];c+=[os.path.dirname(c[-1])];c+=[os.path.dirname(c[-1])];f=[p for p in (os.path.join(x,'tools','strateg.py') for x in c if x) if os.path.isfile(p)];sys.argv[1:1]=['hook'];f and runpy.run_path(f[0],run_name='__main__')\" codex PreToolUse",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -c \"import os,sys,runpy;c=[os.environ.get(k,'') for k in ('STRATEG_ROOT','CLAUDE_PROJECT_DIR','CURSOR_PROJECT_DIR')]+[os.getcwd()];c+=[os.path.dirname(c[-1])];c+=[os.path.dirname(c[-1])];f=[p for p in (os.path.join(x,'tools','strateg.py') for x in c if x) if os.path.isfile(p)];sys.argv[1:1]=['hook'];f and runpy.run_path(f[0],run_name='__main__')\" codex PostToolUse",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -c \"import os,sys,runpy;c=[os.environ.get(k,'') for k in ('STRATEG_ROOT','CLAUDE_PROJECT_DIR','CURSOR_PROJECT_DIR')]+[os.getcwd()];c+=[os.path.dirname(c[-1])];c+=[os.path.dirname(c[-1])];f=[p for p in (os.path.join(x,'tools','strateg.py') for x in c if x) if os.path.isfile(p)];sys.argv[1:1]=['hook'];f and runpy.run_path(f[0],run_name='__main__')\" codex Stop",
+            "timeout": 20
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "python tools/strateg.py hook cursor sessionStart",
+        "timeout": 20
+      }
+    ],
+    "preToolUse": [
+      {
+        "command": "python tools/strateg.py hook cursor preToolUse",
+        "timeout": 20
+      }
+    ],
+    "beforeReadFile": [
+      {
+        "command": "python tools/strateg.py hook cursor beforeReadFile",
+        "timeout": 20
+      }
+    ],
+    "postToolUse": [
+      {
+        "command": "python tools/strateg.py hook cursor postToolUse",
+        "timeout": 20
+      }
+    ],
+    "postToolUseFailure": [
+      {
+        "command": "python tools/strateg.py hook cursor postToolUseFailure",
+        "timeout": 20
+      }
+    ],
+    "stop": [
+      {
+        "command": "python tools/strateg.py hook cursor stop",
+        "timeout": 20
+      }
+    ]
+  }
+}

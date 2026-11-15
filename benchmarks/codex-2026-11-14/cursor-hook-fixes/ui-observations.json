@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-15",
+  "client_version": "3.30.14",
+  "model_label": "Grok 4.7",
+  "chat_title": "QA check for cursor hooks",
+  "status_received": true,
+  "observed_context_probe": "POST-3401aa83f93c4286ac86ed139ba3d922",
+  "probe_value_disclosed_in_prompt": false,
+  "probe_file_read_requested": false,
+  "result_excerpt": "Метка пришла в дополнительном контексте хука. strateg_status — статус проекта получен. Чтение inbox/missing.txt — файл не найден. Запись AFTER в .cursor/protected-probe.txt — запрет защищённого пути. strateg_evidence_add факта без источника — отказ. strateg_ingest https://example.com — источник S-001 записан.",
+  "session_id": "f08cfc47-64d8-4506-8d75-102c815054ae",
+  "manual_log_requested": false,
+  "screenshot_saved": false,
+  "account_data_saved": false
+}

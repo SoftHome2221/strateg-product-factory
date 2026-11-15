@@ -1,0 +1,1 @@
+{"id": "A-001", "ts": "2026-11-14T15:30:40+03:00", "command": "data compare --a 200/10000 --b 300/10000", "input": "", "input_sha256": "", "output": "projects/family-cloud/analysis/A-001-compare.md", "result": {"a": 2.0, "b": 3.0, "diff_pp": 1.0, "ci95_pp": [0.57, 1.43], "z": 4.53, "p_value": 0.0, "notes": []}}

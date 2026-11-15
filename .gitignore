@@ -1,0 +1,30 @@
+# секреты и локальные настройки
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.maintainer
+.claude/settings.local.json
+
+# служебное
+.cache/
+__pycache__/
+*.pyc
+*.tmp
+.venv/
+venv/
+.DS_Store
+Thumbs.db
+
+# тяжёлые исходники интервью и медиа хранятся вне репозитория
+projects/*/sources/raw/*.mp3
+projects/*/sources/raw/*.mp4
+projects/*/sources/raw/*.wav
+projects/*/sources/raw/*.m4a
+projects/*/sources/raw/*.mov
+
+# локальная подготовка конкурсного пакета
+submission/
+tmp/
+*.log

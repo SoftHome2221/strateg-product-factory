@@ -1,0 +1,54 @@
+{
+  "project": "cursor-seven-stage",
+  "title": "Семейный архив — QA, тест Cursor",
+  "stage": "research",
+  "stages": {
+    "brief": {
+      "status": "done",
+      "started_at": "2026-11-14T16:40:26+03:00",
+      "done_at": "2026-11-14T16:54:19+03:00",
+      "human": "TEST_SCENARIO: fixture brief accepted; not a real human product approval"
+    },
+    "collect": {
+      "status": "done",
+      "started_at": "2026-11-14T16:54:19+03:00",
+      "done_at": "2026-11-15T15:01:12+03:00",
+      "human": null
+    },
+    "research": {
+      "status": "in_progress",
+      "started_at": "2026-11-15T15:01:12+03:00",
+      "done_at": null,
+      "human": null
+    },
+    "options": {
+      "status": "pending",
+      "started_at": null,
+      "done_at": null,
+      "human": null
+    },
+    "strategy": {
+      "status": "pending",
+      "started_at": null,
+      "done_at": null,
+      "human": null
+    },
+    "review": {
+      "status": "pending",
+      "started_at": null,
+      "done_at": null,
+      "human": null
+    },
+    "support": {
+      "status": "pending",
+      "started_at": null,
+      "done_at": null,
+      "human": null
+    }
+  },
+  "questions": [],
+  "next_action": "Начать этап «Исследование и картина ситуации»: python tools/strateg.py stage start",
+  "request": "Начни учебную проверку: кому рекомендовать семейный режим «Семейный архив — QA»?",
+  "created_at": "2026-11-14T16:40:26+03:00",
+  "updated_at": "2026-11-15T15:01:17+03:00"
+}

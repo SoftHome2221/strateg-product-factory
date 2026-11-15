@@ -1,0 +1,18 @@
+{
+  "_comment": "Цены за 1 млн токенов, USD. Первое совпадение по подстроке в имени модели выигрывает. Сверено 2026-11-03 по справочнику Anthropic; cache_write — правило 1.25× от входа (5-минутный кэш). Перед отчётом для руководства сверьте цены на странице провайдера. Для других провайдеров (GigaChat, YandexGPT, OpenAI и т.д.) добавьте строки сами.",
+  "usd_rub": null,
+  "human_hour_rub": null,
+  "models": [
+    {"match": "gpt-6.1-sol", "in": 2.0, "out": 10.0, "cache_read": 0.1, "cache_write": 2.0, "_source": "openai.com/index/introducing-gpt-6-1-sol, сверено 2026-11-13: стандартные цены до 272 тыс. токенов входа; cache_write официально не опубликован — взят равным входу"},
+    {"match": "fable-5-2", "in": 8.0, "out": 40.0, "cache_read": 0.2, "cache_write": 10.0},
+    {"match": "mythos-5-2", "in": 8.0, "out": 40.0, "cache_read": 0.2, "cache_write": 10.0},
+    {"match": "fable-5", "in": 10.0, "out": 50.0, "cache_read": 1.0, "cache_write": 12.5},
+    {"match": "opus-5-5", "in": 4.0, "out": 20.0, "cache_read": 0.2, "cache_write": 5.0},
+    {"match": "opus", "in": 5.0, "out": 25.0, "cache_read": 0.5, "cache_write": 6.25},
+    {"match": "sonnet-5-5", "in": 2.0, "out": 10.0, "cache_read": 0.1, "cache_write": 2.5},
+    {"match": "sonnet-5", "in": 2.0, "out": 10.0, "cache_read": 0.2, "cache_write": 2.5},
+    {"match": "sonnet", "in": 3.0, "out": 15.0, "cache_read": 0.3, "cache_write": 3.75},
+    {"match": "haiku-5-5", "in": 0.1, "out": 0.5, "cache_read": 0.01, "cache_write": 0.125},
+    {"match": "haiku", "in": 1.0, "out": 5.0, "cache_read": 0.1, "cache_write": 1.25}
+  ]
+}

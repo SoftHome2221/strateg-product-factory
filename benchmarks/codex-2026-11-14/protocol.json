@@ -1,0 +1,56 @@
+{
+  "date": "2026-11-14",
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "medium",
+  "cli": "0.167.0-alpha.4.1",
+  "task": "family-cloud: strategy for historically approved D, existing research supplied equally",
+  "scope_limit": "strategy authoring only; not a fresh full seven-stage run or independent research comparison",
+  "order": [
+    "chat",
+    "agent"
+  ],
+  "replicates": 1,
+  "web_search": "live",
+  "shared_input_sha256": {
+    "01-brief.md": "4a94086aa314628be4b918359c7705018d493cd1012d2e673185de275790cb57",
+    "02-situation.md": "14baf02a50a7e95567f2691364a1c6534117d196da0ab3dc6fb70c930d3eb311",
+    "03-options.md": "cccff5074c7d42c43c913edc807986e6afc183e5108a2b9b83b73c9200b48a71",
+    "conclusions.jsonl": "8a753f4943d5acaa3272150287bb5238a0c6354c96e3167325ca499fb14a2150",
+    "evidence.jsonl": "e2204207514a44e2178a90e2b6413d1c77b0d33f124b7a0b1042826d98db6645",
+    "source-text/S-001.md": "07a57c96f048157d77d23bc43a9def379deee68aadde14c4e69d963e9c6ef7ab",
+    "source-text/S-002.md": "09b290d5d00239b270b396ec6e27f741256cacaa4eda33dc47d5efc2543d3056",
+    "source-text/S-003.md": "8c6741b5444bc7139f9b6ab1827215f7a631e5a6718b9376fe1e0e0d62ffd05d",
+    "source-text/S-004.md": "8186d52fe1325b043de53ed1b1eb5c480f5b4a99efec5ab0d2262306fdbe9f69",
+    "source-text/S-005.md": "a1745ef37cef8202f4742181dcca1648cdd13095028325dcf6106787e994ab5a",
+    "source-text/S-006.md": "279adecabb28ac82b6df21653b8edc4dd140318e58ae758f5d1ecdfda275961d",
+    "source-text/S-007.md": "be1dabbaba82138ef0e59cb649774dca04bf59bf87cc39a37d33a15aa63c7ae4",
+    "source-text/S-008.md": "c96f882a45bf6fb512dc0ab788ec554bd4fb2decef4b01f315c2e56b060add56",
+    "source-text/S-009.md": "24cbbe596a6bf3ce0870013767e67da5f0e2a63215402d24e67a65e3aa1b6a16",
+    "source-text/S-010.md": "3cdf3e550ed24ad2b3a1674ab0086a0719ef43237666fa3671e29b88c47aa066",
+    "source-text/S-011.md": "88517f06937f96b5274c2d6d383d0b0a42390d7ac8eaf2485e1d055292421ca4",
+    "sources.jsonl": "3a0ddd4530ff2d05f5041c525a01f54c6854a016af9f64f7496b7642bd5e4593"
+  },
+  "chat": {
+    "cwd": "C:\\Users\\Дарья\\.codex\\visualizations\\2026\\11\\14\\01a1d9fb-d86d-75a1-842d-4a5c4ae16130\\codex-comparison\\chat",
+    "project_doc_max_bytes": 0,
+    "sandbox": "workspace-write",
+    "repo_workflow": false
+  },
+  "agent": {
+    "cwd": "C:\\Users\\Дарья\\.codex\\visualizations\\2026\\11\\14\\01a1d9fb-d86d-75a1-842d-4a5c4ae16130\\codex-comparison\\agent",
+    "project_doc_max_bytes": 65536,
+    "sandbox": "workspace-write",
+    "repo_workflow": true
+  },
+  "limitations": [
+    "One task, one run per arm",
+    "Same source corpus was collected in an earlier Claude session",
+    "Both runs use Codex CLI system scaffolding; chat is a proxy, not the ChatGPT UI",
+    "Path restrictions partly rely on prompt and event audit, not a hermetic filesystem",
+    "Agent may read method files and use project tools; this is the intended treatment",
+    "Timing excludes shared material preparation; human time and dollars not inferred",
+    "First chat setup failed on shell policy; retained under failed-chat-setup and excluded from quality metrics"
+  ],
+  "delivery": "Identical complete inputs also appended to prompt",
+  "approval_mode": "approve-for-me, both arms"
+}

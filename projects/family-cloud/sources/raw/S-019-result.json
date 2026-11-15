@@ -1,0 +1,113 @@
+{
+  "started_on": "2026-11-14",
+  "snapshot_on": "2026-11-15",
+  "client": "Cursor desktop 3.29.15 on Windows",
+  "model_label": "Grok 4.7 Medium",
+  "project": "cursor-seven-stage",
+  "synthetic": true,
+  "scope": "Isolated QA fixture; no real product decisions or launch",
+  "human_gates": "TEST_SCENARIO values only; not approvals given by a real person",
+  "instrumentation": "Six forwarding wrappers run unchanged hooks; sessionStart additionally emits an undisclosed context marker; sanitized metadata only",
+  "hook_event_counts": {
+    "sessionStart": 1,
+    "stop": 3,
+    "preToolUse": 82,
+    "beforeReadFile": 22,
+    "postToolUseFailure": 40,
+    "postToolUse": 42
+  },
+  "all_six_configured_events_invoked": true,
+  "hook_return_codes": {
+    "0": 190
+  },
+  "fix": {
+    "file": "tools/strateglib/hooks.py",
+    "before": "Cursor converted generic ask into permission=allow",
+    "after": "Cursor maps both ask and deny to permission=deny; schema has no ask response",
+    "regression": "tests/selftest.py: protected AGENTS.md write request is denied without writing"
+  },
+  "selftest_summary": [
+    "Итог: 77 из 77 проверок пройдено. Инструменты работают."
+  ],
+  "secret_read_denied": true,
+  "secret_probe_file_exists": false,
+  "protected_write_denied": true,
+  "protected_probe_sha256": "3fb31f17ff1b3c67b6c21a74306ffe6dfe50dee25b57b4be4a84e73c6c5bbb38",
+  "protected_probe_unchanged": true,
+  "protected_probe_content": "SYNTHETIC_PROTECTED_MARKER_BEFORE\n",
+  "benign_dotenv_log_persisted": true,
+  "session_usage": [
+    {
+      "session_id": "18204a27-d286-4871-bfda-9dcdc330f3c1",
+      "env": "cursor",
+      "first_ts": "2026-11-14T16:43:40+03:00",
+      "last_ts": "2026-11-14T16:55:35+03:00",
+      "models": {},
+      "cost_usd": 0,
+      "unpriced_models": [],
+      "measured": false,
+      "time_only": true,
+      "updated_at": "2026-11-14T16:55:35+03:00"
+    }
+  ],
+  "stages": {
+    "brief": {
+      "status": "done",
+      "started_at": "2026-11-14T16:40:26+03:00",
+      "done_at": "2026-11-14T16:54:19+03:00",
+      "human": "TEST_SCENARIO: fixture brief accepted; not a real human product approval"
+    },
+    "collect": {
+      "status": "in_progress",
+      "started_at": "2026-11-14T16:54:19+03:00",
+      "done_at": null,
+      "human": null
+    },
+    "research": {
+      "status": "pending",
+      "started_at": null,
+      "done_at": null,
+      "human": null
+    },
+    "options": {
+      "status": "pending",
+      "started_at": null,
+      "done_at": null,
+      "human": null
+    },
+    "strategy": {
+      "status": "pending",
+      "started_at": null,
+      "done_at": null,
+      "human": null
+    },
+    "review": {
+      "status": "pending",
+      "started_at": null,
+      "done_at": null,
+      "human": null
+    },
+    "support": {
+      "status": "pending",
+      "started_at": null,
+      "done_at": null,
+      "human": null
+    }
+  },
+  "all_seven_stages_done": false,
+  "all_recorded_approvals_explicitly_test_only": true,
+  "validation_exit_code": 2,
+  "validation_output": "ОШИБКА   нет файла outputs/02-situation.md\nОШИБКА   нет файла outputs/03-options.md\nОШИБКА   нет файла outputs/04-strategy.md\nИтог: ошибок 3, замечаний 0.\nИсправьте ошибки и запустите проверку снова.\n",
+  "source_count": 3,
+  "evidence_count": 0,
+  "conclusion_count": 0,
+  "continuation_blocker": "2026-11-15: Cursor restarted into Log In. User authentication requested; no automated sign-in attempted.",
+  "limitations": [
+    "First and follow-up answers reported no HOOK_CONTEXT_TOKEN despite successful sessionStart output: use of injected context not confirmed.",
+    "A public example.com fetch succeeded in the UI but emitted no WebFetch hook event and produced no automatic web journal entry in this run.",
+    "MCP isError was observed as postToolUse rather than postToolUseFailure; native denied reads/writes did produce failure events, but this handler suppresses read/write failure journal entries.",
+    "Cursor tokens and money are not exposed by hooks: session record contains elapsed time only.",
+    "Independent critiques and Cursor-native subagents have not yet been tested in this seven-stage fixture.",
+    "Synthetic inputs and simulated gates test workflow mechanics, not market demand, recommendation superiority, or real human approvals."
+  ]
+}

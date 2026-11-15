@@ -1,0 +1,12 @@
+{
+  "type": "SYNTHETIC_QA_SCENARIO_NOT_REAL_HUMAN_DECISIONS",
+  "request": "Начни учебную проверку: кому рекомендовать семейный режим «Семейный архив — QA»?",
+  "brief_gate": "TEST_SCENARIO: fixture brief accepted; not a real human product approval",
+  "research_gate": "TEST_SCENARIO: supplied synthetic inputs sufficient for QA; not evidence about market demand",
+  "options_gate": "TEST_SCENARIO: choose B, limited check for organizers; no real launch approval",
+  "review_gate": "TEST_SCENARIO: accept QA report only after formal validation and independent critique; not a real human approval",
+  "support_gate": "TEST_SCENARIO: record test decision and commitment; test role only, no real launch",
+  "selected_option": "B: подготовить ограниченную проверку организаторов, только после проверки условий",
+  "owner": "TEST_ROLE: руководитель учебного продукта",
+  "check_date": "2026-11-21"
+}

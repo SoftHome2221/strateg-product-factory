@@ -1,0 +1,26 @@
+{
+  "pid": 2928,
+  "started_at_utc": "2026-11-14T12:29:41.264325+00:00",
+  "command": [
+    "C:\\Users\\Дарья\\AppData\\Local\\OpenAI\\Codex\\bin\\9e1da79431da526b\\codex.EXE",
+    "exec",
+    "--ephemeral",
+    "--ignore-user-config",
+    "--skip-git-repo-check",
+    "--approve-for-me",
+    "--json",
+    "--color",
+    "never",
+    "--model",
+    "gpt-6.1-sol",
+    "-c",
+    "model_reasoning_effort=\"medium\"",
+    "-c",
+    "web_search=\"live\"",
+    "-c",
+    "project_doc_max_bytes=65536",
+    "--output-last-message",
+    "C:\\Users\\Дарья\\Documents\\бончик\\Mgimo 1\\benchmarks\\codex-2026-11-14\\agent-response.md",
+    "-"
+  ]
+}

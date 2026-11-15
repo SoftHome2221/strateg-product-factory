@@ -1,0 +1,31 @@
+{
+  "observed_on": "2026-11-15",
+  "method": "Cursor desktop UI via computer-use; no account details or screenshots saved",
+  "authentication": "User signed in; workspace and composer accessible",
+  "workspace": "cursor-full-check",
+  "mcp": {
+    "source": ".cursor/mcp.json",
+    "initial_state": "Disabled after restart",
+    "action": "Enabled existing strateg source for this fixture",
+    "result": "Local Connected; 10 tools enabled"
+  },
+  "attempted_work": "Resume cursor-seven-stage from collect; preserve existing sources and calculations",
+  "session_start_observed": true,
+  "submission_result": "Initial attempt rejected before agent execution; a later message sent by the user started successfully",
+  "visible_notice": "You've hit your usage limit",
+  "send_message_disabled": true,
+  "upgrade_offer_visible": true,
+  "upgrade_action_taken_by_assistant": false,
+  "agent_tools_executed_after_resume": true,
+  "resumed_run": {
+    "observed_on": "2026-11-15",
+    "client_version_from_executable": "3.30.14",
+    "chat_title": "Synthetic QA process overview",
+    "model_label": "Grok 4.7",
+    "session_id": "40637302-1d52-4b05-927e-be8f272e946a",
+    "observed_actions": "strateg_status; native file reads; collect closed through MCP; research in progress; 15 evidence entries recorded",
+    "end_state": "Cursor stopped; Resume clicked once, then You've hit your usage limit displayed again",
+    "intervention": "QA prompt incorrectly requested synthetic type for a document/table; corrected after expected business-rule rejection. Facts describe only synthetic fixture contents and remain explicitly labeled."
+  },
+  "blocker": "2026-11-15: The user-sent request ran partially in Cursor 3.30.14. Collect closed and research recorded 15 evidence entries. Agent stopped; one Resume attempt was rejected with You've hit your usage limit. Further Cursor execution unavailable in this run."
+}

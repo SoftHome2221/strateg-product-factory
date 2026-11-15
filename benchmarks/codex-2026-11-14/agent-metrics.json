@@ -1,0 +1,19 @@
+{
+  "exit_code": 0,
+  "seconds": 330.83,
+  "started_at_utc": "2026-11-14T12:29:41.264325+00:00",
+  "model_requested": "gpt-6.1-sol",
+  "usage": [
+    {
+      "input_tokens": 530416,
+      "cached_input_tokens": 474624,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 10067,
+      "reasoning_output_tokens": 448
+    }
+  ],
+  "tool_counts": {
+    "agent_message": 4,
+    "command_execution": 10
+  }
+}

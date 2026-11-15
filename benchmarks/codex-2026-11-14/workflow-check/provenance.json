@@ -1,0 +1,15 @@
+{
+  "original_fixture": "C:\\Users\\Дарья\\.codex\\visualizations\\2026\\11\\14\\01a1d9fb-d86d-75a1-842d-4a5c4ae16130\\cursor-full-check",
+  "continuation_fixture": "C:\\Users\\Дарья\\.codex\\visualizations\\2026\\11\\14\\01a1d9fb-d86d-75a1-842d-4a5c4ae16130\\workflow-check",
+  "project": "cursor-seven-stage",
+  "resumed_in": "Codex",
+  "original_environment": "Cursor",
+  "entry_stage": "research",
+  "completed_before_continuation": [
+    "brief",
+    "collect"
+  ],
+  "synthetic": true,
+  "human_gates": "TEST_SCENARIO fixtures, not real human approvals",
+  "copied_task_sha256": "153d8b8a6ad01ff0efbd182c313fd46e5dc7508378ddbb08092d60ffc45b9f43"
+}

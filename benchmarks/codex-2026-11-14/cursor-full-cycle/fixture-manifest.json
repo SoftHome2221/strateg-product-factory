@@ -1,0 +1,17 @@
+{
+  "fixture": "C:\\Users\\Дарья\\.codex\\visualizations\\2026\\11\\14\\01a1d9fb-d86d-75a1-842d-4a5c4ae16130\\cursor-full-check",
+  "project": "cursor-seven-stage",
+  "synthetic": true,
+  "human_gates": "Explicit scenario fixtures, not human decisions; separate from all live projects",
+  "hook_probe": "Logs only sanitized event metadata and original response keys/decision; passes JSON to unchanged CLI",
+  "session_marker": "CURSOR-HOOK-20261114",
+  "hook_source_sha256": "b720a10f58b63d28d7973499ffaf2fae193bc35de45389fa1791c1f2cfdc4eae",
+  "protected_probe_sha256": "3fb31f17ff1b3c67b6c21a74306ffe6dfe50dee25b57b4be4a84e73c6c5bbb38",
+  "no_secret_file_created": true,
+  "files": {
+    "inbox/contacts.csv": "67ee133ce34e7dc608ac0f513fde756e1cd828b4eed9323ae845611221fcea9d",
+    "inbox/product.md": "5b43b655c220c096056e8117e4b645ad3ad38eaf6f37232b1a0ff570cbebc49f",
+    "inbox/research.md": "60541b9be7bb9b8b67b2b886fba719a6b458c69bfb47734f5fa0f1bb23e282e7",
+    "scenario.json": "976619cc6ea5afe61967e4616268238437094767fa399d8ed06ecef4d79b7c4b"
+  }
+}

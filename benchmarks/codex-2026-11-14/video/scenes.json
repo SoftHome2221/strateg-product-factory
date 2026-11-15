@@ -1,0 +1,47 @@
+[
+  {
+    "title": "Обычный чат: один и тот же validate --file",
+    "screen_text": "$ python tools/strateg.py validate --file chat-response.md\n\nchat-response.md: содержательных строк 67, со ссылкой 1 (1%), с опорой (ссылка или пометка) 27%, чисел без опоры: 1",
+    "actual_command": {
+      "args": [
+        "validate",
+        "--file",
+        "C:\\Users\\Дарья\\Documents\\бончик\\Mgimo 1\\benchmarks\\codex-2026-11-14\\chat-response.md"
+      ],
+      "exit_code": 0,
+      "stdout": "C:\\Users\\Дарья\\Documents\\бончик\\Mgimo 1\\benchmarks\\codex-2026-11-14\\chat-response.md: содержательных строк 67, со ссылкой 1 (1%), с опорой (ссылка или пометка) 27%, чисел без опоры: 1\n",
+      "stderr": ""
+    }
+  },
+  {
+    "title": "Агент: один и тот же validate --file",
+    "screen_text": "$ python tools/strateg.py validate --file agent-response.md\n\nagent-response.md: содержательных строк 80, со ссылкой 10 (12%), с опорой (ссылка или пометка) 40%, чисел без опоры: 4",
+    "actual_command": {
+      "args": [
+        "validate",
+        "--file",
+        "C:\\Users\\Дарья\\Documents\\бончик\\Mgimo 1\\benchmarks\\codex-2026-11-14\\agent-response.md"
+      ],
+      "exit_code": 0,
+      "stdout": "C:\\Users\\Дарья\\Documents\\бончик\\Mgimo 1\\benchmarks\\codex-2026-11-14\\agent-response.md: содержательных строк 80, со ссылкой 10 (12%), с опорой (ссылка или пометка) 40%, чисел без опоры: 4\n",
+      "stderr": ""
+    }
+  },
+  {
+    "title": "Воспроизводимый расчёт · условные данные, не продажи",
+    "screen_text": "$ python tools/strateg.py data compare --a 200/10000 --b 300/10000\n\nГруппа A: 2.0% · группа B: 3.0% · разница B−A: 1.0 п. п. (95% ДИ: 0.57…1.43) · z=4.53, p=0.0\n\nA-001 сохранён: projects/video-check/analysis/A-001-compare.md",
+    "actual_command": {
+      "args": [
+        "data",
+        "compare",
+        "--a",
+        "200/10000",
+        "--b",
+        "300/10000"
+      ],
+      "exit_code": 0,
+      "stdout": "Группа A: 2.0% · группа B: 3.0% · разница B−A: 1.0 п. п. (95% ДИ: 0.57…1.43) · z=4.53, p=0.0\n\nA-001 сохранён: projects/video-check/analysis/A-001-compare.md\n",
+      "stderr": ""
+    }
+  }
+]

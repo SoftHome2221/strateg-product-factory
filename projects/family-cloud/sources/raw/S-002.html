@@ -1,0 +1,3022 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Пользуюсь сервисом МегаСемья от МегаФона. Отличное решение для семейной связи</title>
+
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:site_name" content="iGuides.ru" />
+    <meta property="twitter:site" content="@iGuides_ru" />
+    <meta name="twitter:domain" content="www.iguides.ru">
+
+    <meta name="theme-color" content="#c9e0e04d">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="robots" content="max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <link rel="shortcut icon" data-icon-dark="/local/templates/iguides-2022/img/favicons/favicon-dark.ico" data-icon-light="/local/templates/iguides-2022/img/favicons/favicon.ico" href="/local/templates/iguides-2022/img/favicons/favicon.ico" type="image/x-icon">
+    <link rel="icon" sizes="16x16" data-icon-dark="/local/templates/iguides-2022/img/favicons/favicon-16x16-dark.png" data-icon-light="/local/templates/iguides-2022/img/favicons/favicon-16x16.png" href="/local/templates/iguides-2022/img/favicons/favicon-16x16.png" type="image/png">
+    <link rel="icon" sizes="32x32" data-icon-dark="/local/templates/iguides-2022/img/favicons/favicon-32x32-dark.png" data-icon-light="/local/templates/iguides-2022/img/favicons/favicon-32x32.png" href="/local/templates/iguides-2022/img/favicons/favicon-32x32.png" type="image/png">
+    <link rel="apple-touch-icon-precomposed" href="/local/templates/iguides-2022/img/favicons/apple-touch-icon-precomposed.png">
+    <link rel="apple-touch-icon" href="/local/templates/iguides-2022/img/favicons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="/local/templates/iguides-2022/img/favicons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/local/templates/iguides-2022/img/favicons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/local/templates/iguides-2022/img/favicons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/local/templates/iguides-2022/img/favicons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/local/templates/iguides-2022/img/favicons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/local/templates/iguides-2022/img/favicons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/local/templates/iguides-2022/img/favicons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/local/templates/iguides-2022/img/favicons/apple-touch-icon-152x152.png">
+
+    <link rel="stylesheet" href="/local/templates/iguides-2022/styles/main.min.css">
+    <link rel="stylesheet" href="/local/templates/iguides-2022/styles/fly.css?v=0.5">
+
+    <script src="/local/templates/iguides-2022/js/sw-install.js?v=1"></script>
+    <script type="module" src="/local/templates/iguides-2022/js/push-notifications.js?v=11"></script>
+
+    <script>
+        window.templatePath = '/local/templates/iguides-2022';
+        if (/iPad/.test(navigator.userAgent)) {
+            document.head.querySelector('[name="viewport"]').content = `width=1270, initial-scale=${window.screen.width / 1270}, user-scalable=no`
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px 500px 0px', 
+                threshold: 0
+            };
+
+            const loadMoreObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const triggerElement = entry.target;
+                        
+                        triggerElement.click();
+                        
+                        // Перестаем следить за этой кнопкой, чтобы избежать двойных запросов
+                        observer.unobserve(triggerElement);
+                    }
+                });
+            }, observerOptions);
+
+            let counter = 0;
+            window.initAutoLoadMore = function(e) {
+                // Ищем секцию, у которой в onclick есть вызов ajaxLoadMore
+                const matches = matchMedia('(max-width:991px)').matches;
+                if (counter < 5) {
+                    if (matches) {
+                        ++counter;
+                    }
+                    const loadMoreSections = document.querySelectorAll('section[onclick^="ajaxLoadMore"]:not(._init)');
+                    loadMoreSections.forEach(loadMoreSection => {
+                        loadMoreSection.classList.add('_init');
+                        loadMoreObserver.observe(loadMoreSection);
+                    })
+                }
+            };
+
+
+            // 2. Ваша основная функция (с небольшими дополнениями защиты от двойных кликов)
+            window['ajaxLoadMore'] = function (btn, data, ajaxUrl = null, event) {
+                if (event?.isTrusted) {
+                    counter = 0;
+                }
+                cloneFooter();
+                const loadBtn = btn.querySelector('.i-btn-loadmore');
+                
+                // Защита от спам-кликов или двойных срабатываний скролла
+                if (loadBtn && loadBtn.hasAttribute('disabled')) {
+                    return;
+                }
+
+                let actionUrl = ajaxUrl || window.location.pathname;
+                let u = new URL(window.location.href);
+
+                for(let k in data) {
+                    if(k.includes('PAGEN_') && (data['HISTORY_DISABLED'] == undefined || data['HISTORY_DISABLED'] != 1)) {
+                        u.searchParams.set(k, data[ k ]);
+                    }
+                }
+                
+                
+                $(loadBtn).attr('disabled', '');
+                
+                const oldText = $(loadBtn).html();
+                $(loadBtn).text('Загрузка...');
+
+                BX.ajax({
+                    url: actionUrl,
+                    data: data,
+                    method: 'POST',
+                    cache: false,
+                    onsuccess: (html) => {
+                        let banner = btn.previousElementSibling;
+                        const $html = $(html);
+                        const $items = $html.find('._article-item, .article-preview');
+                        $items.addClass('is-loading-anim');
+
+                        if (banner?.id == 'before_show_more') {
+                            $(banner).before($html);
+                            if (banner.previousElementSibling?.querySelector('.i-btn-loadmore')) {
+                                banner.previousElementSibling.before(banner);
+                            }
+                        } else {
+                            $(btn).after($html);
+                        }
+                        
+                        $items.each(function(index) {
+                            setTimeout(() => {
+                                $(this).removeClass('is-loading-anim').addClass('is-loaded-anim');
+                            }, index * 100 + 50); 
+                        });
+                        
+                        $(btn).remove(); // Старая кнопка удаляется
+
+                        window.initAutoLoadMore();
+
+                    },
+                    onfailure: (e) => {
+                        console.log(e);
+                        $(loadBtn).removeAttr('disabled').html(oldText);
+                    }
+                });
+            }
+
+            // Запускаем отслеживание кнопки при первой загрузке страницы
+            window.initAutoLoadMore();
+
+            function cloneFooter() {
+                if (document.querySelector('.i-footer_clone')) return;
+                const clone = document.querySelector('.i-footer').cloneNode(true);
+                clone.classList.add('i-footer_clone');
+                document.body.append(clone);
+            }
+        });
+        document.addEventListener('change', e => {
+            const agreementCheckbox = e.target.closest('.subscription-agreement__checkbox');
+            if (agreementCheckbox) {
+                const inputs = agreementCheckbox.closest('.subscription-agreement')?.querySelectorAll('.subscription-agreement__wrap input, .subscription-agreement button');
+                inputs?.forEach(item => item.disabled = !agreementCheckbox.checked);
+            }
+        })
+    </script>
+
+    <script src="https://yastatic.net/share2/share.js"></script>
+    <script src="/local/templates/iguides-2022/js/jquery.min.js?v=0.5"></script>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="keywords" content="Мегафон, МегаСемья, Связь, Операторы," />
+<meta name="description" content="Выбор семейного тарифа или групповых сервисов — не очень простая задача, но это самое логичное решение для современной семьи, где несколько пользователей активно разговаривают по телефону, сидят в социальных сетях или просто любят позалипать в видеоролики. Как я пришёл к такому выводу? Всё просто — протестировал опцию МегаСемья от МегаФона, а что из этого вышло — расскажу далее.
+" />
+<link rel="canonical" href="/main/reviews/megasemya_ot_megafon/" />
+<link href="/bitrix/js/burlakastudio.realcommenter/css/talk_form.min.css?1646657377261" type="text/css" rel="stylesheet"/>
+<link href="/bitrix/cache/css/s1/iguides-2022/page_36db1845918394eb301828eb75fd6d0c/page_36db1845918394eb301828eb75fd6d0c_v1.css?179094132045959" type="text/css" rel="stylesheet"/>
+<link href="/bitrix/cache/css/s1/iguides-2022/default_fd35aa337637edb82f713b428fc099b4/default_fd35aa337637edb82f713b428fc099b4_v1.css?17806718261217" type="text/css" rel="stylesheet"/>
+<link href="/bitrix/cache/css/s1/iguides-2022/template_e1dd9913a43eef20eb2ee4bba4a18307/template_e1dd9913a43eef20eb2ee4bba4a18307_v1.css?179431620756638" type="text/css" rel="stylesheet" data-template-style="true"/>
+<script>if(!window.BX)window.BX={};if(!window.BX.message)window.BX.message=function(mess){if(typeof mess==='object'){for(let i in mess) {BX.message[i]=mess[i];} return true;}};</script>
+<script>(window.BX||top.BX).message({"JS_CORE_LOADING":"Загрузка...","JS_CORE_NO_DATA":"- Нет данных -","JS_CORE_WINDOW_CLOSE":"Закрыть","JS_CORE_WINDOW_EXPAND":"Развернуть","JS_CORE_WINDOW_NARROW":"Свернуть в окно","JS_CORE_WINDOW_SAVE":"Сохранить","JS_CORE_WINDOW_CANCEL":"Отменить","JS_CORE_WINDOW_CONTINUE":"Продолжить","JS_CORE_H":"ч","JS_CORE_M":"м","JS_CORE_S":"с","JSADM_AI_HIDE_EXTRA":"Скрыть лишние","JSADM_AI_ALL_NOTIF":"Показать все","JSADM_AUTH_REQ":"Требуется авторизация!","JS_CORE_WINDOW_AUTH":"Войти","JS_CORE_IMAGE_FULL":"Полный размер"});</script>
+
+<script src="/bitrix/js/main/core/core.min.js?1780671779245644"></script>
+
+<script>BX.Runtime.registerExtension({"name":"main.core","namespace":"BX","loaded":true});</script>
+<script>BX.setJSList(["\/bitrix\/js\/main\/core\/core_ajax.js","\/bitrix\/js\/main\/core\/core_promise.js","\/bitrix\/js\/main\/polyfill\/promise\/js\/promise.js","\/bitrix\/js\/main\/loadext\/loadext.js","\/bitrix\/js\/main\/loadext\/extension.js","\/bitrix\/js\/main\/polyfill\/promise\/js\/promise.js","\/bitrix\/js\/main\/polyfill\/find\/js\/find.js","\/bitrix\/js\/main\/polyfill\/includes\/js\/includes.js","\/bitrix\/js\/main\/polyfill\/matches\/js\/matches.js","\/bitrix\/js\/ui\/polyfill\/closest\/js\/closest.js","\/bitrix\/js\/main\/polyfill\/fill\/main.polyfill.fill.js","\/bitrix\/js\/main\/polyfill\/find\/js\/find.js","\/bitrix\/js\/main\/polyfill\/matches\/js\/matches.js","\/bitrix\/js\/main\/polyfill\/core\/dist\/polyfill.bundle.js","\/bitrix\/js\/main\/core\/core.js","\/bitrix\/js\/main\/polyfill\/intersectionobserver\/js\/intersectionobserver.js","\/bitrix\/js\/main\/lazyload\/dist\/lazyload.bundle.js","\/bitrix\/js\/main\/polyfill\/core\/dist\/polyfill.bundle.js","\/bitrix\/js\/main\/parambag\/dist\/parambag.bundle.js"]);
+</script>
+<script>BX.Runtime.registerExtension({"name":"ui.dexie","namespace":"BX.DexieExport","loaded":true});</script>
+<script>BX.Runtime.registerExtension({"name":"fc","namespace":"window","loaded":true});</script>
+<script>BX.Runtime.registerExtension({"name":"pull.protobuf","namespace":"BX","loaded":true});</script>
+<script>BX.Runtime.registerExtension({"name":"rest.client","namespace":"window","loaded":true});</script>
+<script>(window.BX||top.BX).message({"pull_server_enabled":"Y","pull_config_timestamp":1792373453,"shared_worker_allowed":"Y","pull_guest_mode":"N","pull_guest_user_id":0,"pull_worker_mtime":1769460610});(window.BX||top.BX).message({"PULL_OLD_REVISION":"Для продолжения корректной работы с сайтом необходимо перезагрузить страницу."});</script>
+<script>BX.Runtime.registerExtension({"name":"pull.client","namespace":"BX","loaded":true});</script>
+<script>BX.Runtime.registerExtension({"name":"pull","namespace":"window","loaded":true});</script>
+<script>(window.BX||top.BX).message({"FORM_REQUIRED_INPUTS_MSG":"Заполните ещё ","FORM_REQUIRED_INPUTS_CASE_1":" поле","FORM_REQUIRED_INPUTS_CASE_2":" поля","FORM_REQUIRED_INPUTS_CASE_3":" полей","agree_to_del_uploaded_file":"Да","itape_filter_fired_on":"Недопустимо использовать: ","itape_filter_by_tag_fired_on":"Запрещено использовать тег: ","custom_gallery_image_data_attribute":"data-image-id","drag_n_drop.js":"\/bitrix\/js\/burlakastudio.realcommenter\/drag_n_drop.min.js?1646657377","talk_gallery.js":"\/bitrix\/js\/burlakastudio.realcommenter\/talk_gallery.min.js?1646657377","browser_hash.js":"\/bitrix\/js\/burlakastudio.realcommenter\/browser_hash.min.js?1646657384","drag_and_fire.js":"\/bitrix\/js\/burlakastudio.realcommenter\/drag_and_fire.min.js?1646657377"});</script>
+<script>BX.Runtime.registerExtension({"name":"realcommenter_tree","namespace":"window","loaded":true});</script>
+<script>BX.Runtime.registerExtension({"name":"realcommenter_form","namespace":"window","loaded":true});</script>
+<script>(window.BX||top.BX).message({"LANGUAGE_ID":"ru","FORMAT_DATE":"DD.MM.YYYY","FORMAT_DATETIME":"DD.MM.YYYY HH:MI:SS","COOKIE_PREFIX":"IGUIDES_RU","SERVER_TZ_OFFSET":"10800","UTF_MODE":"Y","SITE_ID":"s1","SITE_DIR":"\/","USER_ID":"","SERVER_TIME":1794404460,"USER_TZ_OFFSET":0,"USER_TZ_AUTO":"Y","bitrix_sessid":"64cb39ba4e139983d3993564aad19073"});</script>
+
+
+<script src="/bitrix/js/ui/dexie/dist/dexie.bundle.min.js?1769462793102530"></script>
+<script src="/bitrix/js/main/core/core_frame_cache.min.js?178067177910246"></script>
+<script src="/bitrix/js/pull/protobuf/protobuf.js?1646652563274055"></script>
+<script src="/bitrix/js/pull/protobuf/model.min.js?164665256314190"></script>
+<script src="/bitrix/js/rest/client/rest.client.min.js?16466526169240"></script>
+<script src="/bitrix/js/pull/client/pull.client.min.js?176946061549849"></script>
+<script src="/bitrix/js/burlakastudio.realcommenter/talk_tree.min.js?164665738419832"></script>
+<script src="/bitrix/js/burlakastudio.realcommenter/talk_form.min.js?164665738016620"></script>
+<script src="/bitrix/js/yandex.metrika/script.js?17928759586603"></script>
+<script>BX.setJSList(["\/local\/templates\/iguides-2022\/components\/bitrix\/news.detail\/.default\/script.js","\/local\/templates\/iguides-2022\/js\/article.min.js","\/local\/templates\/iguides-2022\/js\/fancybox.umd.js","\/local\/components\/iguides\/rating.vote\/rating.js","\/local\/templates\/iguides-2022\/components\/bitrix\/system.pagenavigation\/load_more\/script.js","\/local\/templates\/iguides-2022\/js\/general.js"]);</script>
+<script>BX.setCSSList(["\/local\/templates\/iguides-2022\/styles\/fancybox.css","\/local\/templates\/iguides-2022\/components\/iguides\/rating.vote\/standart\/style.css","\/local\/templates\/iguides-2022\/components\/bitrix\/sender.subscribe\/box\/style.css","\/local\/templates\/iguides-2022\/components\/bitrix\/sender.subscribe\/.default\/style.css","\/local\/templates\/iguides-2022\/components\/realcommenter_2.0\/tape.show.tree\/comments\/style.css","\/local\/templates\/iguides-2022\/styles.css","\/local\/templates\/iguides-2022\/template_styles.css","\/local\/templates\/iguides-2022\/components\/bitrix\/main.register\/popup_form\/style.css","\/local\/templates\/iguides-2022\/components\/iguides\/auth.form\/popup_auth\/style.css"]);</script>
+        <script src="https://smartcaptcha.yandexcloud.net/captcha.js?render=onload&onload=onloadTanaisYandexCaptchaInitialization" defer></script>
+        <script type="text/javascript">
+            const tanaisYandexCaptchaOptions = {
+                sitekey: "ysc1_2RGWf3II8IuwhxE0YSSxHdClu4LJI7aUxmGRVSkxe6ef3471",
+                hl: "ru",
+                test: false,
+                invisible: false,
+                shieldPosition: "bottom-right",
+                hideShield: false,
+            };
+
+            // При добавлении форм через ajax нужно будет их проинициализировать
+            // BX.ready(function () {
+            //     BX.addCustomEvent("onAjaxSuccess", function() {
+            //         onloadTanaisYandexCaptchaInitialization();
+            //         if (tanaisYandexCaptchaOptions.invisible) {
+            //             attachTanaisYandexCaptchaInvisibleExecutor();
+            //         }
+            //     });
+            // });
+
+            document.addEventListener('DOMContentLoaded', () => {
+                if (tanaisYandexCaptchaOptions.invisible) {
+                    attachTanaisYandexCaptchaInvisibleExecutor();
+                }
+            });
+
+            // Инициализация событий отправки формы с фоновой верификацией пользователя для невидимой каптчи.
+            function attachTanaisYandexCaptchaInvisibleExecutor() {
+                const forms = document.querySelectorAll("form:has(.tanais-yandexcaptcha)");
+                forms.forEach(form => {
+                    // Вешаем события только на тех формах, где еще нет событий.
+                    // Защита от многократного вызова функции при работе нескльких форм на странице с AJAX_MODE = Y.
+                    if (form.getAttribute("data-added-submit-event-handler") !== "Y") {
+                        form.querySelectorAll('[type="submit"]').forEach(button => button.addEventListener("click", function (e) {
+                            const captchaToken = form.querySelector('.tanais-yandexcaptcha [name="smart-token"]');
+
+                            // При попытке отправки формы, пользователь еще не верефицирован (признак пустого токена),
+                            // и необходимо отменить отправку формы, и долждаться результата верификации.
+                            if (captchaToken.value === "") {
+                                e.preventDefault();
+                            }
+
+                            // Запуск верификации каптчи для конкретной формы (по идентификатору виджета).
+                            const widgetId = form.getAttribute("data-yandex-captcha-id");
+                            if (widgetId) {
+                                window.smartCaptcha.execute(widgetId);
+                            }
+                        }));
+
+                        form.setAttribute("data-added-submit-event-handler", "Y");
+                    }
+                });
+            }
+
+            // Инциализация каптчи во всех формах содержащих контейнер для yandex captcha (.tanais-yandexcaptcha).
+            function onloadTanaisYandexCaptchaInitialization() {
+                if (window.smartCaptcha) {
+                    const forms = document.querySelectorAll("form:has(.tanais-yandexcaptcha:not([data-testid])):not([data-yandex-captcha-id])");
+                    forms.forEach(form => {
+                        const captchaContainer = form.querySelector(".tanais-yandexcaptcha");
+                        let options = tanaisYandexCaptchaOptions;
+
+                        // Автоматическая отправка формы после верификации пользователя для невидимой каптчи
+                        // верификация происходит после попытки отправки формы
+                        if (options.invisible && !form.classList.contains('_antiddos')) {
+                            options.callback = () => {
+                                if (document.readyState === 'loading') {
+                                    document.addEventListener('DOMContentLoaded', () => form.querySelector('[type="submit"]').click())
+                                } else {
+                                    form.querySelector('[type="submit"]').click();
+                                }
+                            }
+                        }
+
+                        let widgetId;
+                        if (form.classList.contains('_antiddos')) {
+                            widgetId = window.smartCaptcha.render(captchaContainer, {
+                                ...options,
+                                invisible: true,
+                                // test: true,
+                                callback: async (token) => {
+                                    const res = await fetch('/local/templates/iguides-2022/ajax/captcha.php', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({token}),
+                                    }).then(res => res.json());
+                                    if (res.status === 'success') {
+                                        // form.closest('#captcha').remove();
+                                    } else {
+                                        window.location = '/bot-landing/'
+                                    }
+                                }
+                            });
+                            window.smartCaptcha.subscribe(widgetId, 'challenge-hidden', () => {
+                                window.location = '/bot-landing/';
+                            })
+                            window.smartCaptcha.execute(widgetId);
+                        } else {
+                            widgetId = window.smartCaptcha.render(captchaContainer, options);
+                        }
+
+                        window.smartCaptcha.subscribe(widgetId, 'success', (token) => {
+                            form.querySelector('.tanais-yandexcaptcha [name="smart-token"]')?.setAttribute('data-input', 'smart-token');
+                            form.querySelector('[name="captcha_sid"]')?.setAttribute('data-input', 'captcha_sid');
+                        })
+                        // Т.к. виджетов на странице может быть несколько,
+                        // необходимо сохранить идентификатор виджеты для последующих манипуляций (фоновой верификации, сброса и т.д.)
+                        form.setAttribute("data-yandex-captcha-id", widgetId);
+                    });
+                }
+            }
+            BX.addCustomEvent("onFrameDataReceived", onloadTanaisYandexCaptchaInitialization);
+            BX.addCustomEvent('onAjaxSuccess', function(response, event) {
+                if (event?.url == '/bitrix/admin/burlakastudio.realcommenter.talk_form.php') {
+                    onloadTanaisYandexCaptchaInitialization()
+                }
+            });
+        </script>
+    
+            <script type="text/javascript">
+                window.dataLayerName = "dataLayer";
+                var dataLayerName = window.dataLayerName;
+            </script>
+            <!-- Yandex.Metrika counter -->
+            <script type="text/javascript">
+                (function (m, e, t, r, i, k, a) {
+                    m[i] = m[i] || function () {
+                        (m[i].a = m[i].a || []).push(arguments)
+                    };
+                    m[i].l = 1 * new Date();
+                    k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+                })
+                (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+                ym("5122708", "init", {
+                    clickmap: true,
+                    trackLinks: true,
+                    accurateTrackBounce: true,
+                    webvisor: true,
+                    ecommerce: dataLayerName,
+                    params: {
+                        __ym: {
+                            "ymCmsPlugin": {
+                                "cms": "1c-bitrix",
+                                "cmsVersion": "26.250",
+                                "pluginVersion": "1.1.2",
+                                'ymCmsRip': 1919037457                            }
+                        }
+                    }
+                });
+
+                document.addEventListener("DOMContentLoaded", function() {
+                                    });
+
+            </script>
+            <!-- /Yandex.Metrika counter -->
+                    <script type="text/javascript">
+            window.counters = ["5122708"];
+        </script>
+        
+<link rel="preload" as="script" href="https://static.nativerent.ru/js/codes/nativerent.v2.js" crossorigin>
+    <script src="https://static.nativerent.ru/js/codes/nativerent.v2.js" async crossorigin></script>
+    <script>(function(){(window.NRentCounter = window.NRentCounter || []).push({id:"6720e9c2c5942"})}())</script>
+<meta property="og:title" content="Пользуюсь сервисом МегаСемья от МегаФона. Отличное решение для семейной связи" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.iguides.ru/main/reviews/megasemya_ot_megafon/" />
+<meta property="og:image" content="https://www.iguides.ru/upload/iblock/219/8avt95d0a3yoxw7qsyf0nlx831l76paj.jpg" />
+<meta property="og:description" content="Удобная фича." />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Пользуюсь сервисом МегаСемья от МегаФона. Отличное решение для семейной связи" />
+<meta property="twitter:description" content="Удобная фича." />
+<meta property="twitter:image:src" content="https://www.iguides.ru/upload/iblock/219/8avt95d0a3yoxw7qsyf0nlx831l76paj.jpg" />
+<meta name="mediator_author" content="(alporsche) Фархад Усманов" />
+<meta name="mediator_theme" content="Обзоры" />
+<meta name="mediator_published_time" content="2024-12-26T12:30:00+0300" />
+<script>BX.bind(window, "load", function(){BX.PULL.start();});</script>
+<script>window[window.dataLayerName] = window[window.dataLayerName] || [];</script>
+<!-- Top.Mail.Ru counter --><script type="text/javascript"> var _tmr = window._tmr || (window._tmr = []); _tmr.push({id: "3552371", type: "pageView", start: (new Date()).getTime()}); (function (d, w, id) { if (d.getElementById(id)) return; var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id; ts.src = "https://top-fwz1.mail.ru/js/code.js"; var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);}; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "tmr-code");</script><noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3552371;js=na" style="position:absolute;left:-9999px;" alt="Top.Mail.Ru" /></div></noscript><!-- /Top.Mail.Ru counter -->
+<!-- begin disweb.head -->
+<!-- Top.Mail.Ru counter -->
+<script type="text/javascript">
+var _tmr = window._tmr || (window._tmr = []);
+_tmr.push({id: "3552371", type: "pageView", start: (new Date()).getTime()});
+(function (d, w, id) {
+  if (d.getElementById(id)) return;
+  var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
+  ts.src = "https://top-fwz1.mail.ru/js/code.js";
+  var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
+  if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
+})(document, window, "tmr-code");
+</script>
+<noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3552371;js=na" style="position:absolute;left:-9999px;" alt="Top.Mail.Ru" /></div></noscript>
+<!-- /Top.Mail.Ru counter -->
+
+
+<!-- end disweb.head -->
+
+
+
+<script  src="/bitrix/cache/js/s1/iguides-2022/template_b8efe8ee0749fcd50d4a2ecd24429b56/template_b8efe8ee0749fcd50d4a2ecd24429b56_v1.js?17897192922290"></script>
+<script  src="/bitrix/cache/js/s1/iguides-2022/page_382b349aea16bcfb70c20cd04db64df6/page_382b349aea16bcfb70c20cd04db64df6_v1.js?1782495144288983"></script>
+
+
+
+        
+
+    <script>
+        $(() => {
+            window['ajaxLogin'] = function(submit) {
+                let form = submit.closest('#authForm');
+                let errText = form.querySelector('.errortext');
+                if (submit.hasAttribute('disabled')) return;
+                submit.setAttribute('disabled', '');
+                errText.style.display = 'none';
+                $.ajax({
+                    type: 'POST',
+                    url: '/local/templates/iguides-2022/ajax/auth.php',
+                    data: $(form).serialize(),
+                    error: function(req, err) {
+                        console.log(req, err);
+                        submit.removeAttribute('disabled');
+                    },
+                    success: function(data) {
+                        data = JSON.parse(data);
+
+                        if (data.status) {
+                            const urlLocation = new URL(location.href)
+                            if (urlLocation.pathname === '/login/') {
+                                const backUrl = form.elements['safe_backurl']?.value;
+                                if (backUrl) {
+                                    location.href = backUrl;
+                                    return;
+                                }
+                                // const matepad = urlLocation.searchParams.get('BACK_TO_MATEPAD');
+                                // let toMatepad
+                                // switch (matepad) {
+                                //     case 'review':
+                                //         toMatepad = '/main/special/matepad-12x-review/#comments'
+                                //         break;
+                                //     default:
+                                //         break;
+                                // }
+                                // if (toMatepad) {
+                                //     location.href = location.origin + toMatepad
+                                //     return;
+                                // }
+                            }
+                            let url = new URL(location.href);
+                            url.search = '?login=yes'
+                            location.href = url;
+                        } else {
+                            errText.innerHTML = data.message;
+                            errText.style.display = 'block';
+                            submit.removeAttribute('disabled');
+                        }
+                    }
+                });
+            };
+        });
+        document.addEventListener('change', e => {
+            const regForm = e.target.closest('#regForm');
+            if (!regForm) return;
+
+            const policy = e.target.closest('#policy');
+            if (policy) {
+                regForm.querySelectorAll('button[type="submit"]').forEach(button => button.disabled = !policy.checked)
+            }
+        })
+        document.addEventListener('submit', (e) => {
+            if (e.target.id != 'regForm') return
+            e.preventDefault();
+            const form = e.target;
+            if (form.hasAttribute('disabled')) return;
+            form.setAttribute('disabled', '');
+            $.ajax({
+                type: 'POST',
+                url: '/local/templates/iguides-2022/ajax/auth.php',
+                data: $(form).serialize(),
+                error: function(req, err) {
+                    console.log(req, err);
+                    form.removeAttribute('disabled');
+                },
+                success: function(data) {
+                    // data = JSON.parse(data);
+                    console.log(data);
+                    $(form).html(data);
+                    form.removeAttribute('disabled');
+                    if (window.onloadTanaisYandexCaptchaInitialization) {
+                        form.removeAttribute('data-yandex-captcha-id');
+                        window.onloadTanaisYandexCaptchaInitialization()
+                    }
+                    // if (data.status) {
+                    //     let url = new URL(location.href);
+                    //     url.search = '?login=yes'
+                    //     location.href = url;
+                    // } else {
+                    //     errText.innerHTML = data.message;
+                    //     errText.style.display = 'block';
+                    //     submit.removeAttribute('disabled');
+                    // }
+                }
+            });
+        })
+
+    </script>
+
+    <!--В <head> сайта один раз добавьте код загрузчика-->
+    <script>window.yaContextCb = window.yaContextCb || []</script>
+    <script src="https://yandex.ru/ads/system/context.js" async></script>
+<meta name="mailru-domain" content="GsyA8XaA7ssZzfrk" />
+
+</head>
+
+<body>
+    
+    <!--'start_frame_cache_ADV_IG_1X1'--><!--'end_frame_cache_ADV_IG_1X1'-->
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(5122708, "init", {
+                clickmap:true,
+                trackLinks:true,
+                accurateTrackBounce:true,
+                webvisor:true
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/5122708" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+    <!--LiveInternet counter-->
+    <script>
+        new Image().src = "https://counter.yadro.ru/hit?r"+
+        escape(document.referrer)+((typeof(screen)=="undefined")?"":
+        ";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+        screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+        ";h"+escape(document.title.substring(0,150))+
+        ";"+Math.random();
+    </script>
+    <!--/LiveInternet-->
+
+    <!-- Top.Mail.Ru counter -->
+    <script type="text/javascript">
+    var _tmr = window._tmr || (window._tmr = []);
+    _tmr.push({id: "3552371", type: "pageView", start: (new Date()).getTime()});
+    (function (d, w, id) {
+      if (d.getElementById(id)) return;
+      var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
+      ts.src = "https://top-fwz1.mail.ru/js/code.js";
+      var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
+      if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
+    })(document, window, "tmr-code");
+    </script>
+    <noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3552371;js=na" style="position:absolute;left:-9999px;" alt="Top.Mail.Ru" /></div></noscript>
+    <!-- /Top.Mail.Ru counter -->
+
+    <!-- Брендирование, начало -->
+        <!-- Брендирование, конец -->
+
+    <!--'start_frame_cache_fullscreen_mobile'--><!--'end_frame_cache_fullscreen_mobile'-->
+    <script type="text/javascript" src="/local/templates/iguides-2022/js/advert.js"></script>
+    <script>
+        if(!('adblock' in window)){
+            window.adblock = true;
+            ga('send', 'event', 'adblock', 'detected');
+        }
+    </script>
+
+    <script language="JavaScript">
+        var N = 10;
+        var ar_duo1 = Math.floor(Math.random()*N+1);
+    </script>
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@id": "https://www.iguides.ru/#website",
+              "@type": "WebSite",
+              "url": "https://www.iguides.ru",
+              "publisher": {
+                "@id": "https://www.iguides.ru/#/schema/organization/#organization"
+              },
+              "potentialAction":{
+                 "@type":"SearchAction",
+                 "query-input":"required name=search_term_string",
+                 "target":{
+                    "@type":"EntryPoint",
+                    "urlTemplate":"https://www.iguides.ru/search/?q={search_term_string}&how=d"
+                 }
+              }
+            },
+            {
+              "@id": "https://www.iguides.ru/#/schema/organization/#organization",
+              "@type": "Organization",
+              "name": "iGuides.ru",
+              "description": "Самые актуальные новости из мира гаджетов и технологий. В нашей ленте вы найдете: обзоры, личный опыт, инструкции. Мы каждый день держим руку на пульсе актуальных тем: нейросети, приложения, сервисы, автомобили и поп-культура.",
+              "address": {
+                "@type": "PostalAddress",
+                "postalCode": 111394,
+                "streetAddress": "ул. Перовская 61/2, офис 309",
+                "addressLocality": "Москва",
+                "addressCountry": "RU"
+              },
+              "openingHoursSpecification": {
+                "@type": "OpeningHoursSpecification",
+                "opens": "09:00",
+                "closes": "21:00"
+            },
+              "url": "https://www.iguides.ru",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.iguides.ru/local/templates/iguides-2022/img/logo.png",
+                "contentUrl": "https://www.iguides.ru/local/templates/iguides-2022/img/logo.png"
+              },
+              "sameAs": [
+                "https://vk.com/iguides",
+                "https://twitter.com/iGuides_ru",
+                "https://t.me/iguides",
+                "https://dzen.ru/iguides",
+                "https://ok.ru/group/70000003802751"
+              ]
+            }
+          ]
+        }
+    </script>
+
+    
+    <div id="panel"></div>
+
+    <main>
+
+        <script>
+            const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            const systemTheme = localStorage.getItem("systemTheme");
+            const systemThemeChanged = prefersDarkScheme ? systemTheme == 'light' : systemTheme == 'dark';
+
+            if (systemThemeChanged) {
+                localStorage.removeItem('theme');
+            }
+
+            const currentTheme = localStorage.getItem("theme");
+            if (currentTheme == "dark") {
+                document.body.classList.add("dark-theme");
+            } else if (currentTheme == "light") {
+                document.body.classList.remove("dark-theme");
+            }
+            if (!currentTheme && prefersDarkScheme) {
+                document.body.classList.add("dark-theme");
+            }
+
+            if (prefersDarkScheme) {
+                document.head.querySelectorAll('[data-icon-dark]').forEach(icon => {
+                    icon.href = icon.dataset.iconDark
+                })
+            }
+
+            localStorage.setItem('systemTheme', prefersDarkScheme ? 'dark' : 'light');
+
+            addEventListener('DOMContentLoaded', () => {
+                document.addEventListener('click', e => {
+                    const cookiesAccept = e.target.closest('.cookies-agreement__accept')
+                    if (cookiesAccept) {
+                        setCookie('cookie_accepted', 'Y', 30)
+                    }
+                })
+                function setCookie(name, value, days) {
+                    var expires = "";
+                    if (days) {
+                        var date = new Date();
+                        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                        expires = "; expires=" + date.toUTCString();
+                    }
+                    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+                }
+                function getCookie(name) {
+                    return document.cookie.split('; ').reduce((r, v) => {
+                        const parts = v.split('=');
+                        return parts[0] === name ? decodeURIComponent(parts[1]) : r
+                    }, '');
+                }
+            })
+        </script>
+        <div id="cookies-agreement" class="cookies-agreement">
+            <div class="cookies-agreement__content">
+                <svg class="cookies-agreement__cookie" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7.99749 13.8388C7.95466 13.8387 7.91358 13.8558 7.88348 13.8862C7.85339 13.9167 7.83679 13.958 7.83743 14.0008C7.83776 14.0902 7.91013 14.1626 7.9995 14.1629C8.0574 14.1625 8.11071 14.1313 8.13935 14.081C8.16799 14.0307 8.16761 13.9689 8.13835 13.9189C8.10909 13.869 8.0554 13.8384 7.99749 13.8388" stroke="#FF4400" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8.99798 8.83669C8.95515 8.83658 8.91407 8.85369 8.88397 8.88416C8.85387 8.91464 8.83728 8.95592 8.83792 8.99875C8.83825 9.08812 8.91061 9.16049 8.99998 9.16082C9.08949 9.16027 9.1616 9.08726 9.16105 8.99775C9.1605 8.90824 9.08749 8.83613 8.99798 8.83669" stroke="#FF4400" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12.9994 15.8396C12.9566 15.8395 12.9155 15.8566 12.8854 15.8871C12.8553 15.9176 12.8387 15.9588 12.8394 16.0017C12.8397 16.091 12.9121 16.1634 13.0014 16.1637C13.091 16.1632 13.1631 16.0902 13.1625 16.0007C13.162 15.9112 13.089 15.839 12.9994 15.8396" stroke="#FF4400" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.9992 11.8379C11.9564 11.8378 11.9153 11.8549 11.8852 11.8854C11.8551 11.9159 11.8385 11.9572 11.8391 12C11.8395 12.0894 11.9118 12.1617 12.0012 12.1621C12.0591 12.1617 12.1124 12.1305 12.1411 12.0802C12.1697 12.0298 12.1693 11.9681 12.1401 11.9181C12.1108 11.8681 12.0571 11.8376 11.9992 11.8379" stroke="#FF4400" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0001 2.99625C12.0001 7.96889 16.0312 12 21.0038 12C21.0038 16.9726 16.9727 21.0038 12.0001 21.0038C7.02745 21.0038 2.99634 16.9726 2.99634 12C2.99634 7.02737 7.02745 2.99625 12.0001 2.99625Z" stroke="#FF4400" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <p class="m-0">Мы используем файлы cookie. Оставаясь на сайте, вы подтверждаете 
+                    <a href="/policy/cookie.php">согласие на их использование</a> и 
+                    <a href="/policy/agreement.php">обработку персональных данных</a>.
+                </p>
+                <button onclick="this.closest('.cookies-agreement').remove()" class="cookies-agreement__accept" href="/qa/">Соглашаюсь</button>
+                <button onclick="this.closest('.cookies-agreement').remove()" class="cookies-agreement__close">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1.06315 1.43517L14.937 15.0648" stroke="#79849C" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="14.8667" y1="1.41989" x2="1.42032" y2="15.1626" stroke="#79849C" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <script>
+            (function(){
+                var el = document.getElementById('cookies-agreement');
+                if (el && document.cookie.indexOf('cookie_accepted=') === -1) {
+                    el.style.display = 'block';
+                    el.style.position = 'sticky';
+                }
+            })();
+        </script>
+
+        <header class="i-header">
+            <div class="container-md i-header-container">
+                <a href="/" class="i-logo"></a>
+
+                
+
+    <ul class="nav i-top-menu mr-auto">
+
+		
+			
+			
+																
+			
+																
+			
+																
+			
+																
+			
+																
+			
+																
+			
+			
+									<li class="nav-item ">
+						<a href="/fresh/" class="nav-link color-black">Сегодня</a>
+					</li>
+				
+					
+			
+			
+				
+					<li class="nav-item dropdown ">
+		                <a class="nav-link color-black dropdown-toggle " data-toggle="dropdown" href="/main/" role="button" aria-haspopup="true" aria-expanded="false">Темы</a>
+		                <div class="dropdown-menu i-dropdown dropdown-menu__left-decor">
+							<a class="dropdown-item active" href="/main/reviews/">Обзоры</a><a class="dropdown-item " href="/main/os/">Гайды</a><a class="dropdown-item " href="/main/games/">Игры</a><a class="dropdown-item " href="/main/recommendation/">Надо брать</a><a class="dropdown-item " href="/search/avtomobili/">Автомобили</a><a class="dropdown-item " href="/search/kosmos/">Космос</a>		                </div>
+		            </li>
+
+				
+					
+			
+			
+									<li class="nav-item ">
+						<a href="/blogs/" class="nav-link color-black">Блоги</a>
+					</li>
+				
+					
+			
+			
+									<li class="nav-item ">
+						<a href="/qa/" class="nav-link color-black">Вопросы</a>
+					</li>
+				
+					
+			
+			
+									<li class="nav-item nav-link-prompts">
+						<a href="/ai/" class="nav-link color-black">Ai</a>
+					</li>
+				
+							<!-- <li class="nav-item">
+			<a href="/search/huawei/" class="nav-link nav-link_huawei color-black">
+				<svg width="156" height="35" viewBox="0 0 156 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M85.1486 11.1829H88.6221V20.8171C88.6221 25.7073 85.9192 28.5122 81.2104 28.5122C76.5506 28.5122 73.8721 25.7561 73.8721 20.9512V11.1951H77.3456V20.8414C77.3456 23.6951 78.7521 25.2195 81.2593 25.2195C83.7666 25.2195 85.1486 23.7317 85.1486 20.9634V11.1829ZM65.5798 18.061H57.7279V11.1829H54.2544V28.2561H57.7279V21.3171H65.5676V28.2561H69.0411V11.1829H65.5676V18.061H65.5798ZM152.563 11.1829V28.2317H155.988V11.1829H152.563ZM138.926 20.9024H145.249V17.7927H138.926V14.2927H148.099V11.1951H135.502V28.2439H148.429V25.1341H138.926V20.9024ZM125.301 22.9146L121.412 11.1707H118.575L114.685 22.9146L110.906 11.1829H107.212L113.181 28.2439H116.055L119.944 17.0366L123.834 28.2439H126.732L132.689 11.1829H129.081L125.301 22.9146ZM101.036 11.2805L108.509 28.2439H104.864L103.323 24.6951H95.4834L95.3733 24.939L93.9301 28.2439H90.3833L97.9295 11.1829H100.963L101.036 11.2805ZM101.868 21.2073L99.3972 15.4878L96.9388 21.2073L96.7676 21.5975H102.027L101.868 21.2073Z" fill="white"/>
+					<path d="M20.0582 26.439C20.1072 26.4024 20.1194 26.3293 20.0949 26.2683C16.7225 19.0406 12.5152 12.2303 7.55868 5.97561C7.55868 5.97561 3.62046 9.70732 3.90176 13.4512C3.96765 14.3144 4.20357 15.1561 4.59601 15.9283C4.98846 16.7004 5.52973 17.3878 6.18886 17.9512C9.62563 21.2927 17.9424 25.5122 19.8748 26.4756C19.9359 26.5 20.0093 26.4878 20.0582 26.439ZM18.774 29.2927C18.7496 29.2195 18.6762 29.1707 18.5906 29.1707L4.74567 29.6463C6.25002 32.3171 8.78173 34.3902 11.4113 33.7561C13.2336 33.3049 17.3431 30.439 18.7007 29.4634C18.8107 29.378 18.774 29.3049 18.774 29.2927ZM18.982 28.061C19.0553 27.9512 18.933 27.8537 18.933 27.8537C12.8545 23.7561 1.06429 17.4634 1.06429 17.4634C0.673496 18.6578 0.564175 19.9259 0.744819 21.1692C0.925463 22.4125 1.39121 23.5975 2.10585 24.6322C2.8205 25.6668 3.7648 26.5232 4.86536 27.1348C5.96592 27.7464 7.19309 28.0967 8.45151 28.1585C8.65943 28.1951 16.6826 28.1585 18.8352 28.1463C18.8964 28.1341 18.9453 28.1098 18.982 28.061ZM19.8993 0.0121951C19.3 0.0609756 17.6733 0.439024 17.6733 0.439024C14.0042 1.37805 13.1358 4.70732 13.1358 4.70732C12.4631 6.79268 13.148 9.09756 13.148 9.09756C14.3711 14.5122 20.3885 23.4268 21.6849 25.2927C21.7705 25.3902 21.8439 25.3537 21.8439 25.3537C21.9173 25.3293 21.9784 25.2683 21.9784 25.1829C23.9842 5.28049 19.8993 0.0121951 19.8993 0.0121951ZM24.4857 25.3293C24.5591 25.3537 24.6447 25.3293 24.6814 25.2561C26.0145 23.3415 31.9952 14.4756 33.2183 9.08537C33.2183 9.08537 33.8787 6.47561 33.2427 4.69512C33.2427 4.69512 32.3377 1.31707 28.6685 0.426829C28.6685 0.426829 27.6167 0.158537 26.4915 0C26.4915 0 22.382 5.26829 24.3878 25.1707C24.3756 25.2439 24.4245 25.3049 24.4857 25.3293ZM27.7635 29.1829C27.7309 29.1895 27.7 29.2026 27.6726 29.2215C27.6453 29.2403 27.6221 29.2646 27.6045 29.2927C27.5922 29.3659 27.6045 29.4268 27.6534 29.4756C28.9743 30.4268 32.9981 33.2317 34.9305 33.7683C34.9305 33.7683 38.5141 34.9878 41.6206 29.6585L27.7635 29.1829ZM45.3142 17.439C45.3142 17.439 33.5485 23.7439 27.4577 27.8415C27.3965 27.8902 27.3599 27.9634 27.3843 28.0366C27.3843 28.0366 27.4455 28.1463 27.5311 28.1463C29.7081 28.1463 37.9515 28.1585 38.1716 28.122C38.9911 28.061 39.7983 27.878 40.5566 27.5732C40.5566 27.5732 43.4919 26.6463 45.0085 23.3171C45.0085 23.3171 46.3661 20.6098 45.3142 17.439ZM26.3447 26.439C26.3936 26.4756 26.467 26.4878 26.5282 26.4512C28.5095 25.4634 36.7651 21.2805 40.1774 17.9512C40.1774 17.9512 42.3422 16.2195 42.4523 13.4268C42.6969 9.56098 38.7954 5.97561 38.7954 5.97561C38.7954 5.97561 31.5794 14.6951 26.2836 26.2195C26.2751 26.2583 26.2762 26.2986 26.2869 26.3368C26.2975 26.3751 26.3174 26.4102 26.3447 26.439Z" fill="#CE0E2D"/>
+				</svg>
+			</a>
+		</li> -->
+  	</ul>
+
+
+                <div class="i-btn-day-night i-header-container__switch" id="switch">
+                    <label class="i-btn-day-night__label">
+                        <input type="checkbox" id="day-night-switch" />
+                        <span class="mount"></span>
+                        <span class="ball">
+                            <svg>
+                                <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#day-night"></use>
+                            </svg>
+                        </span>
+                    </label>
+                </div>
+
+                <!-- <div class="huawei-link">
+                    <a href="/search/huawei/" class="nav-link nav-link_huawei color-black">
+                        <svg width="156" height="35" viewBox="0 0 156 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M85.1486 11.1829H88.6221V20.8171C88.6221 25.7073 85.9192 28.5122 81.2104 28.5122C76.5506 28.5122 73.8721 25.7561 73.8721 20.9512V11.1951H77.3456V20.8414C77.3456 23.6951 78.7521 25.2195 81.2593 25.2195C83.7666 25.2195 85.1486 23.7317 85.1486 20.9634V11.1829ZM65.5798 18.061H57.7279V11.1829H54.2544V28.2561H57.7279V21.3171H65.5676V28.2561H69.0411V11.1829H65.5676V18.061H65.5798ZM152.563 11.1829V28.2317H155.988V11.1829H152.563ZM138.926 20.9024H145.249V17.7927H138.926V14.2927H148.099V11.1951H135.502V28.2439H148.429V25.1341H138.926V20.9024ZM125.301 22.9146L121.412 11.1707H118.575L114.685 22.9146L110.906 11.1829H107.212L113.181 28.2439H116.055L119.944 17.0366L123.834 28.2439H126.732L132.689 11.1829H129.081L125.301 22.9146ZM101.036 11.2805L108.509 28.2439H104.864L103.323 24.6951H95.4834L95.3733 24.939L93.9301 28.2439H90.3833L97.9295 11.1829H100.963L101.036 11.2805ZM101.868 21.2073L99.3972 15.4878L96.9388 21.2073L96.7676 21.5975H102.027L101.868 21.2073Z" fill="white"></path>
+                            <path d="M20.0582 26.439C20.1072 26.4024 20.1194 26.3293 20.0949 26.2683C16.7225 19.0406 12.5152 12.2303 7.55868 5.97561C7.55868 5.97561 3.62046 9.70732 3.90176 13.4512C3.96765 14.3144 4.20357 15.1561 4.59601 15.9283C4.98846 16.7004 5.52973 17.3878 6.18886 17.9512C9.62563 21.2927 17.9424 25.5122 19.8748 26.4756C19.9359 26.5 20.0093 26.4878 20.0582 26.439ZM18.774 29.2927C18.7496 29.2195 18.6762 29.1707 18.5906 29.1707L4.74567 29.6463C6.25002 32.3171 8.78173 34.3902 11.4113 33.7561C13.2336 33.3049 17.3431 30.439 18.7007 29.4634C18.8107 29.378 18.774 29.3049 18.774 29.2927ZM18.982 28.061C19.0553 27.9512 18.933 27.8537 18.933 27.8537C12.8545 23.7561 1.06429 17.4634 1.06429 17.4634C0.673496 18.6578 0.564175 19.9259 0.744819 21.1692C0.925463 22.4125 1.39121 23.5975 2.10585 24.6322C2.8205 25.6668 3.7648 26.5232 4.86536 27.1348C5.96592 27.7464 7.19309 28.0967 8.45151 28.1585C8.65943 28.1951 16.6826 28.1585 18.8352 28.1463C18.8964 28.1341 18.9453 28.1098 18.982 28.061ZM19.8993 0.0121951C19.3 0.0609756 17.6733 0.439024 17.6733 0.439024C14.0042 1.37805 13.1358 4.70732 13.1358 4.70732C12.4631 6.79268 13.148 9.09756 13.148 9.09756C14.3711 14.5122 20.3885 23.4268 21.6849 25.2927C21.7705 25.3902 21.8439 25.3537 21.8439 25.3537C21.9173 25.3293 21.9784 25.2683 21.9784 25.1829C23.9842 5.28049 19.8993 0.0121951 19.8993 0.0121951ZM24.4857 25.3293C24.5591 25.3537 24.6447 25.3293 24.6814 25.2561C26.0145 23.3415 31.9952 14.4756 33.2183 9.08537C33.2183 9.08537 33.8787 6.47561 33.2427 4.69512C33.2427 4.69512 32.3377 1.31707 28.6685 0.426829C28.6685 0.426829 27.6167 0.158537 26.4915 0C26.4915 0 22.382 5.26829 24.3878 25.1707C24.3756 25.2439 24.4245 25.3049 24.4857 25.3293ZM27.7635 29.1829C27.7309 29.1895 27.7 29.2026 27.6726 29.2215C27.6453 29.2403 27.6221 29.2646 27.6045 29.2927C27.5922 29.3659 27.6045 29.4268 27.6534 29.4756C28.9743 30.4268 32.9981 33.2317 34.9305 33.7683C34.9305 33.7683 38.5141 34.9878 41.6206 29.6585L27.7635 29.1829ZM45.3142 17.439C45.3142 17.439 33.5485 23.7439 27.4577 27.8415C27.3965 27.8902 27.3599 27.9634 27.3843 28.0366C27.3843 28.0366 27.4455 28.1463 27.5311 28.1463C29.7081 28.1463 37.9515 28.1585 38.1716 28.122C38.9911 28.061 39.7983 27.878 40.5566 27.5732C40.5566 27.5732 43.4919 26.6463 45.0085 23.3171C45.0085 23.3171 46.3661 20.6098 45.3142 17.439ZM26.3447 26.439C26.3936 26.4756 26.467 26.4878 26.5282 26.4512C28.5095 25.4634 36.7651 21.2805 40.1774 17.9512C40.1774 17.9512 42.3422 16.2195 42.4523 13.4268C42.6969 9.56098 38.7954 5.97561 38.7954 5.97561C38.7954 5.97561 31.5794 14.6951 26.2836 26.2195C26.2751 26.2583 26.2762 26.2986 26.2869 26.3368C26.2975 26.3751 26.3174 26.4102 26.3447 26.439Z" fill="#CE0E2D"></path>
+                        </svg>
+                    </a>
+                </div> -->
+
+                <div class="i-header-search">
+                    <form action="/search/" method="get">
+                        <div class="form-group group-search mb-0">
+                            <input type="text" autocomplete="off" class="form-control input-h48 bg-light-blue" name="q" id="search-input" placeholder="Поиск">
+                        </div>
+                        <input type="hidden" name="how" value="d">
+                        <button id="search-btn" class="i-btn-magnifier" type="submit">
+                            <svg>
+                                <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#magnifier"></use>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const forms = $('[action="/search/"]');
+                        forms.on('submit', function(e) {
+                            if (this.elements.q && !this.elements.q.value.length) e.preventDefault();
+                        });
+                    })
+                </script>
+
+                <!--'start_frame_cache_desktop-auth-form'-->
+                                            <a href="javascript:void(0)" class="i-btn-bell i-header-container__bell" data-toggle="modal" data-target="#loginModalWindow">
+                            <svg><use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#bell"></use></svg>
+                            <i>2</i>
+                        </a>
+
+                        <button type="button" class="i-btn outline i-header-container__login" data-toggle="modal" data-target="#loginModalWindow">
+                            Войти
+                        </button>
+
+                        <!-- login modal window -->
+                        <div class="modal fade blue-bg-modal" id="loginModalWindow" data-backdrop="static" tabindex="-1"
+                            aria-labelledby="loginModalWindow" aria-hidden="true">
+
+                            <div class="i-modal-header">
+                                <div class="i-modal-header-container">
+                                    <div class="container i-header-container">
+                                        <a href="#" class="i-logo white"></a>
+
+                                        <div class="ml-auto">
+                                            <button class="i-modal-close-big" data-dismiss="modal" aria-label="Close">
+                                                <svg>
+                                                    <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#close-28"></use>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-dialog modal-form">
+
+                                <div class="modal-content">
+
+                                    <div class="nav i-nav-tabs hidden-zero" id="nav-section-tabs" role="tablist">
+                                        <a class="nav-link active" id="form-forms-tab" data-toggle="tab" href="#form-forms" role="tab"
+                                            aria-controls="form-forms" aria-selected="true"></a>
+                                        <a class="nav-link" id="form-restore-tab" data-toggle="tab" href="#form-restore" role="tab"
+                                            aria-controls="form-restore" aria-selected="false"></a>
+                                    </div>
+                                    <div class="tab-content" id="nav-forms-restore">
+                                        <div class="tab-pane fade show active" id="form-forms" role="tabpanel"
+                                            aria-labelledby="form-forms-tab">
+
+                                            <!-- login-reg tabs -->
+                                            <div class="nav i-nav-tabs" id="nav-login-tabs" role="tablist">
+                                                <a class="nav-link" id="form-reg-tab" data-toggle="tab" href="#form-reg" role="tab" aria-controls="form-reg" aria-selected="true">Регистрация</a>
+
+                                                <a class="nav-link active" id="form-login-tab" data-toggle="tab" href="#form-login"
+                                                    role="tab" aria-controls="form-login" aria-selected="false">Войти</a>
+                                            </div>
+                                            <div class="tab-content" id="nav-reg-login">
+                                                
+<div class="tab-pane fade" id="form-reg" role="tabpanel" aria-labelledby="form-reg-tab">
+<!-- reg form -->
+    <form method="post" action="/main/reviews/megasemya_ot_megafon/" name="regform" id="regForm">
+                    <input type="hidden" name="TYPE" value="REGISTRATION" />
+            <input type="hidden" name="register_submit_button" value="Регистрация" />
+            <div class="form-group mt-4 mb-12">
+                <input minlength="3" maxlength="50" required type="text" name="REGISTER[LOGIN]"
+                    class="form-control input-h48 input-dim-blue" id="fr-name" placeholder="Логин*" value="">
+            </div>
+            <div class="form-group mb-12">
+                <input required type="email" name="REGISTER[EMAIL]" class="form-control input-h48 input-dim-blue"
+                    id="fr-email" placeholder="E-mail*" value="">
+            </div>
+            <div class="form-group mb-12">
+                <input minlength="8" maxlength="20" required type="password" name="REGISTER[PASSWORD]"
+                    class="form-control input-h48 input-dim-blue" id="fr-pass" placeholder="Пароль*" value="">
+            </div>
+            <div class="form-group mb-12">
+                <input minlength="8" maxlength="20" required type="password" name="REGISTER[CONFIRM_PASSWORD]"
+                    class="form-control input-h48 input-dim-blue" id="fr-pass2" placeholder="Подтверждение пароля*" value="">
+            </div>
+                            <input type="hidden" name="captcha_sid" value="0kxc948y1f2i8xffw4u79gnlp146jzyn" />
+                <div class="tanais-yandexcaptcha"></div>
+                <div class="form-group mt-4 mb-12">
+                    
+                </div>
+            
+                            <p>
+                    На указанный в форме e-mail придет запрос на подтверждение регистрации.                </p>
+                        <div class="mb-3 custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="policy" name="policy" value="1" required>
+                <label class="custom-control-label custom-control-label-white" for="policy">
+                <span class="text-12 line-height-12"><a href="/policy/agreement.php">Даю согласие</a> на обработку персональных данных в соответствии с <a href="/policy/">политикой обработки персональных данных</a></span>         </label>
+            </div>
+            <div class="form-group mb-3">
+                <button type="submit" class="i-btn-large w-100">Регистрация</button>
+            </div>
+            <!--
+                <div class="text-center text-10 line-height-12 px-1 color-dim-blue">
+                    <a class="color-white" href="/policy">
+                        Авторизуясь, вы соглашаетесь с правилами пользования сайтом, политикой
+                        конфиденциальности и условиями предоставления услуг.
+                    </a>
+                </div>
+            -->
+            </form>
+    <!-- /reg form -->
+    </div>
+                                                
+
+
+<div class="tab-pane fade show active" id="form-login" role="tabpanel" aria-labelledby="form-login-tab">
+        <!-- login form -->
+
+                
+        <div class="i-between-line mb-3 mb-sm-20 text-16">или</div>
+
+        <form method="post" id="authForm" class="authForm_class">
+            <div class="errortext" style="display:none;"></div>
+                            <input type="hidden" name="backurl" value="/main/reviews/megasemya_ot_megafon/" />
+            
+            
+            <input type="hidden" name="AUTH_FORM" value="Y" />
+            <input type="hidden" name="TYPE" value="AJAX_LOGIN" />
+
+            <div class="form-group mb-12">
+                <input type="text" name="USER_LOGIN" maxlength="50" class="form-control input-h48 input-dim-blue"
+                    id="fl-email" value="" placeholder="Логин">
+            </div>
+            <div class="form-group mb-12">
+                <input type="password" name="USER_PASSWORD" class="form-control input-h48 input-dim-blue"
+                    maxlength="50" id="fl-pass" placeholder="Пароль">
+            </div>
+            <div class="form-group mb-3">
+                <button type="button" onclick="ajaxLogin(this)" data-login="" class="i-btn-large w-100">Войти</button>
+            </div>
+            <div class="d-flex mb-20">
+                                    <div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" id="remember_check_2" class="custom-control-input" name="USER_REMEMBER"
+                                    value="Y">
+                            <label
+                                class="custom-control-label custom-control-label-white text-16 color-white"
+                                for="remember_check_2" title="Запомнить">Запомнить</label>
+                        </div>
+                    </div>
+                                <div class="ml-auto text-16">
+                    <a id="form-restore-tab-btn" href="#" class="color-white">Забыли пароль?</a>
+                </div>
+            </div>
+            <div class="text-center text-10 line-height-12 px-1 color-dim-blue">
+                <a class="color-white" href="/policy">
+                    Авторизуясь, вы соглашаетесь с правилами пользования сайтом, политикой
+                    конфиденциальности и условиями предоставления услуг.
+                </a>
+            </div>
+        </form>
+    <!-- /login form -->
+    </div>
+                                            </div>
+                                            <!-- /login-reg tabs -->
+
+                                        </div>
+                                        <div class="tab-pane fade" id="form-restore" role="tabpanel" aria-labelledby="form-restore-tab">
+                                            
+<!-- restore form -->
+<div class="mb-4 mb-sm-30 text-18 text-center">Восстановить пароль</div>
+
+<form id="forgotForm" method="post">
+    <input type="hidden" name="AUTH_FORM" value="Y">
+    <input type="hidden" name="TYPE" value="SEND_PWD">
+    <input type="hidden" name="AJAX_SEND_PWD" value="Y">
+    <p class="message" style="display:none;"></p>
+    <div class="form-group mb-3">
+        <input type="text" name="USER_LOGIN" class="form-control input-h48 input-dim-blue"
+            id="fn-login" maxlength="50" value="" placeholder="Логин">
+    </div>
+    <div class="i-between-line mt-20 mb-20 text-16">или</div>
+    <div class="form-group mb-12">
+        <input type="text" name="USER_EMAIL" class="form-control input-h48 input-dim-blue"
+            id="fn-email" name="USER_EMAIL" maxlength="255" placeholder="E-Mail:">
+    </div>
+
+    
+        <div class="form-group mb-12">
+            <input type="hidden" name="captcha_sid" value="0fi9t6lcuiiy0phehurq7qx8o3v1cu36" />
+            <div class="tanais-yandexcaptcha"></div>
+        </div>
+
+        <div class="form-group mb-12">
+            
+        </div>
+    
+    <div class="form-group mb-3">
+        <button type="submit" class="i-btn-large w-100">Выслать пароль</button>
+    </div>
+    <div class="text-center">
+        <a id="form-forms-tab-btn" href="#" class="i-back-btn white text-16"><svg>
+                <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#back"></use>
+            </svg>Назад</a>
+    </div>
+</form>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let form = document.querySelector('#forgotForm');
+        let submit = form.querySelector('button[type="submit"]');
+        let errText = form.querySelector('.message');
+        form.addEventListener('submit',(e) => {
+            e.preventDefault();
+            if (submit.hasAttribute('disabled')) return;
+            submit.setAttribute('disabled', '');
+            errText.style.display = 'none';
+            $.ajax({
+                type: 'POST',
+                url: '/local/templates/iguides-2022/ajax/auth.php',
+                data: $(form).serialize(),
+                error: function(req, err) {
+                    console.log(req, err);
+                    submit.removeAttribute('disabled');
+                },
+                success: function(data) {
+                    data = JSON.parse(data);
+                    errText.innerHTML = data.MESSAGE;
+                    errText.style.display = 'block';
+                    submit.removeAttribute('disabled');
+                    
+                }
+            });
+        })
+    });
+</script>
+<!-- /restore form -->
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    
+                <!--'end_frame_cache_desktop-auth-form'-->
+                <button id="menu-btn" type="button" class="btn-burger i-header-container__burger">
+                    <svg>
+                        <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#menu"></use>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <script>
+            const checkbox = document.querySelector('#day-night-switch');
+            if (currentTheme == "dark") {
+                checkbox.checked = true;
+            } else if (currentTheme == "light") {
+                checkbox.checked = false;
+            }
+            if (!currentTheme && prefersDarkScheme) {
+                checkbox.checked = true;
+            }
+        </script>
+
+        
+        <aside class="mobile-menu">
+            <button type="button" class="mobile-menu__close i-btn-close-20">
+                <svg>
+                    <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#close-20"></use>
+                </svg>
+            </button>
+
+            <!--'start_frame_cache_mobile-auth-form'-->
+                
+                    <div class="mobile-menu__top">
+                        <a class="text-16" href="#" data-toggle="modal" data-target="#loginModalWindow">Войти</a>
+                    </div>
+
+                
+            <!--'end_frame_cache_mobile-auth-form'-->
+            <div class="mobile-menu__middle">
+                
+
+    <ul class="mobile-nav-links text-16">
+
+		
+			
+			
+
+			
+													
+			
+
+			
+													
+			
+
+			
+													
+			
+
+			
+													
+			
+
+			
+													
+			
+
+			
+													
+			
+
+							<li>
+										<a href="/fresh/" class=" ">Свежее</a>
+									</li>
+					
+			
+
+							<li>
+										<a href="/main/" class=" ">Темы</a>
+											<ul>
+							<li><a class="active" href="/main/reviews/">Обзоры</a></li><li><a class="" href="/main/os/">Гайды</a></li><li><a class="" href="/main/games/">Игры</a></li><li><a class="" href="/main/recommendation/">Надо брать</a></li><li><a class="" href="/search/avtomobili/">Автомобили</a></li><li><a class="" href="/search/kosmos/">Космос</a></li>						</ul>
+									</li>
+					
+			
+
+							<li>
+										<a href="/blogs/" class=" ">Блоги</a>
+									</li>
+					
+			
+
+							<li>
+										<a href="/qa/" class=" ">Вопросы</a>
+									</li>
+					
+			
+
+							<li>
+										<a href="/ai/" class=" nav-link-prompts">Ai</a>
+									</li>
+					
+			
+
+							<li>
+										<a href="/about/" class=" ">Об издании</a>
+									</li>
+					
+			
+
+							<li>
+										<a href="/specialpr.php" class=" ">Спецпроекты</a>
+									</li>
+					
+			
+
+							<li>
+										<a href="/contacts/" class=" ">Контакты</a>
+									</li>
+					
+			
+
+							<li>
+										<a href="/rules.php" class=" ">Правила</a>
+									</li>
+					
+			
+
+							<li>
+										<a href="/advertising/" class=" ">Реклама</a>
+									</li>
+					  	</ul>
+
+            </div>
+
+            <div class="mobile-menu__bottom">
+                <p class="text-12 mb-2 color-dim-blue">Будь в курсе последних новостей из мира гаджетов и технологий</p>
+                <div class="subscription-agreement">
+                                        <div class="mt-20 mb-20 mb-xl-0 custom-control custom-checkbox">
+                        <input class="custom-control-input subscription-agreement__checkbox color-white" name="UF_AGREEMENT_MAILING" id="UF_AGREEMENT_MAILING_40iWGcnU" type="checkbox" >
+                        <label class="custom-control-label custom-control-label-white color-dim-blue" for="UF_AGREEMENT_MAILING_40iWGcnU">
+                            <span>
+                                <a style="color:#FFFFFF" href="/policy/subscription_agreement.php"><u>Даю согласие</u></a> на получение информационной и рекламной рассылки
+                            </span>
+                        </label>
+                    </div>
+                    <form action="#" method="post">
+                        <div class="input-group-subscribe input-group-subscribe--white">
+                            <input type="text" class="form-control no-bg" id="email2" placeholder="Введите ваш e-mail">
+                            <button disabled type="submit" class="i-btn-enter"><svg>
+                                    <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#arrow-right"></use>
+                                </svg></button>
+                        </div>
+                    </form>
+                </div>
+                
+<button type="button" class="i-btn outline request-notification-button request-notification-button_mob">
+    Включить уведомления
+</button>                
+    <div class="social-horizontal-list mb-20">
+
+            <a target="_blank" href="https://vk.com/iguides" class="i-btn-social-white" rel="nofollow">
+                            <svg>
+                    <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#social-net-vk"></use>
+                </svg>
+                    </a>
+            <a target="_blank" href="https://max.ru/iguides" class="i-btn-social-white" rel="nofollow">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_2983_3577)">
+                    <path d="M24 0C37.2548 0 48 10.7452 48 24C48 37.2548 37.2548 48 24 48C10.7452 48 0 37.2548 0 24C0 10.7452 10.7452 0 24 0ZM24.2598 8C15.4423 8 8.00006 14.8529 8 23.9619C8 27.7758 8.70339 30.4079 9.32227 32.7715C9.84185 34.69 10.2998 36.4477 10.2998 38.5273C10.5214 41.2977 15.6023 39.6784 17.207 37.6064C19.7438 39.4482 21.2034 39.9082 24.3438 39.9082C33.0247 39.8617 40.0294 32.7656 40 24.0469C40 15.191 33.0849 8.00001 24.2598 8ZM24.4736 15.874V15.8809C28.9237 16.1369 32.3497 19.9261 32.1758 24.3994C31.8771 28.8631 28.0752 32.2655 23.626 32.0508C22.233 31.9386 20.8939 31.4589 19.7441 30.6611C19.049 31.3593 17.9336 32.2651 17.4902 32.1582C16.5657 31.9126 15.4805 27.1928 16.0918 23.3174C16.833 18.6363 20.1795 15.6515 24.4736 15.874Z" fill="inherit"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_2983_3577">
+                    <rect width="48" height="48" rx="24" fill="white"/>
+                    </clipPath>
+                    </defs>
+                </svg>
+                    </a>
+            <a target="_blank" href="https://t.me/iguides" class="i-btn-social-white" rel="nofollow">
+                            <svg>
+                    <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#social-net-telegram"></use>
+                </svg>
+                    </a>
+            <a target="_blank" href="https://dzen.ru/iguides" class="i-btn-social-white" rel="nofollow">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_2983_3574)">
+                    <path d="M24 0C37.2548 0 48 10.7452 48 24C48 37.2548 37.2548 48 24 48C10.7452 48 0 37.2548 0 24C0 10.7452 10.7452 0 24 0ZM23.623 6C23.4432 6.00008 23.2946 6.14627 23.2861 6.32617C23.0415 12.7962 22.2202 16.7327 19.4648 19.4883C16.7123 22.2411 12.7844 23.062 6.32617 23.3066C6.14623 23.3123 6 23.4618 6 23.6445V24.3975C6 24.5774 6.14623 24.7269 6.32617 24.7354C12.7844 24.98 16.7151 25.8037 19.4648 28.5537C22.2146 31.3037 23.0358 35.2265 23.2832 41.6738C23.2889 41.8537 23.4375 41.9999 23.6201 42H24.377C24.5568 41.9999 24.7054 41.8537 24.7139 41.6738C24.9613 35.2265 25.7825 31.3037 28.5322 28.5537C31.2848 25.8009 35.2126 24.98 41.6709 24.7354C41.8509 24.7297 41.9971 24.5802 41.9971 24.3975V23.6445H42C42 23.4646 41.8538 23.3151 41.6738 23.3066C35.2155 23.062 31.2849 22.2383 28.5352 19.4883C25.7798 16.7327 24.9585 12.799 24.7139 6.32617C24.7082 6.14629 24.5596 6.00012 24.377 6H23.623Z" fill="inherit"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_2983_3574">
+                    <rect width="48" height="48" rx="24" fill="white"/>
+                    </clipPath>
+                    </defs>
+                </svg>
+                    </a>
+        </div>
+
+                <div class="">
+                    <div class="text-12 mb-10 color-dim-blue">iGuides для смартфонов Apple</div>
+                    <a class="i-footer-store" href="https://itunes.apple.com/ru/app/iguides/id467633606?l=ru&ls=1&mt=8&uo=8&at=11l6cR" target="_blank">
+                        <img class="" src="/local/templates/iguides-2022/img/app-store.png" alt="">
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <section class="main-container container-md pt-30">
+            <section class="iguides-topline-banner">
+                <!-- ADV_IG_TOP -->
+                <!--'start_frame_cache_ADV_IG_TOP'--><!-- ID=192 --><!-- NAME=1200 х 250 TOP --><div class="new_2025_banner  new_2025_banner__ADV_IG_TOPLINE"><div id="V_iguides_D_1200x250"></div></div><!--'end_frame_cache_ADV_IG_TOP'-->            </section>
+
+<section class="row">
+    
+<section class="col" itemscope itemtype="http://schema.org/Article">
+<!--'start_frame_cache_btnEdit.default'-->    <!--'end_frame_cache_btnEdit.default'-->        <div class="i-tag-list mb-3 mb-md-4">
+                    <a itemprop="keywords" rel="tag" class="i-tag" href="/search/megafon/">Мегафон</a>
+            </div>
+        <div class="i-content">
+        <h1 itemprop="name">Пользуюсь сервисом МегаСемья от МегаФона. Отличное решение для семейной связи</h1>
+
+                    <div class="d-flex align-items-center mb-3 mb-md-4">
+                                    <div class="mr-2 mr-md-3 flex-shrink-0">
+                        <img
+                            src="/upload/resize_cache/main/e01/40_40_1/bqq2t3xzaw006haeyuvx5k0amh3mrsni.jpg"
+                            class="i-img-40-r i-mob-img-28-r"
+                            alt="Фархад"
+                        >
+                    </div>
+                                <div
+                        class="mr-0 mr-lg-4 text-12 text-sm-16 d-flex flex-wrap"
+                >
+                    <span class="color-black flex-shrink-0" itemprop="author">
+                                                                                    <a href="/personal/profile/210471/" target="_blank">
+                                    Фархад Усманов                                </a>
+                                                                            <span class="color-light-black"> — </span>
+                    </span>
+                    <span class="color-light-black flex-shrink-0">
+                        <time
+                                itemprop="datePublished"
+                                datetime="2024-12-26T12:30:00+0300"
+                        >
+                            26.12.2024,  12:30                        </time>
+                    </span>
+                </div>
+                <div class="ml-auto flex-shrink-0">
+                    <div class="statistics color-light-black comment-count align-items-center">
+                        <span class="statistics__text">
+                            <span class=""></span>
+                            <span id="views_num_detail"></span>
+                        </span>
+                        <a class="color-light-black d-flex" href="#itape">
+                                                    <span class="statistics__text hide-block">
+                                <span class="count_comments"></span>
+                                <span id="comments_num_detail" ></span>
+                            </span>
+                                                </a>
+                    </div>
+                </div>
+            </div>
+                            <div class="d-flex mb-3 mb-md-4 flex-wrap">
+                                            <div class="mr-2 mr-sm-4 mb-2 mb-lg-0">
+                            <span class="i-label-simple">ПАРТНЕРСКИЙ МАТЕРИАЛ</span>
+                        </div>
+                                                        </div>
+                                            <div class="i-content__post-content" itemprop="articleBody">
+                            
+                                    
+                        
+                        <!---detailPart--!>
+ <img itemprop="image" width="930" src="/upload/medialibrary/7db/kuns1foglwvg0y81lspzk7weg7gogwp9.jpg" height="523" title="МегаСемья" alt="МегаСемья"><br>
+ <br>
+ Выбор семейного тарифа или групповых сервисов — не очень простая задача, но это самое логичное решение для современной семьи, где несколько пользователей активно разговаривают по телефону, сидят в социальных сетях или просто любят позалипать в видеоролики. Как я пришёл к такому выводу? Всё просто — протестировал опцию МегаСемья от МегаФона, а что из этого вышло — расскажу далее.<br>
+ <br>
+<h2>Что такое МегаСемья?</h2>
+ <br>
+ <img itemprop="image" width="930" src="/upload/medialibrary/885/s1i3uqiomukkllg9wdh47h9dtq2xxbuk.jpeg" height="523" title="МегаСемья" alt="МегаСемья"><br>
+ &nbsp;<br>
+ Услуга МегаСемья предназначена для тех, кто хочет делиться связью с близкими и знакомыми. Основной номер (организатор) должен быть подключён к тарифу из линейки «МегаФон 3.0» или #БезПереплат. А уже к нему можно подключить до пяти дополнительных номеров членов семьи.<br>
+ <br>
+ Все подключенные номера смогут пользоваться интернет-трафиком, смс и минутами из общего пакета. Всё это происходит без необходимости оплачивать дополнительные абонентские платы или покупать индивидуальные пакеты. Плюсы вы точно будете уверены, что жена и дети не останутся без связи в нужный момент. Организатор управляет распределением пакетов услуг через удобное приложение или веб-версию личного кабинета. Это довольно удобно, поскольку можно контролировать трафик и минуты даже с компьютера.<br><div id="NRent-6720e9c2c5942-2"></div><script>(function(){(window.NRentManager = window.NRentManager || []).push({renderTo:"NRent-6720e9c2c5942-2",position:"horizontalTop",onStub:function(){var s=document.createElement("script");s.async=true;s.src="https://s3.wi-fi.ru/mtt/configs/sites/iguides.js";document.head.appendChild(s);}})}())</script>
+ <br>
+<h2>Как это работает?</h2>
+ <br>
+ <img itemprop="image" width="930" src="/upload/medialibrary/3c3/ujgl5ywnt89t2ne3fj2x0vtsg6ttj86w.jpeg" height="523" title="МегаСемья" alt="МегаСемья"><br>
+ &nbsp;<br>
+ Для начала убедитесь, что ваш тариф подходит для подключения этой опции, если вы хотите создать МегаСемью. Теперь выполните следующие действия:<br>
+<ul>
+	<li>Откройте приложение «МегаФон» или войдите в веб-версию Личного кабинета;&nbsp;</li>
+	<li>
+	Выберите опцию «МегаСемья» и нажмите на кнопку «Создать МегаСемью» внизу страницы;</li>
+	<li>
+	Укажите номер, который вы хотите подключить;</li>
+	<li>
+	Отправьте приглашение членам семьи и дождитесь ответа.</li>
+</ul>
+ <br>
+ <img itemprop="image" width="930" src="/upload/medialibrary/9a4/01e2ohej773dgnu9dsnfxzger7jxq0un.jpeg" height="523" title="МегаСемья" alt="МегаСемья"><br>
+ <br>
+ На принимающей стороне нужно сделать следующее:<br>
+<ul>
+	<li>Откройте приложение «МегаФон» или веб-версию Личного кабинета;</li>
+	<li>
+	Нажмите на оповещение по центру главного экрана;</li>
+	<li>
+	Пролистайте вниз и нажмите кнопку «Принять приглашение».</li>
+</ul>
+ <br>
+<h2>Месяц с МегаСемьёй </h2>
+ <br><div id="NRent-6720e9c2c5942-3"></div><script>(function(){(window.NRentManager = window.NRentManager || []).push({renderTo:"NRent-6720e9c2c5942-3",position:"horizontalMiddle"})}())</script>
+ Я подключил услугу своей жене и родителям. Сначала настроил маме с папой лимиты на интернет и сделал упор на звонки, а для себя и супруги оставил больше трафика. Понятно, что потребности у каждого разные, поэтому трафик расходовался абсолютно рандомным образом. Но самое главное — ничего не сгорало и не висело в воздухе.<br>
+ <br>
+ Плюс я в любой момент мог докидывать пакеты жене или маме, когда у них заканчивался интернет. Мне даже не нужно было заморачиваться с пополнением баланса номера телефона, подключением нужного пакета из списка — всё буквально решается в один тап. В приложении всё максимально просто, а настройка занимает всего пару минут — интерфейс понятный и приятный.<br>
+ <br>
+ Во время использования заметил, что контроль за расходом действительно помогает оптимизировать траты. Например, раньше на тарифы суммарно уходило больше денег, а теперь расходы на связь уменьшились почти в три раза. Единственная сложность — распределить ресурсы так, чтобы всем всегда хватало, но это уже мои личные заморочки.<br>
+ <br>
+<h2>Плюсы и минусы</h2>
+ <br>
+ Теперь самая важная часть. Давайте взвесим все «за» и «против».<br>
+ <br>
+ <b>Плюсы</b><br>
+<ul>
+	<li>Экономия — один общий пакет связи выходит дешевле, чем покупка отдельных тарифов для каждого члена семьи;</li>
+	<li>
+	Гибкость — можно распределять ресурсы в нужных пропорциях. Например, мне мобильный интернет особо не нужен, так как я в 99% пользуюсь Wi-Fi;</li>
+	<li>
+	Простота управления — всё настраивается через приложение, и вы видите, кто и сколько тратит;</li>
+	<li>
+	Дополнительные услуги — к основному тарифу можно подключать полезные опции, например, безлимит на соцсети или стриминговые платформы;</li>
+</ul>
+ <br><div id="NRent-6720e9c2c5942-4"></div><script>(function(){(window.NRentManager = window.NRentManager || []).push({renderTo:"NRent-6720e9c2c5942-4",position:"horizontalBottom"})}())</script>
+ <b>Минусы</b><br>
+<ul>
+	<li>Зависимость от организатора — все дополнительные номера зависят от основного, в случае блокировки или отключения могут возникнуть проблемы;</li>
+	<li>
+	Ограничения по тарифам — работает только с определёнными тарифами, что может быть не совсем удобно пользователям с архивными тарифами.</li>
+</ul>
+ <br>
+<h2>Заключение</h2>
+ <br>
+ <img itemprop="image" width="930" src="/upload/medialibrary/a09/pq4x3gyru5bu1h3xubz32u8r29782qbl.jpeg" height="523" title="МегаСемья" alt="МегаСемья"><br>
+ <br>
+ В целом МегаСемья — отличное решение для тех, кто хочет объединить связь для всей семьи или группы друзей. Услуга позволяет сэкономить, упростить управление тарифами и сделать связь удобной для всех. Главное — правильно распределить ресурсы и учитывать потребности каждого участника. Если вы ищете способ сократить расходы на связь и при этом не потерять в качестве услуг, этот вариант, несомненно, стоит рассмотреть.<br>
+ <br>
+ <i><sub><span style="color: #acacac;">Реклама.</span></sub></i>
+<div>
+ <i><sub><span style="color: #acacac;">ПАО «МегаФон»,</span></sub></i><i><sub><span style="color: #acacac;"> </span></sub></i><br>
+ <i><sub><span style="color: #acacac;">
+	ИНН 7812014560 </span></sub></i><br>
+ <i><sub><span style="color: #acacac;">
+	erid: F7NfYUJCUneP5VRnpyvg</span></sub></i><i><sub><span style="color: #acacac;">&nbsp;</span></sub></i>
+</div>
+                                    
+                    </div>
+    </div>
+
+    <div class="mt-4 mb-4 mt-sm-40 mb-sm-30">
+        <!--'start_frame_cache_article_detail'--><!-- ID= --><!-- NAME= --><!--'end_frame_cache_article_detail'-->    </div>
+
+    <div class="i-v-list-hr mb-0"></div>
+    <div class="i-v-list-hr i-v-list-hr__small">
+        <div class="d-flex mb-0 align-items-center article-bottom-block">
+            <div class="">
+
+                <link href="/bitrix/js/ui/design-tokens/dist/ui.design-tokens.min.css?176946089223463" type="text/css" rel="stylesheet" />
+<script>BX.Runtime.registerExtension({"name":"ui.design-tokens","namespace":"window","loaded":true});</script><link href="/bitrix/js/ui/fonts/opensans/ui.font.opensans.min.css?17694588152320" type="text/css" rel="stylesheet" />
+<script>BX.Runtime.registerExtension({"name":"ui.fonts.opensans","namespace":"window","loaded":true});</script><link href="/bitrix/js/main/popup/dist/main.popup.bundle.min.css?176946274428056" type="text/css" rel="stylesheet" />
+<script src="/bitrix/js/main/popup/dist/main.popup.bundle.min.js?178067177967330"></script>
+<script>BX.Runtime.registerExtension({"name":"main.popup","namespace":"BX.Main","loaded":true});</script><script>BX.Runtime.registerExtension({"name":"popup","namespace":"window","loaded":true});</script><!--'start_frame_cache_oPzmHO'--><span 
+	id="rating-vote-IBLOCK_ELEMENT-530777-1794405136"
+	class="rating mr-2 rating-vote rating-vote-disabled"
+	title="Только авторизованные пользователи могут участвовать в голосовании"
+>
+	<a
+		id="rating-vote-IBLOCK_ELEMENT-530777-1794405136-minus"
+		class="i-btn-minus mr-2 rating-vote-minus "
+		title=""
+		data-authorized="0"
+	>
+		<svg><use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#minus"></use></svg>
+	</a>
+	<span
+		id="rating-vote-IBLOCK_ELEMENT-530777-1794405136-result"
+		class="text-14 px-1 rating-vote-result rating-vote-result-minus"
+		title="Голосов - 7 (из них: 2 за и 5 против)"
+	>
+		-3	</span>
+	<a
+		id="rating-vote-IBLOCK_ELEMENT-530777-1794405136-plus"
+		class="i-btn-plus ml-2 rating-vote-plus "
+		title=""
+		data-authorized="0"
+	>
+		<svg><use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#plus"></use></svg>
+	</a>
+</span>
+
+<script type="text/javascript">
+BX.ready(function(){
+	if (!window.Rating && top.Rating)
+		Rating = top.Rating;
+	Rating.Set(
+		'IBLOCK_ELEMENT-530777-1794405136',
+		'IBLOCK_ELEMENT',
+		'530777',
+		'N',
+		'0',
+		{'PLUS' : 'Нравится', 'MINUS' : 'Не нравится', 'CANCEL' : 'Забрать свой голос'},
+		'standart',
+		'/personal/profile/#USER_ID#/'
+	);
+});
+</script>
+<!--'end_frame_cache_oPzmHO'-->
+            </div>
+            <div class="flex-1 article-share-buttons">
+                <div class="i-h-list2 m-0 text-right">
+    <div
+        class="ya-share2 ya-share2-custom"
+        data-shape="round"
+        data-url="https://www.iguides.ru/main/reviews/megasemya_ot_megafon/"
+        data-services="vkontakte,telegram,odnoklassniki">
+    </div>
+</div>
+            </div>
+                    </div>
+    </div>
+    <div class="i-v-list-hr mb-0"></div>
+            <div class="row text-10 text-sm-16 flex-column flex-md-row mb-0">
+    <div class="col-md-7 mb-10 mb-md-20">
+	 iGuides в Дзене —&nbsp; <a href="https://dzen.ru/iguides" target="_blank" rel="nofollow">dzen.ru/iguides</a>
+</div>
+<div class="col-md-5 mb-10 mb-md-20">
+	<div class="ml-0 ml-lg-40">
+		 iGuides&nbsp;в&nbsp;Telegram&nbsp;—&nbsp;<a href="https://t.me/iguides" target="_blank" rel="nofollow">t.me/iguides</a>
+	</div>
+</div>
+<div class="col-md-7 mb-10 mb-md-20">
+	 iGuides в VK —&nbsp; <a href="https://vk.com/iguides" target="_blank" rel="nofollow">vk.com/iguides</a>
+</div>
+<div class="col-md-5 mb-10 mb-md-20">
+	<div class="ml-0 ml-lg-40">
+		 iGuides&nbsp;в&nbsp;Max.ru&nbsp;—&nbsp;<a href="https://max.ru/iguides" target="_blank" rel="nofollow">Max/iguides</a>
+	</div> 
+</div></div>
+        <div class="row text-10 text-sm-16 flex-column flex-md-row">
+                        <div class="col-md-7 order-md-1 related-links">
+            <div class="pb-0 pb-md-1">Cсылки по теме:</div>
+                                    <div class="mt-2">
+                <a href="https://www.iguides.ru/main/other/kak_poluchit_esim_v_rossii_za_paru_minut_ne_vykhodya_iz_doma_na_primere_megafona/?erid=F7NfYUJCUneP5VRjuMja" class="color-dim-black">Как получить eSIM в России за пару минут не выходя из дома на примере Мегафона</a>
+            </div>
+                        <div class="mt-2">
+                <a href="https://www.iguides.ru/main/other/megafon_zapuskaet_prodazhi_planshetov_fontel/" class="color-dim-black">МегаФон запускает продажи планшетов Fontel</a>
+            </div>
+                        <div class="mt-2">
+                <a href="https://www.iguides.ru/main/other/samym_aktivnym_dnem_chernoy_pyatnitsy_stal_chetverg/" class="color-dim-black">Самым активным днем «Черной пятницы» стал четверг</a>
+            </div>
+                    </div>
+            </div>
+
+</section>
+
+    <section class="col-xl-right mt-30 mt-xl-0">
+
+        <!--'start_frame_cache_ADV_IG_240_RIGHT_ASIDE'--><div class="i-box mb-60 d-none d-xl-block" data-hashed="1794404460">
+    <!-- ID=189 --><!-- NAME=240x400 справа desktop   --><div class="new_2025_banner  new_2025_banner__ADV_IG_240_RIGHT_ASIDE"><div id="V_iguides_D_240x400-1"></div></div>    <div class="i-box__bottom-note"><a href="/advertising/" class="color-light-black">Купить рекламу</a></div>
+</div>
+<!--'end_frame_cache_ADV_IG_240_RIGHT_ASIDE'-->
+
+            <div class="listing-mini mb-60 d-none d-xl-block">
+        <h2 class="listing-mini__heading">Рекомендации</h2>
+        <ul class="listing-mini__content">
+                            <li class="listing-mini__item" title="Чистота на автопилоте: обзор вертикального пылесоса Dreame Z40 CE Station с функцией самоочистки">
+                    <a class="listing-mini__media" href="/main/reviews/chistota_na_avtopilote_obzor_vertikalnogo_pylesosa_dreame_z40_ce_station_s_funktsiey_samoochistki/">
+                        <img class="i-img-48" src="/upload/resize_cache/iblock/755/48_48_2/uktmri112krb4bxq1205sbgjmxxk3gnf.jpg" alt="">
+                    </a>
+                    <a class="color-black text-14 line-height-125" href="/main/reviews/chistota_na_avtopilote_obzor_vertikalnogo_pylesosa_dreame_z40_ce_station_s_funktsiey_samoochistki/">
+                        <strong>Чистота на автопилоте: обзор вертикального пылесоса Dreame Z40 CE Station с функцией самоочистки</strong>
+                    </a>
+                </li>
+                            <li class="listing-mini__item" title="Обзор Tecno Pova 8 5G: батарея на 8000 мАч и полезный ИИ на каждый день">
+                    <a class="listing-mini__media" href="/main/reviews/tecno_pova_8_5g/">
+                        <img class="i-img-48" src="/upload/resize_cache/iblock/c4f/48_48_2/tz3pwn335jqdiyt45a17wgjtljidci9e.jpeg" alt="">
+                    </a>
+                    <a class="color-black text-14 line-height-125" href="/main/reviews/tecno_pova_8_5g/">
+                        <strong>Обзор Tecno Pova 8 5G: батарея на 8000 мАч и полезный ИИ на каждый день</strong>
+                    </a>
+                </li>
+                            <li class="listing-mini__item" title="Эволюция в спорте: обзор смарт-часов HUAWEI WATCH GT 7 Pro">
+                    <a class="listing-mini__media" href="/main/gadgets/evolyutsiya_v_sporte_obzor_smart_chasov_huawei_watch_gt_7_pro/">
+                        <img class="i-img-48" src="/upload/resize_cache/iblock/d6d/48_48_2/yddrzj9wjq559zxj25w6uk3j6a4yapd0.jpg" alt="">
+                    </a>
+                    <a class="color-black text-14 line-height-125" href="/main/gadgets/evolyutsiya_v_sporte_obzor_smart_chasov_huawei_watch_gt_7_pro/">
+                        <strong>Эволюция в спорте: обзор смарт-часов HUAWEI WATCH GT 7 Pro</strong>
+                    </a>
+                </li>
+                            <li class="listing-mini__item" title="Обзор HUAWEI MatePad Air: большой OLED-экран, который действительно хочется взять с собой">
+                    <a class="listing-mini__media" href="/main/reviews/huawei_matepad_air/">
+                        <img class="i-img-48" src="/upload/resize_cache/iblock/33f/48_48_2/c5zfvdzgt7r521y2np8eiy35lu43gt3o.jpeg" alt="">
+                    </a>
+                    <a class="color-black text-14 line-height-125" href="/main/reviews/huawei_matepad_air/">
+                        <strong>Обзор HUAWEI MatePad Air: большой OLED-экран, который действительно хочется взять с собой</strong>
+                    </a>
+                </li>
+                    </ul>
+    </div>
+    <div class="mt-0 mt-sm-30  mb-30 d-xl-none">
+        <h2 class="mb-3">Рекомендации</h2>
+        <div class="listing-slider">
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                                        <div class="swiper-slide listing-slider__item">
+                        <div class="listing-slider__slide">
+                        <a href="/main/reviews/chistota_na_avtopilote_obzor_vertikalnogo_pylesosa_dreame_z40_ce_station_s_funktsiey_samoochistki/"><img src="/upload/resize_cache/iblock/755/284_160_2/uktmri112krb4bxq1205sbgjmxxk3gnf.jpg" alt=""></a>
+                        </div>
+                        <div class="listing-slider__label">
+                            <a href="/main/reviews/chistota_na_avtopilote_obzor_vertikalnogo_pylesosa_dreame_z40_ce_station_s_funktsiey_samoochistki/" class="color-black">
+                                <strong>Чистота на автопилоте: обзор вертикального пылесоса Dreame Z40 CE Station с функцией самоочистки</strong>
+                            </a>
+                        </div>
+                    </div>
+                                        <div class="swiper-slide listing-slider__item">
+                        <div class="listing-slider__slide">
+                        <a href="/main/reviews/tecno_pova_8_5g/"><img src="/upload/resize_cache/iblock/c4f/284_160_2/tz3pwn335jqdiyt45a17wgjtljidci9e.jpeg" alt=""></a>
+                        </div>
+                        <div class="listing-slider__label">
+                            <a href="/main/reviews/tecno_pova_8_5g/" class="color-black">
+                                <strong>Обзор Tecno Pova 8 5G: батарея на 8000 мАч и полезный ИИ на каждый день</strong>
+                            </a>
+                        </div>
+                    </div>
+                                        <div class="swiper-slide listing-slider__item">
+                        <div class="listing-slider__slide">
+                        <a href="/main/gadgets/evolyutsiya_v_sporte_obzor_smart_chasov_huawei_watch_gt_7_pro/"><img src="/upload/resize_cache/iblock/d6d/284_160_2/yddrzj9wjq559zxj25w6uk3j6a4yapd0.jpg" alt=""></a>
+                        </div>
+                        <div class="listing-slider__label">
+                            <a href="/main/gadgets/evolyutsiya_v_sporte_obzor_smart_chasov_huawei_watch_gt_7_pro/" class="color-black">
+                                <strong>Эволюция в спорте: обзор смарт-часов HUAWEI WATCH GT 7 Pro</strong>
+                            </a>
+                        </div>
+                    </div>
+                                        <div class="swiper-slide listing-slider__item">
+                        <div class="listing-slider__slide">
+                        <a href="/main/reviews/huawei_matepad_air/"><img src="/upload/resize_cache/iblock/33f/284_160_2/c5zfvdzgt7r521y2np8eiy35lu43gt3o.jpeg" alt=""></a>
+                        </div>
+                        <div class="listing-slider__label">
+                            <a href="/main/reviews/huawei_matepad_air/" class="color-black">
+                                <strong>Обзор HUAWEI MatePad Air: большой OLED-экран, который действительно хочется взять с собой</strong>
+                            </a>
+                        </div>
+                    </div>
+                                    </div>
+            </div>
+        </div>
+    </div>
+
+        <script>if (window.location.hash != '' && window.location.hash != '#') top.BX.ajax.history.checkRedirectStart('bxajaxid', '28df6892ddd9024801fc11ccbec8ceee')</script><div id="comp_28df6892ddd9024801fc11ccbec8ceee"><div id="sender-subscribe">
+<!--'start_frame_cache_sender-subscribebox'-->    
+    <script>
+        BX.ready(function()
+        {
+            BX.bind(BX("bx_subscribe_btn_sljzMT"), 'click', function() {
+                setTimeout(mailSender, 250);
+                return false;
+            });
+        });
+
+        function mailSender()
+        {
+            setTimeout(function() {
+                var btn = BX("bx_subscribe_btn_sljzMT");
+                if(btn)
+                {
+                    var btn_span = btn.querySelector("span");
+                    var btn_subscribe_width = btn_span.style.width;
+                    BX.addClass(btn, "send");
+                    btn_span.outterHTML = "<span><i class='fa fa-check'></i> ГОТОВО</span>";
+                    if(btn_subscribe_width)
+                        btn.querySelector("span").style["min-width"] = btn_subscribe_width+"px";
+                }
+            }, 400);
+        }
+    </script>
+    <div>
+        <div class="i-box i-box__white i-box__vertical box-subscribe-social d-none d-xl-block">
+            <h4>Будь в курсе последних новостей из мира гаджетов и технологий</h4>
+                            <div class="subscription-agreement">
+                    <div class="mb-16 mb-sm-20 custom-control custom-checkbox">
+                        <input 
+                            class="custom-control-input subscription-agreement__checkbox" 
+                            name="UF_AGREEMENT_MAILING" 
+                            id="UF_AGREEMENT_MAILING_sljzMT" 
+                            type="checkbox" 
+                                                    />
+                        <label class="custom-control-label color-dim-black" for="UF_AGREEMENT_MAILING_sljzMT" style="font-size: 12px;">
+                            <span>
+                                <a href="/policy/subscription_agreement.php">Даю согласие</a> на получение информационной и рекламной рассылки
+                            </span>
+                        </label>
+                    </div>
+
+                    
+<form role="form"
+                            action="/main/reviews/megasemya_ot_megafon/"
+                            method="post" onsubmit="BX('bx_subscribe_btn_sljzMT').disabled=true;"
+                            class="subscription-agreement__wrap"><input type="hidden" name="bxajaxid" id="bxajaxid_28df6892ddd9024801fc11ccbec8ceee_8BACKi" value="28df6892ddd9024801fc11ccbec8ceee" /><input type="hidden" name="AJAX_CALL" value="Y" /><script>
+function _processform_8BACKi(){
+	if (BX('bxajaxid_28df6892ddd9024801fc11ccbec8ceee_8BACKi'))
+	{
+		var obForm = BX('bxajaxid_28df6892ddd9024801fc11ccbec8ceee_8BACKi').form;
+		BX.bind(obForm, 'submit', function() {BX.ajax.submitComponentForm(this, 'comp_28df6892ddd9024801fc11ccbec8ceee', true)});
+	}
+	BX.removeCustomEvent('onAjaxSuccess', _processform_8BACKi);
+}
+if (BX('bxajaxid_28df6892ddd9024801fc11ccbec8ceee_8BACKi'))
+	_processform_8BACKi();
+else
+	BX.addCustomEvent('onAjaxSuccess', _processform_8BACKi);
+</script>
+                        <input type="hidden" name="sessid" id="sessid" value="64cb39ba4e139983d3993564aad19073" />                        <div class="input-group-subscribe">
+                            <input type="hidden" name="sender_subscription" value="add">
+                            <input type="email"
+                                   class="form-control no-bg"
+                                   name="SENDER_SUBSCRIBE_EMAIL"
+                                   value=""
+                                   title="Введите ваш e-mail"
+                                   placeholder="Введите ваш e-mail"
+                            >
+                                                                                                <input type="hidden" name="SENDER_SUBSCRIBE_RUB_ID[]" value="20" checked>
+                                                                                        <button type="submit" class="i-btn-enter" id="bx_subscribe_btn_sljzMT" disabled>
+                                <svg>
+                                    <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#arrow-right"></use>
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                        
+<button type="button" class="i-btn outline request-notification-button ">
+    Включить уведомления
+</button>            <h4>Мы в соцсетях</h4>
+            
+    <div class="">
+
+            <a target="_blank" href="https://vk.com/iguides" class="i-btn-social-light" rel="nofollow">
+                            <svg>
+                    <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#social-net-vk"></use>
+                </svg>
+                    </a>
+            <a target="_blank" href="https://max.ru/iguides" class="i-btn-social-light" rel="nofollow">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_2983_3577)">
+                    <path d="M24 0C37.2548 0 48 10.7452 48 24C48 37.2548 37.2548 48 24 48C10.7452 48 0 37.2548 0 24C0 10.7452 10.7452 0 24 0ZM24.2598 8C15.4423 8 8.00006 14.8529 8 23.9619C8 27.7758 8.70339 30.4079 9.32227 32.7715C9.84185 34.69 10.2998 36.4477 10.2998 38.5273C10.5214 41.2977 15.6023 39.6784 17.207 37.6064C19.7438 39.4482 21.2034 39.9082 24.3438 39.9082C33.0247 39.8617 40.0294 32.7656 40 24.0469C40 15.191 33.0849 8.00001 24.2598 8ZM24.4736 15.874V15.8809C28.9237 16.1369 32.3497 19.9261 32.1758 24.3994C31.8771 28.8631 28.0752 32.2655 23.626 32.0508C22.233 31.9386 20.8939 31.4589 19.7441 30.6611C19.049 31.3593 17.9336 32.2651 17.4902 32.1582C16.5657 31.9126 15.4805 27.1928 16.0918 23.3174C16.833 18.6363 20.1795 15.6515 24.4736 15.874Z" fill="inherit"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_2983_3577">
+                    <rect width="48" height="48" rx="24" fill="white"/>
+                    </clipPath>
+                    </defs>
+                </svg>
+                    </a>
+            <a target="_blank" href="https://t.me/iguides" class="i-btn-social-light" rel="nofollow">
+                            <svg>
+                    <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#social-net-telegram"></use>
+                </svg>
+                    </a>
+            <a target="_blank" href="https://dzen.ru/iguides" class="i-btn-social-light" rel="nofollow">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_2983_3574)">
+                    <path d="M24 0C37.2548 0 48 10.7452 48 24C48 37.2548 37.2548 48 24 48C10.7452 48 0 37.2548 0 24C0 10.7452 10.7452 0 24 0ZM23.623 6C23.4432 6.00008 23.2946 6.14627 23.2861 6.32617C23.0415 12.7962 22.2202 16.7327 19.4648 19.4883C16.7123 22.2411 12.7844 23.062 6.32617 23.3066C6.14623 23.3123 6 23.4618 6 23.6445V24.3975C6 24.5774 6.14623 24.7269 6.32617 24.7354C12.7844 24.98 16.7151 25.8037 19.4648 28.5537C22.2146 31.3037 23.0358 35.2265 23.2832 41.6738C23.2889 41.8537 23.4375 41.9999 23.6201 42H24.377C24.5568 41.9999 24.7054 41.8537 24.7139 41.6738C24.9613 35.2265 25.7825 31.3037 28.5322 28.5537C31.2848 25.8009 35.2126 24.98 41.6709 24.7354C41.8509 24.7297 41.9971 24.5802 41.9971 24.3975V23.6445H42C42 23.4646 41.8538 23.3151 41.6738 23.3066C35.2155 23.062 31.2849 22.2383 28.5352 19.4883C25.7798 16.7327 24.9585 12.799 24.7139 6.32617C24.7082 6.14629 24.5596 6.00012 24.377 6H23.623Z" fill="inherit"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_2983_3574">
+                    <rect width="48" height="48" rx="24" fill="white"/>
+                    </clipPath>
+                    </defs>
+                </svg>
+                    </a>
+        </div>
+
+        </div>
+    </div>
+<!--'end_frame_cache_sender-subscribebox'--></div>
+</div><script>if (top.BX.ajax.history.bHashCollision) top.BX.ajax.history.checkRedirectFinish('bxajaxid', '28df6892ddd9024801fc11ccbec8ceee');</script><script>top.BX.ready(BX.defer(function() {window.AJAX_PAGE_STATE = new top.BX.ajax.component('comp_28df6892ddd9024801fc11ccbec8ceee'); top.BX.ajax.history.init(window.AJAX_PAGE_STATE);}))</script>    </section>
+</section>
+
+<section class="row mb-40 mt-30 mt-md-60">
+    <section class="col-12">
+
+        <script>if (window.location.hash != '' && window.location.hash != '#') top.BX.ajax.history.checkRedirectStart('bxajaxid', '31192c1dc1f144bfbd6247755389ae2a')</script><div id="comp_31192c1dc1f144bfbd6247755389ae2a"><div class="footer-mail"  id="sender-subscribe">
+<!--'start_frame_cache_sender-subscribe.default'-->    
+    <script>
+        BX.ready(function()
+        {
+            BX.bind(BX("bx_subscribe_btn_footer_i0tFNu"), 'click', function() {
+                setTimeout(mailSender, 250);
+                return false;
+            });
+        });
+
+        function mailSender()
+        {
+            setTimeout(function() {
+                var btn = BX("bx_subscribe_btn_footer_i0tFNu");
+                if(btn)
+                {
+                    var btn_span = btn.querySelector("span");
+                    var btn_subscribe_width = btn_span.style.width;
+                    BX.addClass(btn, "send");
+                    btn_span.outterHTML = "<span><i class='fa fa-check'></i> ГОТОВО</span>";
+                    if(btn_subscribe_width)
+                        btn.querySelector("span").style["min-width"] = btn_subscribe_width+"px";
+                }
+            }, 400);
+        }
+    </script>
+            <div class="subscription-agreement">
+            <div class="box-subscrube-horizontal">
+                <div class="">
+                    <h2 class="color-white">Будь в курсе последних новостей из мира гаджетов и технологий</h2>
+                    <div class="mt-20 mb-20 mb-xl-0 custom-control custom-checkbox">
+                        <input class="custom-control-input subscription-agreement__checkbox color-white" name="UF_AGREEMENT_MAILING" id="UF_AGREEMENT_MAILING_i0tFNu" type="checkbox" >
+                        <label class="custom-control-label custom-control-label-white" for="UF_AGREEMENT_MAILING_i0tFNu">
+                            <span>
+                                <a href="/policy/subscription_agreement.php">Даю согласие</a> на получение информационной и рекламной рассылки
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                
+<form role="form"
+                        action="/main/reviews/megasemya_ot_megafon/"
+                        method="post" onsubmit="BX('bx_subscribe_btn_footer_i0tFNu').disabled=true;"
+                        class="subscription-agreement__wrap"><input type="hidden" name="bxajaxid" id="bxajaxid_31192c1dc1f144bfbd6247755389ae2a_Ar8Szp" value="31192c1dc1f144bfbd6247755389ae2a" /><input type="hidden" name="AJAX_CALL" value="Y" /><script>
+function _processform_Ar8Szp(){
+	if (BX('bxajaxid_31192c1dc1f144bfbd6247755389ae2a_Ar8Szp'))
+	{
+		var obForm = BX('bxajaxid_31192c1dc1f144bfbd6247755389ae2a_Ar8Szp').form;
+		BX.bind(obForm, 'submit', function() {BX.ajax.submitComponentForm(this, 'comp_31192c1dc1f144bfbd6247755389ae2a', true)});
+	}
+	BX.removeCustomEvent('onAjaxSuccess', _processform_Ar8Szp);
+}
+if (BX('bxajaxid_31192c1dc1f144bfbd6247755389ae2a_Ar8Szp'))
+	_processform_Ar8Szp();
+else
+	BX.addCustomEvent('onAjaxSuccess', _processform_Ar8Szp);
+</script>
+                    <input type="hidden" name="sessid" id="sessid_2" value="64cb39ba4e139983d3993564aad19073" />                    <div class="input-group-subscribe input-group-subscribe--white">
+                        <input type="hidden" name="sender_subscription" value="add">
+        
+                        <input type="email"
+                            class="form-control no-bg"
+                            name="SENDER_SUBSCRIBE_EMAIL"
+                            value=""
+                            title="Введите ваш e-mail"
+                            placeholder="Введите ваш e-mail">
+        
+                                                                                    <input type="hidden" name="SENDER_SUBSCRIBE_RUB_ID[]"  value="20" checked >
+                                                    
+                        <button type="submit" class="i-btn-enter"  id="bx_subscribe_btn_footer_i0tFNu" disabled><svg>
+                                <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#arrow-right"></use>
+                            </svg></button>
+                    </div>
+                </form>
+            </div>    
+        </div>
+        
+<!--'end_frame_cache_sender-subscribe.default'--></div>
+</div><script>if (top.BX.ajax.history.bHashCollision) top.BX.ajax.history.checkRedirectFinish('bxajaxid', '31192c1dc1f144bfbd6247755389ae2a');</script><script>top.BX.ready(BX.defer(function() {window.AJAX_PAGE_STATE = new top.BX.ajax.component('comp_31192c1dc1f144bfbd6247755389ae2a'); top.BX.ajax.history.init(window.AJAX_PAGE_STATE);}))</script>    </section>
+</section>
+
+<section class="row">
+    <section class="col">
+
+        <!--'start_frame_cache_jxX10R'--><section class="col">
+  <div class="burlakastudio_realcommenter "
+  data-talk-id="1"
+  data-talk-url="/main/reviews/megasemya_ot_megafon/"
+  data-talk-hash="9548f"
+  id="itape"
+  >
+    
+                    <h2 class="mb-0 text-20 text-sm-24" data-comments-count>
+                        Комментарии (<span class="burlakastudio_realcommenter__comments-count"><ins>7</ins></span>)
+                    </h2>
+                          <div
+        class=""
+                >
+          
+                    <div class="add-comment brn_add " data-new-comment="top" >
+                        <div class="btn-toolbar mt-12 mt-sm-40 mb-sm-40-top  brna_form _ambushed" data-zero="top">
+                            <div class="btn-group">
+                                <button type="button" class="i-btn outline i-mob-btn-h48" data-authorized="0">
+                                    Добавить комментарий
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="br_node"></div>
+      </div>
+      <div class="br_tree" id="itape_1">
+    
+                <div class="br_comment i-v-list-hr "     id="answercontainer_654123">
+                    <article class="comment" >
+                        
+                <div class="comment__media">
+                    <i class="i-img-40-r i-mobx-img-28-r anonym_avatar_v2"></i>
+                    <div class="comment__score -positive text-14">+1445</div>
+                </div>
+                <div class="comment__content">
+                    <div class="comment__name"  >
+                        <a href="/personal/profile/45317/" class="author"><span >Grealex</span></a> 
+                    </div>
+                    
+                    <div class="comment__text color-dim-black" >По 300 руб. в месяц за человека. Сейчас наверное минимальная стоимость тарифа 300 руб и плюс держатель мегасемьи платит. Итого 600 руб. с абонента. Гениальный ход мегафона. Пишу не просто так, у самого по 5 тыс. минут в месяц в остатке, хотел своих подключить, но почитал условия и передумал.</div>
+                
+                    
+                    <div class="comment__stat brc_header">
+                        <span class="comment_date" >26 декабря 2024 в 22:35</span>
+                        
+                    <aside class="rating">
+                        
+            <span class="brc_voteblock " id="ivt_654123">
+                <button class="i-btn-minus like-link br_iva_btn _down" title="Не согласен" data-authorized="0" >
+                    <svg>
+                        <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#minus"></use>
+                    </svg>
+                </button>
+                <span class="color-dim-black " title="0">0</span>
+                <button class="i-btn-plus like-link br_iva_btn _up" title="Поддерживаю" data-authorized="0" >
+                    <svg>
+                        <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#plus"></use>
+                    </svg>
+                </button>
+            </span>
+                        
+                    </aside>
+                
+                        
+            <div class="brn_add">
+                <span data-authorized="0" class="like-link">Ответить<span>
+            </div>
+        
+                        <a rel="nofollow" class="comment__anchor" href="/main/reviews/megasemya_ot_megafon/?itape=654123">#</a>
+                    </div>
+                </div>
+            
+                    </article>
+                    <div class="br_node comment--level2 ">
+                        
+                <div class="br_comment  "     id="answercontainer_654148">
+                    <article class="comment" >
+                        
+                <div class="comment__media">
+                    
+                <a href="/personal/profile/190263/">
+                    <img class="i-img-40-r i-mobx-img-28-r" src="/upload/resize_cache/main/263/22_22_1/2639224b60c28f4e5eec759722ff1705.jpg" alt="Дмитрий Могучев">
+                </a>
+            
+                    <div class="comment__score -negative text-14">&ndash;22</div>
+                </div>
+                <div class="comment__content">
+                    <div class="comment__name"  >
+                        <a href="/personal/profile/190263/" class="author"><span >Дмитрий Могучев</span></a><a rel="nofollow" class="comment__replay" href="/main/reviews/megasemya_ot_megafon/?itape=654123" data-reply-to="654123">
+                                        <svg class="color-light-black icon-16 mr-2">
+                                            <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#comment-replay"></use>
+                                        </svg>
+                                        Grealex
+                                    </a> 
+                    </div>
+                    
+                    <div class="comment__text color-dim-black" >&quot;Сейчас<br>наверное минимальная стоимость тарифа<br>300 руб&quot; очень сильно ошибаешься. Я имею тариф за 270 с безлимитным интернетом, но есть люди которые сильнее старались и получили тарифы и за 120 за белимитный интернет.</div>
+                
+                    
+                    <div class="comment__stat brc_header">
+                        <span class="comment_date" >27 декабря 2024 в 09:14</span>
+                        
+                    <aside class="rating">
+                        
+            <span class="brc_voteblock " id="ivt_654148">
+                <button class="i-btn-minus like-link br_iva_btn _down" title="Не согласен" data-authorized="0" >
+                    <svg>
+                        <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#minus"></use>
+                    </svg>
+                </button>
+                <span class="color-dim-black " title="0">0</span>
+                <button class="i-btn-plus like-link br_iva_btn _up" title="Поддерживаю" data-authorized="0" >
+                    <svg>
+                        <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#plus"></use>
+                    </svg>
+                </button>
+            </span>
+                        
+                    </aside>
+                
+                        
+            <div class="brn_add">
+                <span data-authorized="0" class="like-link">Ответить<span>
+            </div>
+        
+                        <a rel="nofollow" class="comment__anchor" href="/main/reviews/megasemya_ot_megafon/?itape=654148">#</a>
+                    </div>
+                </div>
+            
+                    </article>
+                    <div class="br_node comment--level2 ">
+                        
+                <div class="br_comment  "     id="answercontainer_654185">
+                    <article class="comment" >
+                        
+                <div class="comment__media">
+                    <i class="i-img-40-r i-mobx-img-28-r anonym_avatar_v2"></i>
+                    <div class="comment__score -positive text-14">+1445</div>
+                </div>
+                <div class="comment__content">
+                    <div class="comment__name"  >
+                        <a href="/personal/profile/45317/" class="author"><span >Grealex</span></a><a rel="nofollow" class="comment__replay" href="/main/reviews/megasemya_ot_megafon/?itape=654148" data-reply-to="654148">
+                                        <svg class="color-light-black icon-16 mr-2">
+                                            <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#comment-replay"></use>
+                                        </svg>
+                                        Дмитрий Могучев
+                                    </a> 
+                    </div>
+                    
+                    <div class="comment__text color-dim-black" >В мегафоне безлимит убрали. У меня тариф архивный, был безлимитный инет, 5000 мин и безлимитные смс. Месяца 2 назад пришло уведомление, что безлимита нет, а есть 50 гб. Предложили доплату в 60 руб. в мес. за безлимит. Теперь списываются деньги за тариф и отдельно 60 руб. Тоже самое у всей семьи. У всех разные тарифы Мегафон и был безлимитный инет. Поэтому уверенно и говорю, что в мегафоне безлимита нет.</div>
+                
+                    
+                    <div class="comment__stat brc_header">
+                        <span class="comment_date" >27 декабря 2024 в 21:35</span>
+                        
+                    <aside class="rating">
+                        
+            <span class="brc_voteblock " id="ivt_654185">
+                <button class="i-btn-minus like-link br_iva_btn _down" title="Не согласен" data-authorized="0" >
+                    <svg>
+                        <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#minus"></use>
+                    </svg>
+                </button>
+                <span class="color-dim-black " title="0">0</span>
+                <button class="i-btn-plus like-link br_iva_btn _up" title="Поддерживаю" data-authorized="0" >
+                    <svg>
+                        <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#plus"></use>
+                    </svg>
+                </button>
+            </span>
+                        
+                    </aside>
+                
+                        
+            <div class="brn_add">
+                <span data-authorized="0" class="like-link">Ответить<span>
+            </div>
+        
+                        <a rel="nofollow" class="comment__anchor" href="/main/reviews/megasemya_ot_megafon/?itape=654185">#</a>
+                    </div>
+                </div>
+            
+                    </article>
+                    <div class="br_node comment--level2 ">
+                        
+                <div class="br_comment  "     id="answercontainer_654186">
+                    <article class="comment" >
+                        
+                <div class="comment__media">
+                    
+                <a href="/personal/profile/190263/">
+                    <img class="i-img-40-r i-mobx-img-28-r" src="/upload/resize_cache/main/263/22_22_1/2639224b60c28f4e5eec759722ff1705.jpg" alt="Дмитрий Могучев">
+                </a>
+            
+                    <div class="comment__score -negative text-14">&ndash;22</div>
+                </div>
+                <div class="comment__content">
+                    <div class="comment__name"  >
+                        <a href="/personal/profile/190263/" class="author"><span >Дмитрий Могучев</span></a><a rel="nofollow" class="comment__replay" href="/main/reviews/megasemya_ot_megafon/?itape=654185" data-reply-to="654185">
+                                        <svg class="color-light-black icon-16 mr-2">
+                                            <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#comment-replay"></use>
+                                        </svg>
+                                        Grealex
+                                    </a> 
+                    </div>
+                    
+                    <div class="comment__text color-dim-black" >У меня безлимит , и никаких +60 рублей или подобного не плачу. ( по крайней мере пока ) 270 как было так и осталось. Хотя возможно в будущем и меня коснется.</div>
+                
+                    
+                    <div class="comment__stat brc_header">
+                        <span class="comment_date" >27 декабря 2024 в 23:03</span>
+                        
+                    <aside class="rating">
+                        
+            <span class="brc_voteblock " id="ivt_654186">
+                <button class="i-btn-minus like-link br_iva_btn _down" title="Не согласен" data-authorized="0" >
+                    <svg>
+                        <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#minus"></use>
+                    </svg>
+                </button>
+                <span class="color-dim-black " title="0">0</span>
+                <button class="i-btn-plus like-link br_iva_btn _up" title="Поддерживаю" data-authorized="0" >
+                    <svg>
+                        <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#plus"></use>
+                    </svg>
+                </button>
+            </span>
+                        
+                    </aside>
+                
+                        
+            <div class="brn_add">
+                <span data-authorized="0" class="like-link">Ответить<span>
+            </div>
+        
+                        <a rel="nofollow" class="comment__anchor" href="/main/reviews/megasemya_ot_megafon/?itape=654186">#</a>
+                    </div>
+                </div>
+            
+                    </article>
+                    <div class="br_node comment--level2 ">
+                        
+                    </div>
+                </div>
+            
+                <div class="br_comment  "     id="answercontainer_654187">
+                    <article class="comment" >
+                        
+                <div class="comment__media">
+                    
+                <a href="/personal/profile/190263/">
+                    <img class="i-img-40-r i-mobx-img-28-r" src="/upload/resize_cache/main/263/22_22_1/2639224b60c28f4e5eec759722ff1705.jpg" alt="Дмитрий Могучев">
+                </a>
+            
+                    <div class="comment__score -negative text-14">&ndash;22</div>
+                </div>
+                <div class="comment__content">
+                    <div class="comment__name"  >
+                        <a href="/personal/profile/190263/" class="author"><span >Дмитрий Могучев</span></a><a rel="nofollow" class="comment__replay" href="/main/reviews/megasemya_ot_megafon/?itape=654185" data-reply-to="654185">
+                                        <svg class="color-light-black icon-16 mr-2">
+                                            <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#comment-replay"></use>
+                                        </svg>
+                                        Grealex
+                                    </a> 
+                    </div>
+                    
+                    <div class="comment__text color-dim-black" >Предложили за безлимит +60 руб , но безлимита нет. Это как?</div>
+                
+                    
+                    <div class="comment__stat brc_header">
+                        <span class="comment_date" >27 декабря 2024 в 23:04</span>
+                        
+                    <aside class="rating">
+                        
+            <span class="brc_voteblock " id="ivt_654187">
+                <button class="i-btn-minus like-link br_iva_btn _down" title="Не согласен" data-authorized="0" >
+                    <svg>
+                        <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#minus"></use>
+                    </svg>
+                </button>
+                <span class="color-dim-black " title="0">0</span>
+                <button class="i-btn-plus like-link br_iva_btn _up" title="Поддерживаю" data-authorized="0" >
+                    <svg>
+                        <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#plus"></use>
+                    </svg>
+                </button>
+            </span>
+                        
+                    </aside>
+                
+                        
+            <div class="brn_add">
+                <span data-authorized="0" class="like-link">Ответить<span>
+            </div>
+        
+                        <a rel="nofollow" class="comment__anchor" href="/main/reviews/megasemya_ot_megafon/?itape=654187">#</a>
+                    </div>
+                </div>
+            
+                    </article>
+                    <div class="br_node comment--level2 ">
+                        
+                <div class="br_comment  "     id="answercontainer_654234">
+                    <article class="comment" >
+                        
+                <div class="comment__media">
+                    <i class="i-img-40-r i-mobx-img-28-r anonym_avatar_v2"></i>
+                    <div class="comment__score -positive text-14">+1445</div>
+                </div>
+                <div class="comment__content">
+                    <div class="comment__name"  >
+                        <a href="/personal/profile/45317/" class="author"><span >Grealex</span></a><a rel="nofollow" class="comment__replay" href="/main/reviews/megasemya_ot_megafon/?itape=654187" data-reply-to="654187">
+                                        <svg class="color-light-black icon-16 mr-2">
+                                            <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#comment-replay"></use>
+                                        </svg>
+                                        Дмитрий Могучев
+                                    </a> 
+                    </div>
+                    
+                    <div class="comment__text color-dim-black" >Безлимит за 60 руб. есть.</div>
+                
+                    
+                    <div class="comment__stat brc_header">
+                        <span class="comment_date" >28 декабря 2024 в 22:57</span>
+                        
+                    <aside class="rating">
+                        
+            <span class="brc_voteblock " id="ivt_654234">
+                <button class="i-btn-minus like-link br_iva_btn _down" title="Не согласен" data-authorized="0" >
+                    <svg>
+                        <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#minus"></use>
+                    </svg>
+                </button>
+                <span class="color-dim-black " title="0">0</span>
+                <button class="i-btn-plus like-link br_iva_btn _up" title="Поддерживаю" data-authorized="0" >
+                    <svg>
+                        <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#plus"></use>
+                    </svg>
+                </button>
+            </span>
+                        
+                    </aside>
+                
+                        
+            <div class="brn_add">
+                <span data-authorized="0" class="like-link">Ответить<span>
+            </div>
+        
+                        <a rel="nofollow" class="comment__anchor" href="/main/reviews/megasemya_ot_megafon/?itape=654234">#</a>
+                    </div>
+                </div>
+            
+                    </article>
+                    <div class="br_node comment--level2 ">
+                        
+                    </div>
+                </div>
+            
+                    </div>
+                </div>
+            
+                    </div>
+                </div>
+            
+                    </div>
+                </div>
+            
+                    </div>
+                </div>
+            
+                <div class="br_comment i-v-list-hr "     id="answercontainer_654124">
+                    <article class="comment" >
+                        
+                <div class="comment__media">
+                    <i class="i-img-40-r i-mobx-img-28-r anonym_avatar_v2"></i>
+                    <div class="comment__score -positive text-14">+1445</div>
+                </div>
+                <div class="comment__content">
+                    <div class="comment__name"  >
+                        <a href="/personal/profile/45317/" class="author"><span >Grealex</span></a> 
+                    </div>
+                    
+                    <div class="comment__text color-dim-black" >Не ведитесь на рекламу.</div>
+                
+                    
+                    <div class="comment__stat brc_header">
+                        <span class="comment_date" >26 декабря 2024 в 22:35</span>
+                        
+                    <aside class="rating">
+                        
+            <span class="brc_voteblock " id="ivt_654124">
+                <button class="i-btn-minus like-link br_iva_btn _down" title="Не согласен" data-authorized="0" >
+                    <svg>
+                        <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#minus"></use>
+                    </svg>
+                </button>
+                <span class="color-dim-black " title="0">0</span>
+                <button class="i-btn-plus like-link br_iva_btn _up" title="Поддерживаю" data-authorized="0" >
+                    <svg>
+                        <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#plus"></use>
+                    </svg>
+                </button>
+            </span>
+                        
+                    </aside>
+                
+                        
+            <div class="brn_add">
+                <span data-authorized="0" class="like-link">Ответить<span>
+            </div>
+        
+                        <a rel="nofollow" class="comment__anchor" href="/main/reviews/megasemya_ot_megafon/?itape=654124">#</a>
+                    </div>
+                </div>
+            
+                    </article>
+                    <div class="br_node comment--level2 ">
+                        
+                    </div>
+                </div>
+              </div>
+          <div
+          class="br_comment"
+                >
+          
+                    <div class="add-comment brn_add " data-new-comment="bottom" >
+                        <div class="btn-toolbar mt-12 mt-sm-40 mb-sm-40-bottom  brna_form _ambushed" data-zero="bottom">
+                            <div class="btn-group">
+                                <button type="button" class="i-btn outline i-mob-btn-h48" data-authorized="0">
+                                    Добавить комментарий
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="br_node"></div>
+      </div>
+        <input type="hidden" data-outside-var='a:3:{s:13:"USERS_ADD_MOD";a:35:{i:0;s:1:"1";i:1;s:1:"5";i:2;s:2:"21";i:3;s:5:"52435";i:4;s:6:"202179";i:5;s:6:"219939";i:6;s:6:"225909";i:7;s:6:"229331";i:8;s:6:"231377";i:9;s:6:"231403";i:10;s:6:"231482";i:11;s:1:"5";i:12;s:2:"28";i:13;s:2:"49";i:14;s:5:"51782";i:15;s:6:"201561";i:16;s:6:"202179";i:17;s:6:"210471";i:18;s:6:"225909";i:19;s:6:"227105";i:20;s:1:"5";i:21;s:2:"28";i:22;s:2:"49";i:23;s:5:"51782";i:24;s:5:"52435";i:25;s:6:"202179";i:26;s:6:"210471";i:27;s:6:"225909";i:28;s:1:"5";i:29;s:2:"28";i:30;s:5:"51782";i:31;s:5:"52435";i:32;s:6:"202179";i:33;s:6:"210471";i:34;s:6:"225909";}s:10:"STATIC_URL";s:35:"/main/reviews/megasemya_ot_megafon/";s:4:"HASH";s:32:"698a782a3ac9c4830570c8d2a89f450e";}' value="">
+          </div>
+    <script>
+    $('body').on('click', '[data-authorized="0"]', function(e) {
+        e.preventDefault();
+        $('#loginModalWindow').modal();
+    });
+    $('body').on('click', '.add-comment__form iframe', function(e) {
+        const preview = $(this).closest('.add-comment__form').find('.add-comment__preview');
+        const showPreview = $(this).closest('.add-comment__form').find('.add-comment__preview-show');
+
+        showPreview.collapse('show');
+        preview.collapse('hide');
+
+    });
+    $('body').on('click', '.add-comment__preview-show', function(e) {
+        const preview = $(this).closest('.add-comment__form').find('.add-comment__preview');
+        const iframe = $(this).closest('.add-comment__form').find('.add-comment__textarea iframe')[0];
+        const showPreview = this;
+
+        preview[0].innerHTML = iframe.contentDocument.querySelector('body').innerHTML;
+        if (preview.attr('data-shown') != 'true') {
+            $(iframe.contentDocument.querySelector('body')).on('mousedown', function(e) {
+                preview.collapse('hide');
+                $(showPreview).collapse('show');
+            })
+            preview.attr('data-shown', 'true');
+        }
+    })
+
+    $('body').on('click', '.brf_submit', function(e) {
+        $(this).closest('.add-comment__form').find('.file-fileUploader').click();
+    });
+    
+    $(document).on('dragenter', '.brf_submit' , function(e) {
+        if (!$(this).hasClass('brf_submit--dropbox_shown')) {
+            $(this).find('ins').click();
+            $(this).addClass('brf_submit--dropbox_shown');
+        }
+    });
+    
+    BX.addCustomEvent('StopUpload', function(e) {
+        setTimeout(() => {
+            if (!$(e.controller).closest('.files-preview__send-wrap').find('input[id^="file-doc"]').length) {
+                    $(e.controller).closest('.files-preview__send-wrap').find('.file-selector_hidden').removeClass('file-selector_hidden');
+                }
+        }, 0);
+    });
+    $('body').on('click', '.add-comment__submit', function(e) {
+        if ($(e.target).closest('.add-comment__form').find('.lha-textarea').val().length) {
+            e.target.disabled = 'disabled';
+        }
+    })
+    BX.addCustomEvent('onAjaxSuccess', function(response, event) {
+        if (response?.request?.request_type == 'voting') {
+            window?.realcommenter_admintools_scan_and_init();
+        } else if (response?.request?.request_type == 'add') {
+            if (response.ERROR) {
+                let form = response.request.target_position ? $('[data-form-target="' + response.request.target_position + '"]') : $('[data-form-to="' + response.request.target_node + '"]');
+                form.find('.add-comment__submit').removeAttr('disabled');
+            } else {
+                if (response.request.target_position) {
+                    $('[data-zero="' + response.request.target_position + '"]').closest('.brn_add').collapse('show');
+                }
+            }
+        } else if (response?.request?.request_type == 'get') {
+            if (!response.ERROR) {
+                let form = response.request.comment_target ? $('[data-form-target="' + response.request.comment_target + '"]') : $('[data-form-to="' + response.request.comment_id + '"]');
+                $('[data-zero="' + response.request.comment_target + '"]').closest('.brn_add').collapse('hide');
+                form.collapse('show');
+            }
+        }
+    });
+    BX.addCustomEvent('onAjaxFailure', function(...args) {
+        let e = args[2];
+        if (e?.url?.includes('realcommenter')) {
+            let data = new URLSearchParams(e.data);
+            if (data.get('request_type') == 'add') {
+                let form = data.get('target_position') ? $('[data-form-target="' + data.get('target_position') + '"]') : $('[data-form-to="' + data.get('target_node') + '"]');
+                form.find('.add-comment__submit').removeAttr('disabled');
+            }
+        }
+    });
+    BX.addCustomEvent('bfiledselectfiledialogloaded', function(e) {
+        $(e.controller).closest('.brf_uploads').addClass('brf_uploads-active');
+        $(e.controller).closest('.brf_uploads').collapse();
+    });
+    BX.addCustomEvent('uploadStart', function(e) {
+        $(e.fileInput).closest('.file-selector').addClass('file-selector_hidden');
+    });
+    $('body').on('click', '.comment__anchor', function(e) {
+        e.preventDefault();
+        $('._found').removeClass('_found').removeClass('_found_and_faded').removeAttr('data-scrolled');
+        let answerContainer = $(e.target).closest('[id^="answercontainer_"');
+        answerContainer.addClass('_found');
+        let answerHref = new URL(e.target.href);
+        let url = new URL(location.href);
+        url.searchParams.set('itape', answerHref.searchParams.get('itape'));
+        url.hash = '';
+        history.replaceState(null, '', url);
+        realcommenterScrollToFound();
+    });
+    BX.addCustomEvent('LHE_ConstructorInited', function(editor) {
+        if ($(editor.iFrame).closest('.add-comment__textarea').length) {
+            let css = `
+                body, .ig-frame-body {
+                    border:unset!important;
+                    background:transparent!important;
+                    color:${document.body.classList.contains('dark-theme') ? '#e4f1f4' : '#2c3450'};
+                }
+                body:focus, .ig-frame-body:focus {
+                    box-shadow:unset!important;
+                    border:unset!important;
+                }
+            `;
+            editor.systemCSS += css;
+            editor.AppendCSS(css);
+            editor.iFrame.contentDocument.body.classList.add('ig-frame-body');
+            editor.iFrame.classList.add('lha-iframe_inited', 'form-control');
+        }
+    });
+    $('body').on('click', '.comment__replay', function(e) {
+        e.preventDefault();
+        if (this.getAttribute('href')) {
+            $('.comment__anchor[href="' + this.getAttribute('href') + '"]').click();
+        }
+    });
+</script>
+</section>
+<!--'end_frame_cache_jxX10R'-->    </section>
+</section>
+
+    <section class="row">
+        <section class="col-12">
+
+                <!--'start_frame_cache_after_comments'--><!-- ID= --><!-- NAME= --><!--'end_frame_cache_after_comments'-->
+        </section>
+    </section>
+
+<section class="row mb-0 mb-md-30">
+    <section class="col-12">
+        
+    <div id="newsTape" class="_infinity-listing">
+        <div class="row">
+            <div class="col">
+                <h2>Читайте также</h2>
+            </div>
+        </div>
+
+                                <div class="row">
+                                                            <div class="col-12 col-lg-6 col-xl mb-4 mb-md-30 mb-lg-0">
+
+                            <article class="article-popular height-stretch">
+    <div class="article-popular__media">
+                    <img class="article-popular__img" src="/upload/resize_cache/iblock/8ba/600_313_2/qf641vk0l1u9u8vrd4tt7vo1d3nmvvyn.png" alt="Найден способ ускорить SSD втрое — нужно лишь обновить ПО">
+            </div>
+        <div class="i-tag-list article-popular__tags">
+                        <a href="/search/ssd/" class="i-tag">SSD</a>
+                </div>
+        <div class="article-popular__statistics statistics statistics--frame color-white">
+        <span class="statistics__text ">
+            <span class="count_views_for_list"></span>
+            <span id="news539385-views"></span>
+        </span>
+        <a href="/main/other/nayden_sposob_uskorit_ssd_vtroe_nuzhno_lish_obnovit_po/#itape" class="statistics__text color-white statistics__link">
+            <span class="count_comments_for_list"></span>
+            <span id="news539385-comments"></span>
+        </a>
+    </div>
+    
+    
+    <h3 class="article-popular__heading">
+        <a class="article-popular__link cover-link" href="/main/other/nayden_sposob_uskorit_ssd_vtroe_nuzhno_lish_obnovit_po/">Найден способ ускорить SSD втрое — нужно лишь обновить ПО</a>
+    </h3>
+</article>
+
+                        </div>
+                                                                            <div class="col-12 col-sm-6 col-lg-3 col-xl-330 mb-4 mb-md-0">
+                        <article class="article-middle height-stretch">
+    <div class="article-middle__media">
+        <a href="/main/gadgets/huawei_reshila_udivit_rynok_predstavlen_novyy_brend_smartfonov_s_neobychnymi_osobennostyami/" class="article-middle__media-link"></a>
+                    <img class="article-middle__img" src="/upload/resize_cache/iblock/4ab/330_180_2/uzkary4lhbqhqwfw635qu3uih9rn82ga.png" alt="">
+                <div class="article-middle__statistics statistics statistics--frame color-white">
+            <span class="statistics__text ">
+                <span class="count_views_for_list"></span>
+                <span id="news539384-views"></span>
+            </span>
+            <a href="/main/gadgets/huawei_reshila_udivit_rynok_predstavlen_novyy_brend_smartfonov_s_neobychnymi_osobennostyami/#itape" class="statistics__text color-white statistics__link">
+                <span class="count_comments_for_list"></span>
+                <span id="news539384-comments"></span>
+            </a>
+        </div>
+    </div>
+    <h4 class="article-middle__heading">
+        <a class="color-black" href="/main/gadgets/huawei_reshila_udivit_rynok_predstavlen_novyy_brend_smartfonov_s_neobychnymi_osobennostyami/">Huawei решила удивить рынок: представлен новый бренд смартфонов с необычными особенностями</a>
+    </h4>
+
+        <div class="i-tag-list article-middle__tags">
+                    <a href="/search/huawei/" class="i-tag">Huawei</a>
+                    <a href="/search/smartfony/" class="i-tag">Смартфоны</a>
+                    <a href="/search/osta/" class="i-tag">Osta</a>
+            </div>
+    </article>
+                    </div>
+                    
+                                                                            <div class="col-12 col-sm-6 col-lg-3 col-xl-right">
+                        <article class="article-middle height-stretch">
+    <div class="article-middle__media">
+        <a href="/main/other/avito_avto_obedinit_liderov_avtomobilnogo_rynka_na_federalnom_avto_sammite_2026_/" class="article-middle__media-link"></a>
+                    <img class="article-middle__img" src="/upload/resize_cache/iblock/627/330_180_2/jimvwm5hcgw2yxtlb5fownjey12hlm60.jpg" alt="">
+                <div class="article-middle__statistics statistics statistics--frame color-white">
+            <span class="statistics__text statistics_without_views">
+                <span class=""></span>
+                <span id="news539383-views"></span>
+            </span>
+            <a href="/main/other/avito_avto_obedinit_liderov_avtomobilnogo_rynka_na_federalnom_avto_sammite_2026_/#itape" class="statistics__text color-white statistics__link">
+                <span class="count_comments_for_list"></span>
+                <span id="news539383-comments"></span>
+            </a>
+        </div>
+    </div>
+    <h4 class="article-middle__heading">
+        <a class="color-black" href="/main/other/avito_avto_obedinit_liderov_avtomobilnogo_rynka_na_federalnom_avto_sammite_2026_/">«Авито Авто» объединит лидеров автомобильного рынка на федеральном Авто Саммите 2026
+</a>
+    </h4>
+
+        <div class="i-tag-list article-middle__tags">
+                    <a href="/search/avito/" class="i-tag">Avito</a>
+            </div>
+    </article>
+                    </div>
+                                                </div>
+
+            <div class="row mb-0">
+                                    <section class="col-12  col-md-6 col-xl-4 mb-4 mb-sm-30">
+                        <article class="article-middle height-stretch">
+    <div class="article-middle__media">
+        <a href="/main/other/vy_uslyshite_svoy_smartfon_po_novomu_cherez_eti_6_provodnykh_naushnikov_idealno_dlya_iphone_i_androi/" class="article-middle__media-link"></a>
+                    <img class="article-middle__img" src="/upload/resize_cache/iblock/124/330_180_2/x40csorh74ibd597g9cwy83xy8y13nlh.png" alt="">
+                <div class="article-middle__statistics statistics statistics--frame color-white">
+            <span class="statistics__text ">
+                <span class="count_views_for_list"></span>
+                <span id="news539382-views"></span>
+            </span>
+            <a href="/main/other/vy_uslyshite_svoy_smartfon_po_novomu_cherez_eti_6_provodnykh_naushnikov_idealno_dlya_iphone_i_androi/#itape" class="statistics__text color-white statistics__link">
+                <span class="count_comments_for_list"></span>
+                <span id="news539382-comments"></span>
+            </a>
+        </div>
+    </div>
+    <h4 class="article-middle__heading">
+        <a class="color-black" href="/main/other/vy_uslyshite_svoy_smartfon_po_novomu_cherez_eti_6_provodnykh_naushnikov_idealno_dlya_iphone_i_androi/">Вы услышите свой смартфон по-новому через эти 6 проводных наушников — идеально для iPhone и Android</a>
+    </h4>
+
+        <div class="i-tag-list article-middle__tags">
+                    <a href="/search/muzyka/" class="i-tag">Музыка</a>
+                    <a href="/search/naushniki/" class="i-tag">Наушники</a>
+                    <a href="/search/nado-brat/" class="i-tag">Надо брать</a>
+            </div>
+    </article>
+                    </section>
+                                    <section class="col-12  col-md-6 col-xl-4 mb-4 mb-sm-30">
+                        <article class="article-middle height-stretch">
+    <div class="article-middle__media">
+        <a href="/main/other/lada_vesta_s_sovershenno_novym_motorom_utret_nos_kitaytsam_ona_uzhe_edet_v_salony_avtovaza/" class="article-middle__media-link"></a>
+                    <img class="article-middle__img" src="/upload/resize_cache/iblock/277/330_180_2/zj4o2qsoyur6u325dsklsmkm2krt8m4j.png" alt="">
+                <div class="article-middle__statistics statistics statistics--frame color-white">
+            <span class="statistics__text ">
+                <span class="count_views_for_list"></span>
+                <span id="news539381-views"></span>
+            </span>
+            <a href="/main/other/lada_vesta_s_sovershenno_novym_motorom_utret_nos_kitaytsam_ona_uzhe_edet_v_salony_avtovaza/#itape" class="statistics__text color-white statistics__link">
+                <span class="count_comments_for_list"></span>
+                <span id="news539381-comments"></span>
+            </a>
+        </div>
+    </div>
+    <h4 class="article-middle__heading">
+        <a class="color-black" href="/main/other/lada_vesta_s_sovershenno_novym_motorom_utret_nos_kitaytsam_ona_uzhe_edet_v_salony_avtovaza/">Lada Vesta с совершенно новым мотором утрет нос «китайцам». Она уже едет в салоны АвтоВАЗа</a>
+    </h4>
+
+        <div class="i-tag-list article-middle__tags">
+                    <a href="/search/avtovaz/" class="i-tag">АвтоВАЗ</a>
+                    <a href="/search/lada/" class="i-tag">Lada</a>
+                    <a href="/search/avtomobili/" class="i-tag">Автомобили</a>
+            </div>
+    </article>
+                    </section>
+                                    <section class="col-12  col-md-6 col-xl-4 mb-4 mb-sm-30">
+                        <article class="article-middle height-stretch">
+    <div class="article-middle__media">
+        <a href="/main/other/10_prichin_dozhdatsya_ipad_air_m5_i_srazu_zhe_ego_kupit/" class="article-middle__media-link"></a>
+                    <img class="article-middle__img" src="/upload/resize_cache/iblock/971/330_180_2/sbe584zmfnfb2p7vkktj3xwsd8tw5r3u.png" alt="">
+                <div class="article-middle__statistics statistics statistics--frame color-white">
+            <span class="statistics__text ">
+                <span class="count_views_for_list"></span>
+                <span id="news539380-views"></span>
+            </span>
+            <a href="/main/other/10_prichin_dozhdatsya_ipad_air_m5_i_srazu_zhe_ego_kupit/#itape" class="statistics__text color-white statistics__link">
+                <span class="count_comments_for_list"></span>
+                <span id="news539380-comments"></span>
+            </a>
+        </div>
+    </div>
+    <h4 class="article-middle__heading">
+        <a class="color-black" href="/main/other/10_prichin_dozhdatsya_ipad_air_m5_i_srazu_zhe_ego_kupit/">10 причин дождаться iPad Air M5 и сразу же его купить</a>
+    </h4>
+
+        <div class="i-tag-list article-middle__tags">
+                    <a href="/search/apple/" class="i-tag">Apple</a>
+                    <a href="/search/ipad/" class="i-tag">iPad</a>
+                    <a href="/search/insaydy/" class="i-tag">Инсайды</a>
+            </div>
+    </article>
+                    </section>
+                                    <section class="col-12  col-md-6 col-xl-4 mb-4 mb-sm-30">
+                        <article class="article-middle height-stretch">
+    <div class="article-middle__media">
+        <a href="/main/other/apple_zakryla_nezamenimyy_istochnik_informatsii_o_svoikh_devaysakh/" class="article-middle__media-link"></a>
+                    <img class="article-middle__img" src="/upload/resize_cache/iblock/9d9/330_180_2/llu530fmry0lxdtj2wgpkxw9wb26bpj9.png" alt="">
+                <div class="article-middle__statistics statistics statistics--frame color-white">
+            <span class="statistics__text ">
+                <span class="count_views_for_list"></span>
+                <span id="news539379-views"></span>
+            </span>
+            <a href="/main/other/apple_zakryla_nezamenimyy_istochnik_informatsii_o_svoikh_devaysakh/#itape" class="statistics__text color-white statistics__link">
+                <span class="count_comments_for_list"></span>
+                <span id="news539379-comments"></span>
+            </a>
+        </div>
+    </div>
+    <h4 class="article-middle__heading">
+        <a class="color-black" href="/main/other/apple_zakryla_nezamenimyy_istochnik_informatsii_o_svoikh_devaysakh/">Apple закрыла незаменимый источник информации о своих девайсах</a>
+    </h4>
+
+        <div class="i-tag-list article-middle__tags">
+                    <a href="/search/apple/" class="i-tag">Apple</a>
+            </div>
+    </article>
+                    </section>
+                                    <section class="col-12  col-md-6 col-xl-4 mb-4 mb-sm-30">
+                        <article class="article-middle height-stretch">
+    <div class="article-middle__media">
+        <a href="/main/other/iphone_air_2_i_iphone_18_vpervye_pokazali_vzhivuyu_poka_v_vide_mulyazhey/" class="article-middle__media-link"></a>
+                    <img class="article-middle__img" src="/upload/resize_cache/iblock/a7f/330_180_2/0gwvillr7l041hqpm9grp6rwgm43bkhu.jpg" alt="">
+                <div class="article-middle__statistics statistics statistics--frame color-white">
+            <span class="statistics__text ">
+                <span class="count_views_for_list"></span>
+                <span id="news539378-views"></span>
+            </span>
+            <a href="/main/other/iphone_air_2_i_iphone_18_vpervye_pokazali_vzhivuyu_poka_v_vide_mulyazhey/#itape" class="statistics__text color-white statistics__link">
+                <span class="count_comments_for_list"></span>
+                <span id="news539378-comments"></span>
+            </a>
+        </div>
+    </div>
+    <h4 class="article-middle__heading">
+        <a class="color-black" href="/main/other/iphone_air_2_i_iphone_18_vpervye_pokazali_vzhivuyu_poka_v_vide_mulyazhey/">iPhone Air 2 и iPhone 18 впервые показали вживую. Пока в виде муляжей</a>
+    </h4>
+
+        <div class="i-tag-list article-middle__tags">
+                    <a href="/search/apple/" class="i-tag">Apple</a>
+                    <a href="/search/iphone/" class="i-tag">iPhone</a>
+            </div>
+    </article>
+                    </section>
+                                    <section class="col-12  col-md-6 col-xl-4 mb-4 mb-sm-30">
+                        <article class="article-middle height-stretch">
+    <div class="article-middle__media">
+        <a href="/main/other/antikrizisnyy_variant_seagate_obedinila_ssd_i_hdd_v_odnom_nakopitele_firecuda_forge_na_8_tb_za_699/" class="article-middle__media-link"></a>
+                    <img class="article-middle__img" src="/upload/resize_cache/iblock/e4f/330_180_2/t772qastpvgx35r93a793xxcz0anddzm.jpg" alt="">
+                <div class="article-middle__statistics statistics statistics--frame color-white">
+            <span class="statistics__text ">
+                <span class="count_views_for_list"></span>
+                <span id="news539377-views"></span>
+            </span>
+            <a href="/main/other/antikrizisnyy_variant_seagate_obedinila_ssd_i_hdd_v_odnom_nakopitele_firecuda_forge_na_8_tb_za_699/#itape" class="statistics__text color-white statistics__link">
+                <span class="count_comments_for_list"></span>
+                <span id="news539377-comments"></span>
+            </a>
+        </div>
+    </div>
+    <h4 class="article-middle__heading">
+        <a class="color-black" href="/main/other/antikrizisnyy_variant_seagate_obedinila_ssd_i_hdd_v_odnom_nakopitele_firecuda_forge_na_8_tb_za_699/">Антикризисный вариант: Seagate объединила SSD и HDD в одном накопителе FireCuda Forge на 8 ТБ за $699</a>
+    </h4>
+
+        <div class="i-tag-list article-middle__tags">
+                    <a href="/search/seagate/" class="i-tag">Seagate</a>
+                    <a href="/search/ssd/" class="i-tag">SSD</a>
+                    <a href="/search/hdd/" class="i-tag">HDD</a>
+            </div>
+    </article>
+                    </section>
+                                    <section class="col-12  col-md-6 col-xl-4 mb-4 mb-sm-30">
+                        <article class="article-middle height-stretch">
+    <div class="article-middle__media">
+        <a href="/main/other/iphone_duo_na_fone_etogo_igrushka_dlya_detey_predstavlen_huawei_matebook_fold_s_noutbuk_s_gibkim_ekr/" class="article-middle__media-link"></a>
+                    <img class="article-middle__img" src="/upload/resize_cache/iblock/8f1/330_180_2/4b4q3ka0860tpqk064omcfl87sqavxrb.jpg" alt="">
+                <div class="article-middle__statistics statistics statistics--frame color-white">
+            <span class="statistics__text ">
+                <span class="count_views_for_list"></span>
+                <span id="news539376-views"></span>
+            </span>
+            <a href="/main/other/iphone_duo_na_fone_etogo_igrushka_dlya_detey_predstavlen_huawei_matebook_fold_s_noutbuk_s_gibkim_ekr/#itape" class="statistics__text color-white statistics__link">
+                <span class="count_comments_for_list"></span>
+                <span id="news539376-comments"></span>
+            </a>
+        </div>
+    </div>
+    <h4 class="article-middle__heading">
+        <a class="color-black" href="/main/other/iphone_duo_na_fone_etogo_igrushka_dlya_detey_predstavlen_huawei_matebook_fold_s_noutbuk_s_gibkim_ekr/">iPhone Duo на фоне этого — игрушка для детей. Представлен HUAWEI MateBook Fold S — ноутбук с гибким экраном и дисплеем на крышке</a>
+    </h4>
+
+        <div class="i-tag-list article-middle__tags">
+                    <a href="/search/huawei/" class="i-tag">Huawei</a>
+                    <a href="/search/noutbuki/" class="i-tag">Ноутбуки</a>
+            </div>
+    </article>
+                    </section>
+                                    <section class="col-12  col-md-6 col-xl-4 mb-4 mb-sm-30">
+                        <article class="article-middle height-stretch">
+    <div class="article-middle__media">
+        <a href="/main/other/kogda_ipad_air_poluchit_oled_insaydery_raskryli_sroki_samogo_masshtabnogo_obnovleniya_plansheta/" class="article-middle__media-link"></a>
+                    <img class="article-middle__img" src="/upload/resize_cache/iblock/f4f/330_180_2/1l6x9ymlj1zf6go4sadvr7fl34cplnmw.jpeg" alt="">
+                <div class="article-middle__statistics statistics statistics--frame color-white">
+            <span class="statistics__text ">
+                <span class="count_views_for_list"></span>
+                <span id="news539375-views"></span>
+            </span>
+            <a href="/main/other/kogda_ipad_air_poluchit_oled_insaydery_raskryli_sroki_samogo_masshtabnogo_obnovleniya_plansheta/#itape" class="statistics__text color-white statistics__link">
+                <span class="count_comments_for_list"></span>
+                <span id="news539375-comments"></span>
+            </a>
+        </div>
+    </div>
+    <h4 class="article-middle__heading">
+        <a class="color-black" href="/main/other/kogda_ipad_air_poluchit_oled_insaydery_raskryli_sroki_samogo_masshtabnogo_obnovleniya_plansheta/">Когда iPad Air получит OLED? Инсайдеры раскрыли сроки самого масштабного обновления планшета</a>
+    </h4>
+
+        <div class="i-tag-list article-middle__tags">
+                    <a href="/search/apple/" class="i-tag">Apple</a>
+                    <a href="/search/ipad/" class="i-tag">iPad</a>
+            </div>
+    </article>
+                    </section>
+                                    <section class="col-12  col-md-6 col-xl-4 mb-4 mb-sm-30">
+                        <article class="article-middle height-stretch">
+    <div class="article-middle__media">
+        <a href="/main/other/i_stoilo_radi_etogo_pokupat_ps5_pro_gta_vi_ogranichat_v_30_fps_na_vsekh_konsolyakh/" class="article-middle__media-link"></a>
+                    <img class="article-middle__img" src="/upload/resize_cache/iblock/45f/330_180_2/1xv0liy4r60rzthbi5bn2t3fe1wrazje.jpg" alt="">
+                <div class="article-middle__statistics statistics statistics--frame color-white">
+            <span class="statistics__text ">
+                <span class="count_views_for_list"></span>
+                <span id="news539374-views"></span>
+            </span>
+            <a href="/main/other/i_stoilo_radi_etogo_pokupat_ps5_pro_gta_vi_ogranichat_v_30_fps_na_vsekh_konsolyakh/#itape" class="statistics__text color-white statistics__link">
+                <span class="count_comments_for_list"></span>
+                <span id="news539374-comments"></span>
+            </a>
+        </div>
+    </div>
+    <h4 class="article-middle__heading">
+        <a class="color-black" href="/main/other/i_stoilo_radi_etogo_pokupat_ps5_pro_gta_vi_ogranichat_v_30_fps_na_vsekh_konsolyakh/">И стоило ради этого покупать PS5 Pro? GTA VI ограничат в 30 FPS на всех консолях</a>
+    </h4>
+
+        <div class="i-tag-list article-middle__tags">
+                    <a href="/search/gta-vi/" class="i-tag">GTA VI</a>
+                    <a href="/search/igry/" class="i-tag">Игры</a>
+            </div>
+    </article>
+                    </section>
+                            </div>
+
+            
+        <section class="row mb-0" onclick="ajaxLoadMore(this, {'PAGEN_1':'2','NAV_NUMBER':'1','HISTORY_DISABLED':'1','IGNORE_ELEMENT_CODE':'megasemya_ot_megafon'}, '/local/templates/iguides-2022/ajax/content-feed/bottom-in-detail-news.php', event)">
+        <section class="col-12">
+            <button class="i-btn-loadmore">
+                <svg>
+                    <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#load-more"></use>
+                </svg>
+                Показать еще
+            </button>
+        </section>
+    </section>
+        
+
+
+    </div>
+
+<!-- ADV_IG_BOTTOM -->
+<!--'start_frame_cache_ADV_IG_BOTTOM_MOBILE'-->        
+<!--'end_frame_cache_ADV_IG_BOTTOM_MOBILE'-->    </section>
+</section>
+
+<div style="padding-left: 15px; padding-right: 15px;">
+    <!--'start_frame_cache_after_read_more'--><!-- ID= --><!-- NAME= --><!--'end_frame_cache_after_read_more'--></div>
+
+
+
+    </section>
+        <footer class="i-footer">
+            <div class="container-md">
+
+                                <script>if (window.location.hash != '' && window.location.hash != '#') top.BX.ajax.history.checkRedirectStart('bxajaxid', '0286e05d722c67d8de3a211fcf7f26dc')</script><div id="comp_0286e05d722c67d8de3a211fcf7f26dc"><div class="footer-mail"  id="sender-subscribe">
+    
+    <script>
+        BX.ready(function()
+        {
+            BX.bind(BX("bx_subscribe_btn_footer_xBc93Q"), 'click', function() {
+                setTimeout(mailSender, 250);
+                return false;
+            });
+        });
+
+        function mailSender()
+        {
+            setTimeout(function() {
+                var btn = BX("bx_subscribe_btn_footer_xBc93Q");
+                if(btn)
+                {
+                    var btn_span = btn.querySelector("span");
+                    var btn_subscribe_width = btn_span.style.width;
+                    BX.addClass(btn, "send");
+                    btn_span.outterHTML = "<span><i class='fa fa-check'></i> ГОТОВО</span>";
+                    if(btn_subscribe_width)
+                        btn.querySelector("span").style["min-width"] = btn_subscribe_width+"px";
+                }
+            }, 400);
+        }
+    </script>
+            <div class="subscription-agreement">
+            <div class="box-subscrube-horizontal">
+                <div class="">
+                    <h2 class="color-white">Будь в курсе последних новостей из мира гаджетов и технологий</h2>
+                    <div class="mt-20 mb-20 mb-xl-0 custom-control custom-checkbox">
+                        <input class="custom-control-input subscription-agreement__checkbox color-white" name="UF_AGREEMENT_MAILING" id="UF_AGREEMENT_MAILING_xBc93Q" type="checkbox" >
+                        <label class="custom-control-label custom-control-label-white" for="UF_AGREEMENT_MAILING_xBc93Q">
+                            <span>
+                                <a href="/policy/subscription_agreement.php">Даю согласие</a> на получение информационной и рекламной рассылки
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                
+<form role="form"
+                        action="/main/reviews/megasemya_ot_megafon/"
+                        method="post" onsubmit="BX('bx_subscribe_btn_footer_xBc93Q').disabled=true;"
+                        class="subscription-agreement__wrap"><input type="hidden" name="bxajaxid" id="bxajaxid_0286e05d722c67d8de3a211fcf7f26dc_XrQFCj" value="0286e05d722c67d8de3a211fcf7f26dc" /><input type="hidden" name="AJAX_CALL" value="Y" /><script>
+function _processform_XrQFCj(){
+	if (BX('bxajaxid_0286e05d722c67d8de3a211fcf7f26dc_XrQFCj'))
+	{
+		var obForm = BX('bxajaxid_0286e05d722c67d8de3a211fcf7f26dc_XrQFCj').form;
+		BX.bind(obForm, 'submit', function() {BX.ajax.submitComponentForm(this, 'comp_0286e05d722c67d8de3a211fcf7f26dc', true)});
+	}
+	BX.removeCustomEvent('onAjaxSuccess', _processform_XrQFCj);
+}
+if (BX('bxajaxid_0286e05d722c67d8de3a211fcf7f26dc_XrQFCj'))
+	_processform_XrQFCj();
+else
+	BX.addCustomEvent('onAjaxSuccess', _processform_XrQFCj);
+</script>
+                    <input type="hidden" name="sessid" id="sessid_4" value="64cb39ba4e139983d3993564aad19073" />                    <div class="input-group-subscribe input-group-subscribe--white">
+                        <input type="hidden" name="sender_subscription" value="add">
+        
+                        <input type="email"
+                            class="form-control no-bg"
+                            name="SENDER_SUBSCRIBE_EMAIL"
+                            value=""
+                            title="Введите ваш e-mail"
+                            placeholder="Введите ваш e-mail">
+        
+                                                                                    <input type="hidden" name="SENDER_SUBSCRIBE_RUB_ID[]"  value="20" checked >
+                                                    
+                        <button type="submit" class="i-btn-enter"  id="bx_subscribe_btn_footer_xBc93Q" disabled><svg>
+                                <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#arrow-right"></use>
+                            </svg></button>
+                    </div>
+                </form>
+            </div>    
+        </div>
+        
+</div>
+</div><script>if (top.BX.ajax.history.bHashCollision) top.BX.ajax.history.checkRedirectFinish('bxajaxid', '0286e05d722c67d8de3a211fcf7f26dc');</script><script>top.BX.ready(BX.defer(function() {window.AJAX_PAGE_STATE = new top.BX.ajax.component('comp_0286e05d722c67d8de3a211fcf7f26dc'); top.BX.ajax.history.init(window.AJAX_PAGE_STATE);}))</script>                
+
+                <div class="i-footer-container">
+
+                    
+
+    <ul class="i-bottom-menu">
+
+		
+			
+							<li class="i-bottom-menu__item">
+					<a href="/about/" class="color-dim-black">Об издании</a>
+				</li>
+				
+		
+			
+							<li class="i-bottom-menu__item">
+					<a href="/specialpr/" class="color-dim-black">Спецпроекты</a>
+				</li>
+				
+		
+			
+							<li class="i-bottom-menu__item">
+					<a href="/contacts/" class="color-dim-black">Контакты</a>
+				</li>
+				
+		
+			
+							<li class="i-bottom-menu__item">
+					<a href="/advertising/" class="color-dim-black">Реклама</a>
+				</li>
+				
+		
+			
+							<li class="i-bottom-menu__item">
+					<a href="/rules.php" class="color-dim-black">Правила</a>
+				</li>
+				
+		
+			
+							<li class="i-bottom-menu__item">
+					<a href="/wtfblogs.php" class="color-dim-black">Блоги</a>
+				</li>
+				
+		  	</ul>
+
+
+                    <div class="i-footer-social">
+                    
+    <div class="">
+
+            <a target="_blank" href="https://vk.com/iguides" class="i-btn-social" rel="nofollow">
+                            <svg>
+                    <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#social-net-vk"></use>
+                </svg>
+                    </a>
+            <a target="_blank" href="https://max.ru/iguides" class="i-btn-social" rel="nofollow">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_2983_3577)">
+                    <path d="M24 0C37.2548 0 48 10.7452 48 24C48 37.2548 37.2548 48 24 48C10.7452 48 0 37.2548 0 24C0 10.7452 10.7452 0 24 0ZM24.2598 8C15.4423 8 8.00006 14.8529 8 23.9619C8 27.7758 8.70339 30.4079 9.32227 32.7715C9.84185 34.69 10.2998 36.4477 10.2998 38.5273C10.5214 41.2977 15.6023 39.6784 17.207 37.6064C19.7438 39.4482 21.2034 39.9082 24.3438 39.9082C33.0247 39.8617 40.0294 32.7656 40 24.0469C40 15.191 33.0849 8.00001 24.2598 8ZM24.4736 15.874V15.8809C28.9237 16.1369 32.3497 19.9261 32.1758 24.3994C31.8771 28.8631 28.0752 32.2655 23.626 32.0508C22.233 31.9386 20.8939 31.4589 19.7441 30.6611C19.049 31.3593 17.9336 32.2651 17.4902 32.1582C16.5657 31.9126 15.4805 27.1928 16.0918 23.3174C16.833 18.6363 20.1795 15.6515 24.4736 15.874Z" fill="inherit"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_2983_3577">
+                    <rect width="48" height="48" rx="24" fill="white"/>
+                    </clipPath>
+                    </defs>
+                </svg>
+                    </a>
+            <a target="_blank" href="https://t.me/iguides" class="i-btn-social" rel="nofollow">
+                            <svg>
+                    <use xlink:href="/local/templates/iguides-2022/img/svg/icons.svg#social-net-telegram"></use>
+                </svg>
+                    </a>
+            <a target="_blank" href="https://dzen.ru/iguides" class="i-btn-social" rel="nofollow">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_2983_3574)">
+                    <path d="M24 0C37.2548 0 48 10.7452 48 24C48 37.2548 37.2548 48 24 48C10.7452 48 0 37.2548 0 24C0 10.7452 10.7452 0 24 0ZM23.623 6C23.4432 6.00008 23.2946 6.14627 23.2861 6.32617C23.0415 12.7962 22.2202 16.7327 19.4648 19.4883C16.7123 22.2411 12.7844 23.062 6.32617 23.3066C6.14623 23.3123 6 23.4618 6 23.6445V24.3975C6 24.5774 6.14623 24.7269 6.32617 24.7354C12.7844 24.98 16.7151 25.8037 19.4648 28.5537C22.2146 31.3037 23.0358 35.2265 23.2832 41.6738C23.2889 41.8537 23.4375 41.9999 23.6201 42H24.377C24.5568 41.9999 24.7054 41.8537 24.7139 41.6738C24.9613 35.2265 25.7825 31.3037 28.5322 28.5537C31.2848 25.8009 35.2126 24.98 41.6709 24.7354C41.8509 24.7297 41.9971 24.5802 41.9971 24.3975V23.6445H42C42 23.4646 41.8538 23.3151 41.6738 23.3066C35.2155 23.062 31.2849 22.2383 28.5352 19.4883C25.7798 16.7327 24.9585 12.799 24.7139 6.32617C24.7082 6.14629 24.5596 6.00012 24.377 6H23.623Z" fill="inherit"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_2983_3574">
+                    <rect width="48" height="48" rx="24" fill="white"/>
+                    </clipPath>
+                    </defs>
+                </svg>
+                    </a>
+        </div>
+
+                    </div>
+
+                    <div class="i-footer-label color-dim-black">
+                        <div class="i-footer-label-text">Приложения для смартфонов</div>
+                        <a class="i-footer-store" href="https://itunes.apple.com/ru/app/iguides/id467633606?l=ru&ls=1&mt=8&uo=8&at=11l6cR" target="_blank" rel="nofollow">
+                            <img class="" src="/local/templates/iguides-2022/img/app-store.png" alt="">
+                        </a>
+                        <a class="i-footer-store" href="https://www.rustore.ru/catalog/app/ru.iguides.app" target="_blank" rel="nofollow">
+                            <img class="light" src="/local/templates/iguides-2022/img/app-rustore-light.svg" alt="">
+                            <img class="dark" src="/local/templates/iguides-2022/img/app-rustore-dark.svg" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="row mb-0 i-footer-bottom text-12 color-light-black">
+                    <div class="col">
+                        2009 -
+                        2026 iguides.ru. Все права защищены.
+                    </div>
+                    <div class="col">
+                        <a class="color-light-black" href="/policy/">Политика обработки персональных данных</a>
+                    </div>
+                </div>
+
+            </div>
+        </footer>
+    </main>
+
+    <!--'start_frame_cache_mobile_adhesion'--><!--'end_frame_cache_mobile_adhesion'-->
+    <script>
+        function loadJSParams(arId, arValues, arClasses){
+            var i = arId, s = arValues, c = arClasses, e;
+            for(var k=0; k < i.length; k++){
+                if(e = document.getElementById(i[k])){
+                    if(c[k].length > 0)
+                        e.className += ' ' + c[k];
+                    e.innerHTML = s[k];
+                }
+            }
+        }
+    </script>
+
+    <!--'start_frame_cache_pageJSParams'-->    <script>
+        ;(function(){
+            var arId = ['comments_num_detail','news539385-views','news539384-views','news539382-views','news539381-views','news539380-views','news539379-views','news539378-views','news539377-views','news539376-views','news539375-views','news539374-views','news539385-comments','news539384-comments','news539383-comments','news539382-comments','news539381-comments','news539380-comments','news539379-comments','news539378-comments','news539377-comments','news539376-comments','news539375-comments','news539374-comments'],
+                arValues = ['7','461','890','1671','1723','1705','1974','2975','3009','3264','3508','3833','0','0','0','0','0','0','0','0','1','0','0','0'],
+                arClasses = ['','','','','','','','','','','','','','','','','','','','','','','',''];
+            loadJSParams(arId, arValues, arClasses);
+        })();
+    </script>
+    <!--'end_frame_cache_pageJSParams'-->    
+   <div class="_scroll-top-wrap">
+       <button class="_scroll-top" type="button">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8.33325 19.9999L19.9999 8.33325L31.6666 19.9999" stroke="#66AED4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M20 31.6666V8.33325" stroke="#66AED4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+           Вернуться <br>
+           наверх
+      </button>
+        
+   </div>
+
+</body>
+</html>

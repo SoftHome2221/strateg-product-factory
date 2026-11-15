@@ -1,0 +1,54 @@
+{
+  "project": "cursor-seven-stage",
+  "title": "Семейный архив — QA, тест Cursor",
+  "stage": "support",
+  "stages": {
+    "brief": {
+      "status": "done",
+      "started_at": "2026-11-14T16:40:26+03:00",
+      "done_at": "2026-11-14T16:54:19+03:00",
+      "human": "TEST_SCENARIO: fixture brief accepted; not a real human product approval"
+    },
+    "collect": {
+      "status": "done",
+      "started_at": "2026-11-14T16:54:19+03:00",
+      "done_at": "2026-11-15T15:01:12+03:00",
+      "human": null
+    },
+    "research": {
+      "status": "done",
+      "started_at": "2026-11-15T15:01:12+03:00",
+      "done_at": "2026-11-15T15:22:45+03:00",
+      "human": "TEST_SCENARIO: supplied synthetic inputs sufficient for QA; not evidence about market demand"
+    },
+    "options": {
+      "status": "done",
+      "started_at": "2026-11-15T15:22:45+03:00",
+      "done_at": "2026-11-15T15:25:18+03:00",
+      "human": "TEST_SCENARIO: choose B, limited check for organizers; no real launch approval"
+    },
+    "strategy": {
+      "status": "done",
+      "started_at": "2026-11-15T15:25:18+03:00",
+      "done_at": "2026-11-15T15:27:49+03:00",
+      "human": null
+    },
+    "review": {
+      "status": "done",
+      "started_at": "2026-11-15T15:27:49+03:00",
+      "done_at": "2026-11-15T15:32:53+03:00",
+      "human": "TEST_SCENARIO: accept QA report only after formal validation and independent critique; not a real human approval"
+    },
+    "support": {
+      "status": "done",
+      "started_at": "2026-11-15T15:32:53+03:00",
+      "done_at": "2026-11-15T15:33:30+03:00",
+      "human": "TEST_SCENARIO: record test decision and commitment; test role only, no real launch"
+    }
+  },
+  "questions": [],
+  "next_action": "Для новых реальных данных нужен отдельный запрос и решение человека; не исполнять учебные обязательства как реальные поручения.",
+  "request": "Начни учебную проверку: кому рекомендовать семейный режим «Семейный архив — QA»?",
+  "created_at": "2026-11-14T16:40:26+03:00",
+  "updated_at": "2026-11-15T15:33:31+03:00"
+}

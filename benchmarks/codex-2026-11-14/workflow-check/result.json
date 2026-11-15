@@ -1,0 +1,392 @@
+{
+  "date": "2026-11-15",
+  "scope": "Synthetic seven-stage workflow mechanics; no real market study or human approvals",
+  "provenance": {
+    "original_fixture": "C:\\Users\\Дарья\\.codex\\visualizations\\2026\\11\\14\\01a1d9fb-d86d-75a1-842d-4a5c4ae16130\\cursor-full-check",
+    "continuation_fixture": "C:\\Users\\Дарья\\.codex\\visualizations\\2026\\11\\14\\01a1d9fb-d86d-75a1-842d-4a5c4ae16130\\workflow-check",
+    "project": "cursor-seven-stage",
+    "resumed_in": "Codex",
+    "original_environment": "Cursor",
+    "entry_stage": "research",
+    "completed_before_continuation": [
+      "brief",
+      "collect"
+    ],
+    "synthetic": true,
+    "human_gates": "TEST_SCENARIO fixtures, not real human approvals",
+    "copied_task_sha256": "153d8b8a6ad01ff0efbd182c313fd46e5dc7508378ddbb08092d60ffc45b9f43"
+  },
+  "checks": {
+    "all_seven_stages_done": true,
+    "all_gate_values_are_exact_test_fixtures": true,
+    "formal_validation_passed": true,
+    "original_cursor_state_unchanged": true,
+    "original_calculations_preserved": true,
+    "all_evidence_explicitly_synthetic": true,
+    "one_project_report": true,
+    "two_independent_critiques_archived": true,
+    "decision_recorded": true,
+    "four_test_commitments_recorded": true,
+    "due_alerts_exercised": true,
+    "assumed_preparation_budget_checked": true
+  },
+  "passed": 12,
+  "total": 12,
+  "stages": {
+    "brief": {
+      "status": "done",
+      "started_at": "2026-11-14T16:40:26+03:00",
+      "done_at": "2026-11-14T16:54:19+03:00",
+      "human": "TEST_SCENARIO: fixture brief accepted; not a real human product approval"
+    },
+    "collect": {
+      "status": "done",
+      "started_at": "2026-11-14T16:54:19+03:00",
+      "done_at": "2026-11-15T15:01:12+03:00",
+      "human": null
+    },
+    "research": {
+      "status": "done",
+      "started_at": "2026-11-15T15:01:12+03:00",
+      "done_at": "2026-11-15T15:22:45+03:00",
+      "human": "TEST_SCENARIO: supplied synthetic inputs sufficient for QA; not evidence about market demand"
+    },
+    "options": {
+      "status": "done",
+      "started_at": "2026-11-15T15:22:45+03:00",
+      "done_at": "2026-11-15T15:25:18+03:00",
+      "human": "TEST_SCENARIO: choose B, limited check for organizers; no real launch approval"
+    },
+    "strategy": {
+      "status": "done",
+      "started_at": "2026-11-15T15:25:18+03:00",
+      "done_at": "2026-11-15T15:27:49+03:00",
+      "human": null
+    },
+    "review": {
+      "status": "done",
+      "started_at": "2026-11-15T15:27:49+03:00",
+      "done_at": "2026-11-15T15:32:53+03:00",
+      "human": "TEST_SCENARIO: accept QA report only after formal validation and independent critique; not a real human approval"
+    },
+    "support": {
+      "status": "done",
+      "started_at": "2026-11-15T15:32:53+03:00",
+      "done_at": "2026-11-15T15:33:30+03:00",
+      "human": "TEST_SCENARIO: record test decision and commitment; test role only, no real launch"
+    }
+  },
+  "validation_output": "· outputs/02-situation.md: строк 17, со ссылкой на сведения 82%, с опорой 94%\n· outputs/03-options.md: строк 38, со ссылкой на сведения 50%, с опорой 79%\n· outputs/04-strategy.md: строк 48, со ссылкой на сведения 83%, с опорой 94%\nИтог: ошибок 0, замечаний 0. Формальная проверка пройдена — передайте результат критику.\n",
+  "source_count": 5,
+  "evidence_count": 18,
+  "conclusion_count": 4,
+  "decisions": [
+    {
+      "id": "D-001",
+      "decided_at": "2026-11-15",
+      "decision": "TEST_SCENARIO: принять учебный пакет подготовки B; реальные контакты и запуск не разрешены.",
+      "option": "B: подготовить проверку организаторов",
+      "rationale": "",
+      "based_on": [
+        "C-002",
+        "C-004",
+        "E-008",
+        "E-009"
+      ],
+      "owner": "TEST_ROLE: руководитель учебного продукта",
+      "metric": "Учебная готовность пакета по разделу 6 стратегии",
+      "baseline": "Неполный пакет на старте QA",
+      "target": "QA-ready, при сохранении launch-blocked",
+      "check_date": "2026-11-21",
+      "review_conditions": [
+        "Канал недоступен",
+        "права неясны",
+        "реальная смета или лимит не согласованы",
+        "появилась лучше подтверждённая задача другой аудитории"
+      ],
+      "commitments": [
+        {
+          "n": 1,
+          "what": "TEST_SCENARIO: сверить карту канала, права, сценарий, смету B/C и лимит по критериям QA-ready; неизвестные реальные входы сохранить как блокировку запуска.",
+          "owner": "TEST_ROLE: руководитель учебного продукта",
+          "due": "2026-11-21",
+          "status": "open"
+        },
+        {
+          "n": 2,
+          "what": "TEST_SCENARIO: проверить макет и протокол понимания по ситуациям общего, личного и оставшегося на телефоне файла; публикация не разрешена.",
+          "owner": "TEST_ROLE: руководитель учебного продукта",
+          "due": "2026-11-21",
+          "status": "open"
+        },
+        {
+          "n": 3,
+          "what": "TEST_SCENARIO: сверить проект будущего исследования: семейная группа, событие совместного использования, знаменатель, окно, отдельная оплата и продление, план baseline и мощности; не проводить эксперимент.",
+          "owner": "TEST_ROLE: руководитель учебного продукта",
+          "due": "2026-11-21",
+          "status": "open"
+        },
+        {
+          "n": 4,
+          "what": "TEST_SCENARIO: проверить перечень недостающих цены, затрат, привлечения, горизонта и удержания; подготовить план получения после отдельного разрешения, не считать экономику доказанной.",
+          "owner": "TEST_ROLE: руководитель учебного продукта",
+          "due": "2026-11-21",
+          "status": "open"
+        }
+      ],
+      "status": "active",
+      "recorded_at": "2026-11-15T15:33:26+03:00"
+    }
+  ],
+  "analysis_runs": [
+    {
+      "id": "A-001",
+      "ts": "2026-11-14T16:54:45+03:00",
+      "command": "data",
+      "input": "projects/cursor-seven-stage/sources/raw/S-003-contacts.csv",
+      "input_sha256": "67ee133ce34e7dc6",
+      "output": "projects/cursor-seven-stage/analysis/A-001-profile.md",
+      "result": {
+        "rows": 2000,
+        "columns": [
+          {
+            "name": "unit",
+            "missing": 0,
+            "missing_pct": 0.0,
+            "unique": 2000,
+            "type": "текст",
+            "top": [
+              "test_parents_1000 (1)",
+              "test_parents_0999 (1)",
+              "test_parents_0998 (1)",
+              "test_parents_0997 (1)",
+              "test_parents_0996 (1)"
+            ]
+          },
+          {
+            "name": "segment",
+            "missing": 0,
+            "missing_pct": 0.0,
+            "unique": 2,
+            "type": "текст",
+            "top": [
+              "parents (1000)",
+              "organizers (1000)"
+            ]
+          },
+          {
+            "name": "converted",
+            "missing": 0,
+            "missing_pct": 0.0,
+            "unique": 2,
+            "type": "число",
+            "min": 0.0,
+            "max": 1.0,
+            "mean": 0.025,
+            "median": 0.0,
+            "p10": 0.0,
+            "p90": 0.0
+          }
+        ],
+        "warnings": [
+          "«converted»: 50 выбросов (напр. 1.0) — проверить единицы и ошибки ввода"
+        ]
+      }
+    },
+    {
+      "id": "A-002",
+      "ts": "2026-11-14T16:54:58+03:00",
+      "command": "data",
+      "input": "projects/cursor-seven-stage/sources/raw/S-003-contacts.csv",
+      "input_sha256": "67ee133ce34e7dc6",
+      "output": "projects/cursor-seven-stage/analysis/A-002-groupby.md",
+      "result": {
+        "by": "segment",
+        "metric": "converted",
+        "agg": "mean",
+        "groups": [
+          {
+            "group": "organizers",
+            "n": 1000,
+            "missing": 0,
+            "value": 0.03
+          },
+          {
+            "group": "parents",
+            "n": 1000,
+            "missing": 0,
+            "value": 0.02
+          }
+        ]
+      }
+    },
+    {
+      "id": "A-003",
+      "ts": "2026-11-14T16:54:58+03:00",
+      "command": "data",
+      "input": "projects/cursor-seven-stage/sources/raw/S-003-contacts.csv",
+      "input_sha256": "67ee133ce34e7dc6",
+      "output": "projects/cursor-seven-stage/analysis/A-003-groupby.md",
+      "result": {
+        "by": "segment",
+        "metric": "converted",
+        "agg": "sum",
+        "groups": [
+          {
+            "group": "organizers",
+            "n": 1000,
+            "missing": 0,
+            "value": 30.0
+          },
+          {
+            "group": "parents",
+            "n": 1000,
+            "missing": 0,
+            "value": 20.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "A-004",
+      "ts": "2026-11-14T16:55:07+03:00",
+      "command": "data",
+      "input": "",
+      "input_sha256": "",
+      "output": "projects/cursor-seven-stage/analysis/A-004-compare.md",
+      "result": {
+        "a": 3.0,
+        "b": 2.0,
+        "diff_pp": -1.0,
+        "ci95_pp": [
+          -2.37,
+          0.37
+        ],
+        "z": -1.43,
+        "p_value": 0.1521,
+        "notes": [
+          "разница статистически не отличима от нуля на уровне 5% — это не доказательство отсутствия эффекта"
+        ]
+      }
+    },
+    {
+      "id": "A-005",
+      "ts": "2026-11-15T15:24:00+03:00",
+      "command": "data compare --a 30/1000 --b 50/1000",
+      "input": "",
+      "input_sha256": "",
+      "output": "projects/cursor-seven-stage/analysis/A-005-compare.md",
+      "result": {
+        "a": 3.0,
+        "b": 5.0,
+        "diff_pp": 2.0,
+        "ci95_pp": [
+          0.28,
+          3.72
+        ],
+        "z": 2.28,
+        "p_value": 0.0225,
+        "notes": []
+      }
+    },
+    {
+      "id": "A-006",
+      "ts": "2026-11-15T15:31:33+03:00",
+      "command": "data profile projects/cursor-seven-stage/analysis/preparation-assumptions.csv",
+      "input": "projects/cursor-seven-stage/analysis/preparation-assumptions.csv",
+      "input_sha256": "6313062e1203223f",
+      "output": "projects/cursor-seven-stage/analysis/A-006-profile.md",
+      "result": {
+        "rows": 8,
+        "columns": [
+          {
+            "name": "variant",
+            "missing": 0,
+            "missing_pct": 0.0,
+            "unique": 2,
+            "type": "текст",
+            "top": [
+              "C (4)",
+              "B (4)"
+            ]
+          },
+          {
+            "name": "work",
+            "missing": 0,
+            "missing_pct": 0.0,
+            "unique": 4,
+            "type": "текст",
+            "top": [
+              "message_protocol (2)",
+              "estimate_review (2)",
+              "channel_map (2)",
+              "access_scenario (2)"
+            ]
+          },
+          {
+            "name": "hours",
+            "missing": 0,
+            "missing_pct": 0.0,
+            "unique": 2,
+            "type": "число",
+            "min": 1.0,
+            "max": 2.0,
+            "mean": 1.5,
+            "median": 1.5,
+            "p10": 1.0,
+            "p90": 2.0
+          }
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "id": "A-007",
+      "ts": "2026-11-15T15:31:34+03:00",
+      "command": "data groupby projects/cursor-seven-stage/analysis/preparation-assumptions.csv --by variant --metric hours --agg sum",
+      "input": "projects/cursor-seven-stage/analysis/preparation-assumptions.csv",
+      "input_sha256": "6313062e1203223f",
+      "output": "projects/cursor-seven-stage/analysis/A-007-groupby.md",
+      "result": {
+        "by": "variant",
+        "metric": "hours",
+        "agg": "sum",
+        "groups": [
+          {
+            "group": "B",
+            "n": 4,
+            "missing": 0,
+            "value": 6.0
+          },
+          {
+            "group": "C",
+            "n": 4,
+            "missing": 0,
+            "value": 6.0
+          }
+        ]
+      }
+    }
+  ],
+  "critiques": {
+    "options": {
+      "task": "workflow_options_critic",
+      "separate_context": true,
+      "finding_count": 6
+    },
+    "review": {
+      "task": "workflow_report_critic",
+      "separate_context": true,
+      "finding_count": 5
+    },
+    "artifacts": "Summaries of findings, not full transcripts; author recorded dispositions in outputs."
+  },
+  "limitations": [
+    "Stages brief and collect and initial evidence came from the Cursor run; stages research through support were completed in Codex after user instruction.",
+    "This confirms workflow completion and artifact consistency, not a full seven-stage Cursor UI run.",
+    "TEST_SCENARIO values exercise gates, not real human approvals; roles and dates are scenario fixtures.",
+    "Independent AI critics are not human blind evaluators. Synthetic evidence cannot prove market demand or overall recommendation superiority.",
+    "Tokens, monetary cost and human time of the continuation were not measured; inherited Cursor time-only zero-dollar records do not mean the work was free.",
+    "Known Cursor start-context and automatic-journal limitations remain as recorded in the separate hook trace."
+  ]
+}

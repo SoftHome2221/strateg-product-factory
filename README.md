@@ -14,6 +14,7 @@
 - [Архитектура](docs/ARCHITECTURE.md), [главные инструкции](AGENTS.md),
   [навыки этапов](.claude/skills/), [роли дополнительных агентов](.claude/agents/).
 - [Модели, сервисы и инструменты](docs/submission/TOOLS.md).
+- [Все файлы с инструкциями, промптами и журналами](docs/PROMPTS-AND-LOGS.md).
 - [Проверки и сравнение с обычным чатом](benchmarks/README.md).
 - [Что осталось перед подачей](docs/submission/REMAINING.md).
 
